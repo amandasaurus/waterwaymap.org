@@ -1,0 +1,105 @@
+<html>
+    <head>
+		<title>River Basins</title>
+        <meta charset="utf-8"/>
+		<link rel="icon" href="data:,">
+        <link rel="stylesheet" href="maplibre-gl-2.4.0.css">
+        <script src="maplibre-gl-2.4.0.js"></script>
+        <script src="pmtiles-2.7.1.js"></script>
+        <script src="mapstyle.js"></script>
+        <style>
+            body {
+                margin: 0;
+            }
+            #map {
+                height:100%; width:100%;
+            }
+        </style>
+    </head>
+    <body>
+		<h1>River Basins</h1>
+        <header>
+			<button id=open_on_osm_org
+					style="display: flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+			>
+				view on osm.org <img src="open_ext.svg" style="height: 1em" />
+			</button>
+			<button id=open_josm
+					style="display: flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+			>
+				edit area in josm <img src="open_ext.svg" style="height: 1em" />
+			</button>
+		</header>
+
+		<main>
+			<div id="map"></div>
+		</main>
+
+		<footer>
+			Map Data <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a>, under the <a href="https://www.openstreetmap.org/copyright">ODbL</a>.
+		</footer>
+
+        <script type="text/javascript">
+            // add the PMTiles plugin to the maplibregl global.
+            let protocol = new pmtiles.Protocol();
+            maplibregl.addProtocol("pmtiles",protocol.tile);
+
+
+			let PMTILES_URL = "./tiles/irl-br-waterway.pmtiles";
+            const p = new pmtiles.PMTiles(PMTILES_URL)
+
+            // this is so we share one instance across the JS code and the map renderer
+            protocol.add(p);
+
+            // we first fetch the header so we can get the center lon, lat of the map.
+            p.getHeader().then(h => {
+                const map = new maplibregl.Map({
+                    container: 'map',
+                    zoom: 4,
+					hash: true,
+                    center: [h.centerLon, h.centerLat],
+					style: {
+						version: 8,
+						layers: mapstyle_layers,
+						"glyphs": "./font/{fontstack}/{range}.pbf",
+						sources: {
+							"waterway": {
+								type: "vector",
+								url: "pmtiles://" + PMTILES_URL,
+								attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
+							},
+							"osmcarto": {
+								type: "raster",
+								tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+								attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
+							},
+						}
+					}
+                });
+				// Add geolocate control to the map.
+				map.addControl(
+					new maplibregl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					})
+				);
+				map.addControl(new maplibregl.NavigationControl());
+				document.getElementById("open_on_osm_org").onclick = () => {
+					let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`
+					//console.log(url);
+					window.open(url);
+				};
+				document.getElementById("open_josm").onclick = () => {
+					let b = map.getBounds();
+					let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true`;
+					this.disabled = true;
+					//console.log(url);
+					fetch(url);
+					this.disabled = false;
+				};
+            })
+        </script>
+    </body>
+</html>
