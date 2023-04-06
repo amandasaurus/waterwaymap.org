@@ -11,7 +11,7 @@ var mapstyle_layers = [
 		"type": "line",
 		"paint": {
 			"line-color":  "black",
-			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 0, 4.99, 0, 5, 1.2, 6, 4, 7, 5],
+			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1.1, 6, 1.2, 7, 5],
 		},
 		"layout": {
 			"line-cap":  "round",
