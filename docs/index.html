@@ -21,10 +21,17 @@
 		<h1>River Basins</h1>
 		<p>This page shows connected ways from OpenStreetMap with the <code>waterway=river</code> tag for the Celtic Isles in Europe (Ireland and Britain). Data was converted on 2023-03-31 and proceed with <a href="https://github.com/amandasaurus/osm-lump-ways"><code>osm-lump-ways</code></a> and <a href="https://github.com/felt/tippecanoe"><code>tippecanoe</code></a>. Source for this project: <a href="https://github.com/amandasaurus/osm-river-basins">osm-river-basins on github</a></p>
 		<p id="map_switchers">Map to show:
-			<a href="./?tiles=irl-br">Ireland &amp; Britain</a>
-			<a href="./?tiles=planet-waterway-river">Planet (only <code>waterway=river</code>)</a>.
-			<a href="./?tiles=planet-waterway-name-no-group">Planet (with <code>waterway</code> &amp; <code>name</code> tags, purely topological grouping)</a>.
-			<a href="./?tiles=planet-waterway-name-group-name">Planet (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
+			<p>Planet:
+				<a href="./?tiles=planet-waterway-river">Planet (only <code>waterway=river</code>)</a>.
+				<a href="./?tiles=planet-waterway-name-no-group">Planet (with <code>waterway</code> &amp; <code>name</code> tags, purely topological grouping)</a>.
+				<a href="./?tiles=planet-waterway-name-group-name">Planet (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
+			</p>
+			<p>Colombia (<a target=_blank href="https://github.com/amandasaurus/osm-river-basins/issues/1">special req.</a>)
+				<a href="./?tiles=colombia-waterway">colombia (all <code>waterway</code>)</a>.
+				<a href="./?tiles=colombia-waterway-river">colombia (only <code>waterway=river</code>)</a>.
+				<a href="./?tiles=colombia-waterway-name-no-group">colombia (with <code>waterway</code> &amp; <code>name</code> tags, purely topological grouping)</a>.
+				<a href="./?tiles=colombia-waterway-name-group-name">colombia (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
+			</p>
 		</p>
 		<div>This area:
 			<button id=open_on_osm_org
