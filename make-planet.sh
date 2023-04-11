@@ -4,7 +4,9 @@ cd "$(dirname "$0")"
 
 PREFIX="planet"
 TMP="${PREFIX}.$(date -u +%F.%s)"
+#pyosmium-up-to-date -vv ~/osm-data/planet-latest.osm.pbf || true
 if [ planet-latest.osm.pbf -nt planet-waterway.osm.pbf ] ; then
+	echo "Data updates, rerunning osmium tags-filter"
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf -o planet-waterway.osm.pbf waterway
 fi
 
@@ -16,7 +18,7 @@ function process() {
 	FILE_TIMESTAMP=$(osmium fileinfo --get header.option.timestamp "$INPUT")
 	TMP="${PREFIX}.$(date -u +%F.%s)"
 
-	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS --min-length-m 100 --timeout-dist-to-longer-s 0 --no-incl-wayids --save-as-linestrings
+	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS --min-length-m 100 --save-as-linestrings
 	echo "GeoJSON created successfully."
 	echo "Starting tippecanoe..."
 	tippecanoe \
@@ -42,9 +44,9 @@ process colombia-waterway.osm.pbf colombia-waterway-river "-f waterway=river"
 process colombia-waterway.osm.pbf colombia-waterway-name-no-group "-f waterway -f name"
 process colombia-waterway.osm.pbf colombia-waterway-name-group-name "-f waterway -f name -g name"
 
-#process ~/osm-data/planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
-#process ~/osm-data/planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
-#process ~/osm-data/planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f name -g name"
-#
+process ~/osm-data/planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
+process ~/osm-data/planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
+process ~/osm-data/planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f name -g name"
+
 wait
 exit 0
