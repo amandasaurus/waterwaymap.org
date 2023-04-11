@@ -1,3 +1,4 @@
-*.pmtiles
 *.geojson
 *.geojson.gz
+*.osm.pbf
+*.pmtiles
