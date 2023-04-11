@@ -61,22 +61,11 @@
             maplibregl.addProtocol("pmtiles",protocol.tile);
 			let local = (new URL(location.href).port == "8000");
 
-			//<a href="./?tiles=irl-br">Ireland &amp; Britain</a>
-			//<a href="./?tiles=planet-waterway-river">Planet (only <code>waterway=river</code>)</a>.
-			//<a href="./?tiles=planet-waterway-name-no-group">Planet (with <code>waterway</code> &amp; <code>name</code> tags, purely topologicl grouping)</a>.
-			//<a href="./?tiles=planet-waterway-name-group-name">Planet (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
 			var tiles_src = (new URL(location.href)).searchParams.get("tiles") ?? "planet-waterway-river";
 			if (local) {
 				PMTILES_URL = `./tiles/${tiles_src}.pmtiles`;
 			} else {
-				switch (tiles_src) {
-					case "irl-br":
-						PMTILES_URL = "./tiles/irl-br-waterway.pmtiles";
-						break;
-					case "planet-waterway-river":
-						PMTILES_URL = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/planet-waterway.pmtiles";
-						break;
-				}
+				PMTILES_URL = `https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/${tiles_src}.pmtiles`;
 			}
 
             const p = new pmtiles.PMTiles(PMTILES_URL)
