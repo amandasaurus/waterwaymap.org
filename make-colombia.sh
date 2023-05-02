@@ -20,6 +20,7 @@ wait
 for F in colombia-waterway colombia-waterway-river colombia-waterway-name-no-group colombia-waterway-name-group-name ; do
 	echo $F
 	rclone copyto ./docs/tiles/${F}.pmtiles cloudflare:pmtiles0/2023-04-01/${F}.pmtiles  --progress
+	rclone copyto ./docs/data/${F}-metadata.json cloudflare:pmtiles0/2023-04-01/${F}-metadata.json  --progress
 	echo ; echo
 done
 
