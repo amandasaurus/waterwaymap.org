@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 source functions.sh
 
 PREFIX="planet"
-TMP="${PREFIX}.$(date -u +%F.%s)"
+TMP="tmp.${PREFIX}.$(date -u +%F.%s)"
 if [ planet-latest.osm.pbf -nt planet-waterway.osm.pbf ] ; then
 	echo "Data updates, rerunning osmium tags-filter"
 	TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")

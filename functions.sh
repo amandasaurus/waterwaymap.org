@@ -29,6 +29,7 @@ function process() {
 		--coalesce-smallest-as-needed \
 		--drop-smallest-as-needed --order-by=length_m \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
+	jo timestamp="$FILE_TIMESTAMP" > "./docs/data/${PREFIX}-metadata.json"
 	mv "${TMP}.geojson" "./docs/data/${PREFIX}.geojson"
 	mv "${TMP}.pmtiles" "./docs/tiles/${PREFIX}.pmtiles"
 	echo "GeoJSON & PMTiles created successfully."
