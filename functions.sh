@@ -5,9 +5,16 @@ function process() {
 	PREFIX=$2
 	LUMP_ARGS=$3
 	FILE_TIMESTAMP=$(osmium fileinfo --get header.option.timestamp "$INPUT")
-	TMP="${PREFIX}.$(date -u +%F.%s)"
+	TMP="tmp.${PREFIX}.$(date -u +%F.%s)"
 
-	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS --min-length-m 100 --save-as-linestrings
+	if [[ $LUMP_ARGS =~ "min-length-m" ]] ; then
+		MIN_LENGTH_ARG=""
+	else
+		MIN_LENGTH_ARG="--min-length-m 100"
+	fi
+
+
+	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
 	echo "GeoJSON created successfully."
 	echo "Starting tippecanoe..."
 	tippecanoe \
