@@ -7,7 +7,7 @@ source functions.sh
 PREFIX="planet"
 TMP="tmp.${PREFIX}.$(date -u +%F.%s)"
 if [ planet-latest.osm.pbf -nt planet-waterway.osm.pbf ] ; then
-	echo "Data updates, rerunning osmium tags-filter"
+	echo "Data has been updated. (Re)running osmium tags-filter"
 	TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf -o "$TMP" waterway
 	mv "$TMP" planet-waterway.osm.pbf
