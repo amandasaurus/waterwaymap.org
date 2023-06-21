@@ -2,3 +2,4 @@
 *.geojson.gz
 *.osm.pbf
 *.pmtiles
+/docs/data/*
