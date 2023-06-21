@@ -29,7 +29,7 @@ var mapstyle_layers = [
 		},
 		"paint": {
 			"line-color":  ["match",
-				["%", ["get", "root_wayid"], 7],
+				["%", ["get", "root_wayid_120"], 7],
 				0, '#a6cee3',
 				1, '#1f78b4',
 				2, '#33a02c',
