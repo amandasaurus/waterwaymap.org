@@ -114,8 +114,9 @@
 				window.open(url);
 			};
 			document.getElementById("open_josm").onclick = () => {
+				var current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 				let b = map.getBounds();
-				let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true`;
+				let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true&changeset_source=${current_url}`;
 				this.disabled = true;
 				fetch(url);
 				this.disabled = false;
