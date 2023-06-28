@@ -1,7 +1,25 @@
 <html>
     <head>
-		<title>River Basins</title>
         <meta charset="utf-8"/>
+		<!-- HTML Meta Tags -->
+		<title>OSM River Basins</title>
+		<meta name="description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
+
+		<!-- Facebook Meta Tags -->
+		<meta property="og:url" content="https://amandasaurus.github.io/osm-river-basins/">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="OSM River Basins">
+		<meta property="og:description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
+
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta property="twitter:domain" content="amandasaurus.github.io">
+		<meta property="twitter:url" content="https://amandasaurus.github.io/osm-river-basins/">
+		<meta name="twitter:title" content="OSM River Basins">
+		<meta name="twitter:description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
+
+		<!-- Meta Tags Generated via https://www.opengraph.xyz -->
+
 		<link rel="icon" href="data:,">
         <link rel="stylesheet" href="maplibre-gl-2.4.0.css">
         <script src="maplibre-gl-2.4.0.js"></script>
@@ -19,7 +37,7 @@
     <body>
         <header>
 		<h1>River Basins</h1>
-		<p>This page shows connected ways from OpenStreetMap with the <code>waterway=river</code> tag for the Celtic Isles in Europe (Ireland and Britain). Data was converted on 2023-03-31 and proceed with <a href="https://github.com/amandasaurus/osm-lump-ways"><code>osm-lump-ways</code></a> and <a href="https://github.com/felt/tippecanoe"><code>tippecanoe</code></a>. Source for this project: <a href="https://github.com/amandasaurus/osm-river-basins">osm-river-basins on github</a></p>
+		<p>This page shows connected ways from OpenStreetMap with the <code>waterway=river</code> tag for various area.s Data was proceed with <a href="https://github.com/amandasaurus/osm-lump-ways"><code>osm-lump-ways</code></a> and <a href="https://github.com/felt/tippecanoe"><code>tippecanoe</code></a>. Source for this project: <a href="https://github.com/amandasaurus/osm-river-basins">osm-river-basins on github</a></p>
 		<p id="map_switchers">Map to show:
 			<p>Planet:
 				<a href="./?tiles=planet-waterway-river">Planet (only <code>waterway=river</code>)</a>.
@@ -31,9 +49,6 @@
 				<a href="./?tiles=south-america-waterway-river">south-america (only <code>waterway=river</code>)</a>.
 				<a href="./?tiles=south-america-waterway-name-no-group">south-america (with <code>waterway</code> &amp; <code>name</code> tags, purely topological grouping)</a>.
 				<a href="./?tiles=south-america-waterway-name-group-name">south-america (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
-			</p>
-			<p>
-				<a href="./?tiles=irl-waterway">ireland (all <code>waterway</code>)</a>.
 			</p>
 		</p>
 		<div>This area:
