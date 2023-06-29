@@ -21,15 +21,15 @@ function process() {
 		-n "OSM River Topologies" \
 		-N "Generated on $(date -I) from OSM data from $FILE_TIMESTAMP with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-S 10 --single-precision \
-		--simplify-only-low-zooms \
+		--single-precision \
+		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
 		--maximum-tile-bytes="$(units -t 1MiB bytes)" \
 		--maximum-tile-features=500000 \
 		-y length_m -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
 		--coalesce-smallest-as-needed \
-		--drop-smallest-as-needed --order-by=length_m \
+		--order-descending-by=length_m \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
 	jo timestamp="$FILE_TIMESTAMP" > "./docs/data/${PREFIX}-metadata.json"
 	mv "${TMP}.geojson" "./docs/data/${PREFIX}.geojson"
