@@ -3,6 +3,7 @@
 *.osm.pbf
 *.pmtiles
 *.pmtiles-journal
-/tmp.*.geojson
-/tmp.*.pmtiles
 /docs/data/*
+/incomplete_ways.txt
+/tmp.*.geojson
+/tmp.*.pmtiles.tmp

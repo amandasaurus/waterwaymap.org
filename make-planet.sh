@@ -51,6 +51,7 @@ if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
 	rm -fv add-incomplete-ways.osc
 	osmium check-refs planet-waterway.osm.pbf || true
 fi
+rm -f incomplete_ways.txt
 
 # Now do processing
 
