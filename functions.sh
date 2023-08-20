@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. "$HOME/.cargo/env"
+
 function process() {
 	INPUT=$1
 	PREFIX=$2
@@ -14,7 +16,7 @@ function process() {
 	fi
 
 
-	~/.cargo/bin/osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
+	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
 	echo "GeoJSON created successfully."
 	echo "Starting tippecanoe..."
 	tippecanoe \
