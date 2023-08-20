@@ -43,6 +43,7 @@ if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
 	echo "" > empty.opl
 	rm -rf add-incomplete-ways.osc
 	osmium derive-changes empty.opl incomplete_ways.osm.pbf -o add-incomplete-ways.osc
+	rm -f empty.opl
 
 	rm -rf new.osm.pbf
 	osmium apply-changes --output-header="timestamp!" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc

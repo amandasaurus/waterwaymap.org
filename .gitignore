@@ -3,4 +3,6 @@
 *.osm.pbf
 *.pmtiles
 *.pmtiles-journal
+/tmp.*.geojson
+/tmp.*.pmtiles
 /docs/data/*
