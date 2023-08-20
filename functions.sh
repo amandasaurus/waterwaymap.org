@@ -25,8 +25,8 @@ function process() {
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
 		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
-		--maximum-tile-bytes="$(units -t 1MiB bytes)" \
-		--maximum-tile-features=500000 \
+		--maximum-tile-bytes="$(units -t 5MiB bytes)" \
+		--maximum-tile-features=5000000 \
 		-y length_m -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
