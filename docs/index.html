@@ -66,7 +66,26 @@
 			</template>
 			</template>
 		</p>
-		<p>Colours on the map are randomly assigned</p>
+		<p x-data>Colours on the map are randomly assigned.
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 2], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				2 colours
+			</button>
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 3], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				3 colours
+			</button>
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 4], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				4 colours
+			</button>
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 5], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				5 colours
+			</button>
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 6], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				6 colours
+			</button>
+			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 7], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
+				7 colours
+			</button>
+		</p>
 		<div>This area:
 			<button id=open_on_osm_org
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
