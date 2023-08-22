@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -25,7 +26,9 @@
         <link rel="stylesheet" href="maplibre-gl-2.4.0.css">
         <script src="maplibre-gl-2.4.0.js"></script>
         <script src="pmtiles-2.7.1.js"></script>
-        <script src="mapstyle.js"></script>
+        <script src="alpine-3.12.3.js" defer></script>
+		<script src="mapstyle.js"></script>
+        <script src="setup.js" async></script>
         <style>
             body {
                 margin: 0;
@@ -45,22 +48,23 @@
             }
         </style>
     </head>
-    <body>
+
+	<body>
         <header>
 		<h1>River Basins</h1>
 		<p>This page shows connected ways from OpenStreetMap with the <code>waterway=river</code> tag for various area.s Data was proceed with <a href="https://github.com/amandasaurus/osm-lump-ways"><code>osm-lump-ways</code></a> and <a href="https://github.com/felt/tippecanoe"><code>tippecanoe</code></a>. Source for this project: <a href="https://github.com/amandasaurus/osm-river-basins">osm-river-basins on github</a></p>
-		<p id="map_switchers">Map to show:
-			<p>Planet:
-				<a href="./?tiles=planet-waterway-river">only <code>waterway=river</code></a>.
-				<a href="./?tiles=planet-waterway-name-no-group">with <code>waterway</code> &amp; <code>name</code>. Purely topological grouping</a>.
-				<a href="./?tiles=planet-waterway-name-group-name">with <code>waterway</code> &amp; <code>name</code> tags. grouped by topology &amp; name</a>.
-			</p>
-			<p>South America
-				<a href="./?tiles=south-america-waterway">south-america (all <code>waterway</code>)</a>.
-				<a href="./?tiles=south-america-waterway-river">south-america (only <code>waterway=river</code>)</a>.
-				<a href="./?tiles=south-america-waterway-name-no-group">south-america (with <code>waterway</code> &amp; <code>name</code> tags, purely topological grouping)</a>.
-				<a href="./?tiles=south-america-waterway-name-group-name">south-america (with <code>waterway</code> &amp; <code>name</code> tags, grouped by topology &amp; name)</a>.
-			</p>
+
+		<p id="layer_switchers" x-data>
+		<template x-if="!$store.tilesets_loaded"><span>⏳ Loading map please wait...</span></template>
+			<template x-if="$store.tilesets_loaded">
+			<template x-for="tileset in $store.tilesets.tilesets">
+					<label>
+						<input type=radio name=tiles :value="tileset.key" x-model="$store.tilesets.selected_tileset">
+						<span x-html="tileset.text"></span>
+					</label>
+				</template>
+			</template>
+			</template>
 		</p>
 		<p>Colours on the map are randomly assigned</p>
 		<div>This area:
@@ -85,70 +89,5 @@
 			Map Data <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a>, under the <a href="https://www.openstreetmap.org/copyright">ODbL</a>.
 		</footer>
 
-        <script type="text/javascript">
-            // add the PMTiles plugin to the maplibregl global.
-            let protocol = new pmtiles.Protocol();
-            maplibregl.addProtocol("pmtiles",protocol.tile);
-			let local = (new URL(location.href).port == "8000");
-
-			var tiles_src = (new URL(location.href)).searchParams.get("tiles") ?? "planet-waterway-river";
-			if (local) {
-				PMTILES_URL = `./tiles/${tiles_src}.pmtiles`;
-			} else {
-				PMTILES_URL = `https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/${tiles_src}.pmtiles`;
-			}
-
-            const p = new pmtiles.PMTiles(PMTILES_URL)
-
-            // this is so we share one instance across the JS code and the map renderer
-            protocol.add(p);
-
-
-			const map = new maplibregl.Map({
-				container: 'map',
-				zoom: 2,
-				hash: "map",
-				center: [0, 0],
-				style: {
-					version: 8,
-					layers: mapstyle_layers,
-					"glyphs": "./font/{fontstack}/{range}.pbf",
-					sources: {
-						"waterway": {
-							type: "vector",
-							url: "pmtiles://" + PMTILES_URL,
-							attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
-						},
-						"osmcarto": {
-							type: "raster",
-							tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-							attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
-						},
-					}
-				}
-			});
-			// Add geolocate control to the map.
-			map.addControl(
-				new maplibregl.GeolocateControl({
-					positionOptions: {
-						enableHighAccuracy: true
-					},
-					trackUserLocation: true
-				})
-			);
-			map.addControl(new maplibregl.NavigationControl());
-			document.getElementById("open_on_osm_org").onclick = () => {
-				let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`
-				window.open(url);
-			};
-			document.getElementById("open_josm").onclick = () => {
-				var current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
-				let b = map.getBounds();
-				let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true&changeset_source=${current_url}`;
-				this.disabled = true;
-				fetch(url);
-				this.disabled = false;
-			};
-        </script>
     </body>
 </html>
