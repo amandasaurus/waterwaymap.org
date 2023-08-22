@@ -5,7 +5,10 @@ cd "$(dirname "$0")"
 source functions.sh
 
 if [ ! -s planet-waterway.osm.pbf ] ; then
-	aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
+	if [ ! -e planet-latest.osm.pbf ] ; then
+		aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
+		# TODO rename from planet-YYMMDD.osm.obf to -latest
+	fi
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf waterway
 fi
 
