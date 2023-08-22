@@ -55,14 +55,20 @@ rm -f incomplete_ways.txt
 
 # Now do processing
 
+SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
 rclone copyto ./docs/tiles/planet-waterway-river.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-river.pmtiles  --progress
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway=river"
 
+SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
 rclone copyto ./docs/tiles/planet-waterway-name-no-group.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-name-no-group.pmtiles  --progress
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name"
 
+SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f name -g name"
 rclone copyto ./docs/tiles/planet-waterway-name-group-name.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-name-group-name.pmtiles  --progress
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -g name"
 
 wait
 
