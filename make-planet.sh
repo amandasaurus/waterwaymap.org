@@ -61,17 +61,27 @@ rm -f incomplete_ways.txt
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
 rclone copyto ./docs/tiles/planet-waterway-river.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-river.pmtiles  --progress
+jq <./docs/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/tilesets.json
+jq <./docs/tilesets.json '.tilesets.selected_tileset = "planet-waterway-river"' | sponge ./docs/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway=river"
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
 rclone copyto ./docs/tiles/planet-waterway-name-no-group.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-name-no-group.pmtiles  --progress
+jq <./docs/tilesets.json '.tilesets[1].key = "planet-waterway-name-no-group"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name</code>. Purely topological grouping"' | sponge ./docs/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name"
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f name -g name"
 rclone copyto ./docs/tiles/planet-waterway-name-group-name.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-name-group-name.pmtiles  --progress
+jq <./docs/tilesets.json '.tilesets[2].key = "planet-waterway-name-group-name"|.tilesets[2].text = "with <code>waterway</code> &amp; <code>name</code> tags. grouped by topology &amp; name"' | sponge ./docs/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -g name"
+
+SECONDS=0
+process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄name"
+rclone copyto ./docs/tiles/planet-waterway-name-group-name.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-noname.pmtiles  --progress
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -f ∄name"
+jq <./docs/tilesets.json '.tilesets[3].key = "planet-waterway-name-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/tilesets.json
 
 wait
 

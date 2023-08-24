@@ -2,7 +2,8 @@
 	"tilesets": [
 		{ "key": "planet-waterway-river", "text": "only <code>waterway=river</code>" },
 		{ "key": "planet-waterway-name-no-group", "text": "with <code>waterway</code> &amp; <code>name</code>. Purely topological grouping" },
-		{ "key": "planet-waterway-name-group-name", "text": "with <code>waterway</code> &amp; <code>name</code> tags. grouped by topology &amp; name" }
+		{ "key": "planet-waterway-name-group-name", "text": "with <code>waterway</code> &amp; <code>name</code> tags. grouped by topology &amp; name" },
+		{ "key": "planet-waterway-noname", "text": "with <code>waterway</code> &amp; without a <code>name</code>. grouped by topology" }
 	],
 	"selected_tileset": "planet-waterway-river"
 }
