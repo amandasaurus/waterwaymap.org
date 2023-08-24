@@ -87,13 +87,23 @@
 			</button>
 		</p>
 		<div>This area:
-			<button id=open_on_osm_org
+			<button x-data
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+					@click="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+					@auxclick="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
 			>
 				view on osm.org <img src="open_ext.svg" style="height: 1em" />
 			</button>
-			<button id=open_josm
+			<button x-data
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+					@click="
+						var current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
+						let b = map.getBounds();
+						let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true&changeset_source=${current_url}&changeset_hashtags=%23RiverMapping`;
+						this.disabled = true;
+						fetch(url);
+						this.disabled = false;
+					"
 			>
 				edit area in josm <img src="open_ext.svg" style="height: 1em" />
 			</button>

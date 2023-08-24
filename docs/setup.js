@@ -66,19 +66,6 @@ document.addEventListener("alpine:init", async () => {
 	);
 	map.addControl(new maplibregl.NavigationControl());
 
-	document.getElementById("open_on_osm_org").onclick = () => {
-		let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`
-		window.open(url);
-	};
-	document.getElementById("open_josm").onclick = () => {
-		var current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
-		let b = map.getBounds();
-		let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true&changeset_source=${current_url}`;
-		this.disabled = true;
-		fetch(url);
-		this.disabled = false;
-	};
-
 	map.on("load", () => {
 		let radios = document.querySelectorAll("#layer_switchers input");
 		for (let el of radios) {
