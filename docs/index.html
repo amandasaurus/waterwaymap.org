@@ -86,6 +86,23 @@
 				7 colours
 			</button>
 		</p>
+
+		<div
+			x-data="{min_filter_enabled: false, min_filter: 0, max_filter_enabled: false, max_filter: 0}"
+			xy-init="{
+				let hsh = new URLSearchParams(location.hash);
+				min_filter_enabled = hsh.has(min_len); min_filter = hsh.get('min_len') ?? 0;
+				max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0;
+				$watch('min_filter_enabled', new_value => {
+					if (new_value) { console.log('enabled'); } else { console.log('disabled'); }
+				});
+			}"
+			>
+			Exclude based on length:
+				<label><input type=checkbox x-model="min_filter_enabled" /> Min. length <input type=number x-model="min_filter" /> m</label>
+				<label><input type=checkbox x-model="max_filter_enabled" /> Max. length <input type=number x-model="max_filter" /> m</label>
+		</div>
+
 		<div>This area:
 			<button x-data
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
@@ -94,16 +111,16 @@
 			>
 				view on osm.org <img src="open_ext.svg" style="height: 1em" />
 			</button>
-			<button x-data
+			<button x-data=""
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
 					@click="
-						var current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
+						let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 						let b = map.getBounds();
-						let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&new_layer=true&changeset_source=${current_url}&changeset_hashtags=%23RiverMapping`;
+						let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
 						this.disabled = true;
 						fetch(url);
 						this.disabled = false;
-					"
+						"
 			>
 				edit area in josm <img src="open_ext.svg" style="height: 1em" />
 			</button>

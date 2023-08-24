@@ -9,6 +9,7 @@ var mapstyle_layers = [
 		"source": "waterway",
 		"source-layer":"waterway",
 		"type": "line",
+		"filter": ["<=", "length_m", 100000],
 		"paint": {
 			"line-color":  "black",
 			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1.1, 6, 1.2, 7, 5],
@@ -27,6 +28,7 @@ var mapstyle_layers = [
 			"line-cap":  "round",
 			"line-join":  "round",
 		},
+		"filter": ["<=", "length_m", 100000],
 		"paint": {
 			"line-color":  ["match",
 				["%", ["get", "root_wayid_120"], 7],
@@ -51,6 +53,7 @@ var mapstyle_layers = [
 		"paint": {
 			"text-color": "blue",
 		},
+		"filter": ["<=", "length_m", 100000],
 		"layout": {
 			"text-font": [ "Open Sans Semibold" ],
 			"text-field": ["concat", ["round", ["/", ["get", "length_m"], 1000]], " km"],

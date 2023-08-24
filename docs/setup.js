@@ -1,4 +1,6 @@
 document.addEventListener("alpine:init", async () => {
+	Alpine.store("waygroup_length_limit", false);
+
 	Alpine.store("tilesets_loaded", false);
 	let tilesets_raw = await fetch("tilesets.json");
 	tilesets_raw = await tilesets_raw.json();
