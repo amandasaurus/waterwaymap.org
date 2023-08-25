@@ -28,7 +28,7 @@
         <script src="pmtiles-2.7.1.js"></script>
         <script src="alpine-3.12.3.js" defer></script>
 		<script src="mapstyle.js"></script>
-        <script src="setup.js" async></script>
+        <script src="setup.js"></script>
         <style>
             body {
                 margin: 0;
@@ -88,44 +88,13 @@
 
 		<div
 				x-data="{min_filter_enabled: false, min_filter: 0, min_filter_unit: 'km', max_filter_enabled: false, max_filter: 0, max_filter_unit: 'km', }"
-				x-init="let hsh = new URLSearchParams(location.hash);
+				x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
 						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
 						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
-						$watch('min_filter_enabled', new_value => {
-							if (new_value) {
-								hsh.set('min_len', min_filter);
-							} else {
-								hsh.delete('min_len');
-							}
-							location.hash = '#' + hsh.toString();
-						});
-						$watch('max_filter_enabled', new_value => {
-							if (new_value) {
-								hsh.set('max', min_filter);
-							} else {
-								hsh.delete('max_len');
-							}
-							location.hash = '#' + hsh.toString();
-						});
-						$watch('min_filter', new_value => {
-							hsh.set('min_len', min_filter);
-							location.hash = '#' + hsh.toString();
-						});
-						$watch('min_filter_unit', new_value => {
-							hsh.set('min_len_unit', min_filter_unit);
-							location.hash = '#' + hsh.toString();
-						});
-						$watch('max_filter', new_value => {
-							hsh.set('max_len', min_filter);
-							location.hash = '#' + hsh.toString();
-						});
-						$watch('max_filter_unit', new_value => {
-							hsh.set('max_len_unit', max_filter_unit);
-							location.hash = '#' + hsh.toString();
-						});
+
 						let vars_to_watch = ['min_filter_enabled', 'min_filter', 'min_filter_unit', 'max_filter_enabled', 'max_filter', 'max_filter_unit'];
 						for (let var_to_watch of vars_to_watch) {
-							$watch(var_to_watch, _ => updateMapFilter(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit));
+							$watch(var_to_watch, _ => filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit));
 						}
 				"
 				>
@@ -133,13 +102,13 @@
 				<label for=min_filter_enabled>
 					<input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" />
 					Min. length
-					<input :disabled="!min_filter_enabled" type=number x-model="min_filter" size=6 />
+					<input :disabled="!min_filter_enabled" type=number x-model.number.debounce="min_filter" size=6 />
 					<select x-model=min_filter_unit><option>m</option><option>km</option></select>
 				</label>
 				<label for=max_filter_enabled>
 					<input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" />
 					Max. length
-					<input :disabled="!max_filter_enabled" type=number x-model="max_filter" size=6 />
+					<input :disabled="!max_filter_enabled" type=number x-model.number.debounce="max_filter" size=6 />
 					<select x-model=max_filter_unit><option>m</option><option>km</option></select>
 				</label>
 		</div>
@@ -157,9 +126,9 @@
 						@click="let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 								let b = map.getBounds();
 								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
-						this.disabled = true;
-						fetch(url);
-						this.disabled = false;"
+								this.disabled = true;
+								fetch(url);
+								this.disabled = false;"
 					>
 				edit area in josm <img src="open_ext.svg" style="height: 1em" />
 			</button>

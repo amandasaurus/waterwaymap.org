@@ -27,7 +27,11 @@ document.addEventListener("alpine:init", async () => {
 		tilesets.tilesets[i].pmtiles_obj = p;
 	}
 
-	var selected_tileset_key = new URLSearchParams((location.hash ?? "#").substr(1)).get("tiles") ?? tilesets.selected_tileset;
+	let params = new URLSearchParams((location.hash ?? '#').substr(1));
+	min_filter_enabled = params.has('min_len'); min_filter = params.get('min_len') ?? 0; min_filter_unit = params.get('min_len_unit') ?? min_filter_unit;
+	max_filter_enabled = params.has('max_len'); max_filter = params.get('max_len') ?? 0; max_filter_unit = params.get('max_len_unit') ?? min_filter_unit;
+	selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
+
 	console.debug(`Loading tiles ${selected_tileset_key}`);
 	let sel = tilesets.tilesets.find(el => el.key === selected_tileset_key);
 	console.assert(sel != undefined);
@@ -65,6 +69,7 @@ document.addEventListener("alpine:init", async () => {
 		})
 	);
 	map.addControl(new maplibregl.NavigationControl());
+	filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit);
 
 	map.on("load", () => {
 		let radios = document.querySelectorAll("#layer_switchers input");
@@ -85,7 +90,25 @@ document.addEventListener("alpine:init", async () => {
 });
 
 
-function updateMapFilter(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
+
+function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
+	let params = new URLSearchParams((location.hash ?? '#').substr(1));
+	if (min_filter_enabled) {
+		params.set('min_len', min_filter);
+		params.set('min_len_unit', min_filter_unit);
+	} else {
+		params.delete('min_len');
+		params.delete('min_len_unit');
+	}
+	if (max_filter_enabled) {
+		params.set('max_len', max_filter);
+		params.set('max_len_unit', max_filter_unit);
+	} else {
+		params.delete('max_len');
+		params.delete('max_len_unit');
+	}
+	location.hash = '#' + params.toString();
+
 	let new_filter = null;
 	if (min_filter_unit == 'm') {
 		min_filter = parseInt(min_filter, 10);
@@ -113,8 +136,10 @@ function updateMapFilter(min_filter_enabled, min_filter, min_filter_unit, max_fi
 	} else if (!min_filter_enabled && !max_filter_enabled) {
 		new_filter = null;
 	}
-	console.log(new_filter);
-	map.setFilter('waterway-line-casing', new_filter);
-	map.setFilter('waterway-line', new_filter);
-	map.setFilter('waterway-text', new_filter);
+
+	map.on('load', () => {
+		map.setFilter('waterway-line-casing', new_filter);
+		map.setFilter('waterway-line', new_filter);
+		map.setFilter('waterway-text', new_filter);
+	});
 }
