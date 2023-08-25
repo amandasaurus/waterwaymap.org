@@ -1,6 +1,4 @@
 document.addEventListener("alpine:init", async () => {
-	Alpine.store("waygroup_length_limit", false);
-
 	Alpine.store("tilesets_loaded", false);
 	let tilesets_raw = await fetch("tilesets.json");
 	tilesets_raw = await tilesets_raw.json();
@@ -85,3 +83,23 @@ document.addEventListener("alpine:init", async () => {
 	});
 
 });
+
+
+function updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter) {
+	let new_filter = null;
+	let min_filter_expr = ['>=', 'length_m', parseInt(min_filter, 10)];
+	let max_filter_expr = ['<=', 'length_m', parseInt(max_filter, 10)];
+	if (min_filter_enabled && max_filter_enabled) {
+		new_filter = ['and', min_filter_expr, max_filter_expr];
+	} else if (!min_filter_enabled && max_filter_enabled) {
+		new_filter = max_filter_expr;
+	} else if (min_filter_enabled && !max_filter_enabled) {
+		new_filter = min_filter_expr;
+	} else if (!min_filter_enabled && !max_filter_enabled) {
+		new_filter = null;
+	}
+	console.log(new_filter);
+	map.setFilter('waterway-line-casing', new_filter);
+	map.setFilter('waterway-line', new_filter);
+	map.setFilter('waterway-text', new_filter);
+}

@@ -87,19 +87,39 @@
 		</p>
 
 		<div
-			x-data="{min_filter_enabled: false, min_filter: 0, max_filter_enabled: false, max_filter: 0}"
-			xy-init="{
-				let hsh = new URLSearchParams(location.hash);
-				min_filter_enabled = hsh.has(min_len); min_filter = hsh.get('min_len') ?? 0;
-				max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0;
-				$watch('min_filter_enabled', new_value => {
-					if (new_value) { console.log('enabled'); } else { console.log('disabled'); }
-				});
-			}"
-			>
-			Exclude based on length:
-				<label for=min_filter_enabled><input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" /> Min. length <input type=number x-model="min_filter" /> m</label>
-				<label for=max_filter_enabled><input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" /> Max. length <input type=number x-model="max_filter" /> m</label>
+				x-data="{min_filter_enabled: false, min_filter: 0, max_filter_enabled: false, max_filter: 0}"
+				x-init="let hsh = new URLSearchParams(location.hash);
+						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0;
+						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0;
+						$watch('min_filter_enabled', new_value => {
+							if (new_value) {
+								hsh.set('min_len', min_filter);
+							} else {
+								hsh.delete('min_len');
+							}
+							location.hash = '#' + hsh.toString();
+						});
+						$watch('max_filter_enabled', new_value => {
+							if (new_value) {
+								hsh.set('max', min_filter);
+							} else {
+								hsh.delete('max_len');
+							}
+							location.hash = '#' + hsh.toString();
+						});
+						$watch('min_filter', new_value => {
+							hsh.set('min_len', min_filter);
+							location.hash = '#' + hsh.toString();
+						});
+						$watch('min_filter', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
+						$watch('min_filter_enabled', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
+						$watch('max_filter', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
+						$watch('max_filter_enabled', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
+				"
+				>
+				Exclude based on length:
+				<label for=min_filter_enabled><input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" /> Min. length <input :disabled="!min_filter_enabled" type=number x-model="min_filter" /> m</label>
+				<label for=max_filter_enabled><input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" /> Max. length <input :disabled="!max_filter_enabled" type=number x-model="max_filter" /> m</label>
 		</div>
 
 		<div>This area:
@@ -107,19 +127,17 @@
 					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
 					@click="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
 					@auxclick="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
-			>
-				view on osm.org <img src="open_ext.svg" style="height: 1em" />
+					>
+					view on osm.org <img src="open_ext.svg" style="height: 1em" />
 			</button>
-			<button x-data=""
-					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
-					@click="
-						let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
-						let b = map.getBounds();
-						let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
+				<button x-data=""
+						style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+						@click="let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
+								let b = map.getBounds();
+								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
 						this.disabled = true;
 						fetch(url);
-						this.disabled = false;
-						"
+						this.disabled = false;"
 					>
 				edit area in josm <img src="open_ext.svg" style="height: 1em" />
 			</button>
