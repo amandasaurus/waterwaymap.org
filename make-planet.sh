@@ -81,7 +81,7 @@ SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄name"
 rclone copyto ./docs/tiles/planet-waterway-name-group-name.pmtiles cloudflare:pmtiles0/2023-04-01/planet-waterway-noname.pmtiles  --progress
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -f ∄name"
-jq <./docs/tilesets.json '.tilesets[3].key = "planet-waterway-name-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/tilesets.json
+jq <./docs/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/tilesets.json
 
 wait
 
