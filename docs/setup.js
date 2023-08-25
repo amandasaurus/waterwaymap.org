@@ -85,10 +85,25 @@ document.addEventListener("alpine:init", async () => {
 });
 
 
-function updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter) {
+function updateMapFilter(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
 	let new_filter = null;
-	let min_filter_expr = ['>=', 'length_m', parseInt(min_filter, 10)];
-	let max_filter_expr = ['<=', 'length_m', parseInt(max_filter, 10)];
+	if (min_filter_unit == 'm') {
+		min_filter = parseInt(min_filter, 10);
+	} else if (min_filter_unit == 'km') {
+		min_filter = parseInt(min_filter, 10)*1000;
+	} else {
+		console.error("unknown min_filter_unit: ", min_filter_unit);
+	}
+	if (max_filter_unit == 'm') {
+		max_filter = parseInt(max_filter, 10);
+	} else if (max_filter_unit == 'km') {
+		max_filter = parseInt(max_filter, 10)*1000;
+	} else {
+		console.error("unknown max_filter_unit: ", max_filter_unit);
+	}
+
+	let min_filter_expr = ['>=', 'length_m', min_filter];
+	let max_filter_expr = ['<=', 'length_m', max_filter];
 	if (min_filter_enabled && max_filter_enabled) {
 		new_filter = ['and', min_filter_expr, max_filter_expr];
 	} else if (!min_filter_enabled && max_filter_enabled) {

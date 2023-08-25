@@ -87,10 +87,10 @@
 		</p>
 
 		<div
-				x-data="{min_filter_enabled: false, min_filter: 0, max_filter_enabled: false, max_filter: 0}"
+				x-data="{min_filter_enabled: false, min_filter: 0, min_filter_unit: 'km', max_filter_enabled: false, max_filter: 0, max_filter_unit: 'km', }"
 				x-init="let hsh = new URLSearchParams(location.hash);
-						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0;
-						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0;
+						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
+						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
 						$watch('min_filter_enabled', new_value => {
 							if (new_value) {
 								hsh.set('min_len', min_filter);
@@ -111,15 +111,37 @@
 							hsh.set('min_len', min_filter);
 							location.hash = '#' + hsh.toString();
 						});
-						$watch('min_filter', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
-						$watch('min_filter_enabled', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
-						$watch('max_filter', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
-						$watch('max_filter_enabled', _ => updateMapFilter(min_filter_enabled, min_filter, max_filter_enabled, max_filter));
+						$watch('min_filter_unit', new_value => {
+							hsh.set('min_len_unit', min_filter_unit);
+							location.hash = '#' + hsh.toString();
+						});
+						$watch('max_filter', new_value => {
+							hsh.set('max_len', min_filter);
+							location.hash = '#' + hsh.toString();
+						});
+						$watch('max_filter_unit', new_value => {
+							hsh.set('max_len_unit', max_filter_unit);
+							location.hash = '#' + hsh.toString();
+						});
+						let vars_to_watch = ['min_filter_enabled', 'min_filter', 'min_filter_unit', 'max_filter_enabled', 'max_filter', 'max_filter_unit'];
+						for (let var_to_watch of vars_to_watch) {
+							$watch(var_to_watch, _ => updateMapFilter(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit));
+						}
 				"
 				>
 				Exclude based on length:
-				<label for=min_filter_enabled><input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" /> Min. length <input :disabled="!min_filter_enabled" type=number x-model="min_filter" /> m</label>
-				<label for=max_filter_enabled><input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" /> Max. length <input :disabled="!max_filter_enabled" type=number x-model="max_filter" /> m</label>
+				<label for=min_filter_enabled>
+					<input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" />
+					Min. length
+					<input :disabled="!min_filter_enabled" type=number x-model="min_filter" size=6 />
+					<select x-model=min_filter_unit><option>m</option><option>km</option></select>
+				</label>
+				<label for=max_filter_enabled>
+					<input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" />
+					Max. length
+					<input :disabled="!max_filter_enabled" type=number x-model="max_filter" size=6 />
+					<select x-model=max_filter_unit><option>m</option><option>km</option></select>
+				</label>
 		</div>
 
 		<div>This area:
