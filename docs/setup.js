@@ -28,8 +28,12 @@ document.addEventListener("alpine:init", async () => {
 	}
 
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
-	min_filter_enabled = params.has('min_len'); min_filter = params.get('min_len') ?? 0; min_filter_unit = params.get('min_len_unit') ?? min_filter_unit;
-	max_filter_enabled = params.has('max_len'); max_filter = params.get('max_len') ?? 0; max_filter_unit = params.get('max_len_unit') ?? min_filter_unit;
+	min_filter_enabled = params.has('min_len');
+	min_filter = params.get('min_len') ?? 0;
+	min_filter_unit = params.get('min_len_unit') ?? "km";
+	max_filter_enabled = params.has('max_len');
+	max_filter = params.get('max_len') ?? 0;
+	max_filter_unit = params.get('max_len_unit') ?? "km";
 	selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
 
 	console.debug(`Loading tiles ${selected_tileset_key}`);
