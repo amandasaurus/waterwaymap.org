@@ -32,6 +32,7 @@ function process() {
 		--gamma 2 \
 		--coalesce-smallest-as-needed \
 		--order-descending-by=length_m \
+		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
 	mv "${TMP}.geojson" "./docs/data/${PREFIX}.geojson"
 	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
