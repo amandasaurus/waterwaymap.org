@@ -33,9 +33,8 @@ function process() {
 		--coalesce-smallest-as-needed \
 		--order-descending-by=length_m \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
-	jo timestamp="$FILE_TIMESTAMP" > "./docs/data/${PREFIX}-metadata.json"
 	mv "${TMP}.geojson" "./docs/data/${PREFIX}.geojson"
-	mv "${TMP}.pmtiles" "./docs/tiles/${PREFIX}.pmtiles"
+	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
 	echo "GeoJSON & PMTiles created successfully."
 	gzip -f -9 "./docs/data/${PREFIX}.geojson" &
 }
