@@ -1,6 +1,15 @@
 document.addEventListener("alpine:init", async () => {
 	Alpine.store("tilesets_loaded", false);
-	let tilesets_raw = await fetch("tilesets.json");
+
+	let is_local = (new URL(location.href).port == "8000");
+	let url_prefix;
+	if (is_local) {
+		url_prefix = "./data/"; //${key}.pmtiles`;
+	} else {
+		url_prefix = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/"; //${key}.pmtiles`;
+	}
+
+	let tilesets_raw = await fetch(`${url_prefix}tilesets.json`);
 	tilesets_raw = await tilesets_raw.json();
 	Alpine.store("tilesets", tilesets_raw);
 	Alpine.store("tilesets_loaded", true);
@@ -10,15 +19,10 @@ document.addEventListener("alpine:init", async () => {
 	// add the PMTiles plugin to the maplibregl global.
 	let protocol = new pmtiles.Protocol();
 	maplibregl.addProtocol("pmtiles",protocol.tile);
-	let is_local = (new URL(location.href).port == "8000");
 
 	for( let i in tilesets.tilesets ) {
 		let key = tilesets.tilesets[i].key;
-		if (is_local) {
-			url = `./tiles/${key}.pmtiles`;
-		} else {
-			url = `https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/${key}.pmtiles`;
-		}
+		url = `${url_prefix}${key}.pmtiles`;
 		tilesets.tilesets[i].url = url;
 
 		var p = new pmtiles.PMTiles(url)
