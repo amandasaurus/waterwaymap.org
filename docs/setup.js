@@ -4,9 +4,9 @@ document.addEventListener("alpine:init", async () => {
 	let is_local = (new URL(location.href).port == "8000");
 	let url_prefix;
 	if (is_local) {
-		url_prefix = "./data/"; //${key}.pmtiles`;
+		url_prefix = "./data/";
 	} else {
-		url_prefix = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/"; //${key}.pmtiles`;
+		url_prefix = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/";
 	}
 
 	let tilesets_raw = await fetch(`${url_prefix}tilesets.json`);

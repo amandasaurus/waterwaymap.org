@@ -61,7 +61,7 @@ SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
 jo tilesets=[] > ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway=river"
 
 SECONDS=0
@@ -76,7 +76,6 @@ echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f wa
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄name"
-echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -f ∄name"
 jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∄name"
 
