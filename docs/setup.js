@@ -145,17 +145,17 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 		new_filter = null;
 	}
 
-	if (!map.loaded()) {
+	if (map.loaded()) {
+		map.setFilter('waterway-line-casing', new_filter);
+		map.setFilter('waterway-line', new_filter);
+		map.setFilter('waterway-text', new_filter);
+		map.redraw();
+	} else {
 		map.once('load', () => {
 			map.setFilter('waterway-line-casing', new_filter);
 			map.setFilter('waterway-line', new_filter);
 			map.setFilter('waterway-text', new_filter);
 			map.redraw();
 		});
-	} else {
-		map.setFilter('waterway-line-casing', new_filter);
-		map.setFilter('waterway-line', new_filter);
-		map.setFilter('waterway-text', new_filter);
-		map.redraw();
 	}
 }
