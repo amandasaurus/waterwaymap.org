@@ -145,5 +145,6 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 		map.setFilter('waterway-line-casing', new_filter);
 		map.setFilter('waterway-line', new_filter);
 		map.setFilter('waterway-text', new_filter);
+		map.redraw();
 	});
 }
