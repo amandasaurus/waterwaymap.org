@@ -46,13 +46,28 @@
             #map {
                 height:100%; width:100%;
             }
+
+			header {
+				padding-left: 1ch;
+				padding-right: 1ch;
+			}
+			header > p {
+				max-width: 100ch;
+			}
+
+			.inline_centre {
+				display: inline-flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 0.2ch;
+			}
         </style>
     </head>
 
 	<body>
         <header>
-		<h1>River Basins</h1>
-		<p>This page shows connected ways from OpenStreetMap with the <code>waterway=river</code> tag for various area.s Data was proceed with <a href="https://github.com/amandasaurus/osm-lump-ways"><code>osm-lump-ways</code></a> and <a href="https://github.com/felt/tippecanoe"><code>tippecanoe</code></a>. Source for this project: <a href="https://github.com/amandasaurus/osm-river-basins">osm-river-basins on github</a>. Problems? <a href="mailto:Amanda McCann <amanda@technomancy.org>?subject=osm-river-basins%20contact">Email <code>amanda@technomancy.org</code></a>.</p>
+		<h1 class=inline_centre style="margin: 0; margin-top: 0.3ch;"><img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em">🏞️ OSM River Basins</h1>
+		<p>How are waterways connected? Connected ways from <a href="https://www.openstreetmap.org">OpenStreetMap</a> with the <a href="https://wiki.openstreetmap.org/wiki/Key:waterway"><code>waterway</code></a> tag.
 
 		<p id="layer_switchers" x-data>
 			<template x-if="!$store.tilesets_loaded"><span>⏳ Loading map please wait...</span></template>
@@ -64,10 +79,14 @@
 							<span x-html="tileset.text"></span>
 						</label>
 					</template>
-					<span>Data from <a :href="`https://www.timeanddate.com/countdown/generic?p0=1440&iso=${$store.tilesets.data_timestamp}`" x-text="$store.tilesets.data_timestamp"></a></span>
 				</div>
 			</template>
 		</p>
+		<template id=data_age x-data x-if="$store.tilesets_loaded">
+			<div>
+				Data from <a :href="`https://www.timeanddate.com/countdown/generic?p0=1440&iso=${$store.tilesets.data_timestamp}`" x-text="$store.tilesets.data_timestamp"></a>
+			</div>
+		</template>
 		<p id=colours_switcher x-data>Colours on the map are randomly assigned.
 			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 2], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
 				2 colours
@@ -124,15 +143,17 @@
 		</div>
 
 		<div>This area:
-			<button id=open_on_osm x-data
-					style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
-					@click="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
-					@auxclick="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+			<a id=open_on_osm x-data
+			   href="#"
+			   class=inline_centre
+			   target=_blank
+			   @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+			   @auxclick.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
 					>
-					view on osm.org <img src="open_ext.svg" style="height: 1em" />
-			</button>
+					<img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> osm.org <img src="img/open_ext.svg" style="height: 1em" />
+			</a>
 			<span id=open_in_josm x-data="{show_josm_not_running: false}">
-				<button style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+				<button class=inline_centre
 						@click="let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 								let b = map.getBounds();
 								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
@@ -143,7 +164,7 @@
 									setTimeout(() => show_josm_not_running=false, 5000);
 								}"
 						>
-					edit area in josm <img src="open_ext.svg" style="height: 1em" />
+					<img src="img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm <img src="img/open_ext.svg" style="height: 1em" />
 				</button>
 				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
 			</span>
@@ -154,8 +175,11 @@
 			<div id="map"></div>
 		</main>
 
-		<footer>
-			Map Data <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a>, under the <a href="https://www.openstreetmap.org/copyright">ODbL</a>.
+		<footer class=inline_centre style="padding: 0.5ch; font-size: smaller;">
+			Map Data <img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a> (<a href="https://www.openstreetmap.org/copyright">open data licence</a>). 
+			| 📜 source <a href="https://github.com/amandasaurus/osm-river-basins"><code>osm-river-basins</code> on github</a>
+			
+			| <a href="mailto:Amanda McCann <amanda@technomancy.org>?subject=osm-river-basins%20contact">📧 report problem</a>.</p>
 		</footer>
 
     </body>
