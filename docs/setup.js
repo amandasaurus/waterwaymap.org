@@ -136,7 +136,7 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 	let min_filter_expr = ['>=', 'length_m', min_filter];
 	let max_filter_expr = ['<=', 'length_m', max_filter];
 	if (min_filter_enabled && max_filter_enabled) {
-		new_filter = ['and', min_filter_expr, max_filter_expr];
+		new_filter = ['all', min_filter_expr, max_filter_expr];
 	} else if (!min_filter_enabled && max_filter_enabled) {
 		new_filter = max_filter_expr;
 	} else if (min_filter_enabled && !max_filter_enabled) {
@@ -149,13 +149,12 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 		map.setFilter('waterway-line-casing', new_filter);
 		map.setFilter('waterway-line', new_filter);
 		map.setFilter('waterway-text', new_filter);
-		map.redraw();
 	} else {
 		map.once('load', () => {
 			map.setFilter('waterway-line-casing', new_filter);
 			map.setFilter('waterway-line', new_filter);
 			map.setFilter('waterway-text', new_filter);
-			map.redraw();
 		});
 	}
+	// need some way to signify the filtering is done...
 }

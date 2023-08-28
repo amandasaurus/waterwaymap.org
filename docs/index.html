@@ -109,18 +109,15 @@
 		</p>
 
 		<div	id="length_filters"
-				x-data="{min_filter_enabled: false, min_filter: 0, min_filter_unit: 'km', max_filter_enabled: false, max_filter: 0, max_filter_unit: 'km', filter_in_operation: false }"
+				x-data="{min_filter_enabled: false, min_filter: 0, min_filter_unit: 'km', max_filter_enabled: false, max_filter: 0, max_filter_unit: 'km', }"
 				x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
 						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
 						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
-						filter_in_operation = false;
 
 						let vars_to_watch = ['min_filter_enabled', 'min_filter', 'min_filter_unit', 'max_filter_enabled', 'max_filter', 'max_filter_unit'];
 						for (let var_to_watch of vars_to_watch) {
 							$watch(var_to_watch, _ => {
-								filter_in_operation = true;
 								filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit)
-								filter_in_operation = false;
 								}
 							);
 						}
@@ -139,7 +136,6 @@
 					<input :disabled="!max_filter_enabled" type=number x-model.number.debounce="max_filter" size=6 />
 					<select x-model=max_filter_unit><option>m</option><option>km</option></select>
 				</label>
-				<span x-show="filter_in_operation">Filtering...</span>
 		</div>
 
 		<div>This area:
