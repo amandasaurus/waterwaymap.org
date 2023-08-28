@@ -39,8 +39,8 @@ document.addEventListener("alpine:init", async () => {
 	max_filter = params.get('max_len') ?? 0;
 	max_filter_unit = params.get('max_len_unit') ?? "km";
 	selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
+	Alpine.store("selected_tileset", selected_tileset_key);
 
-	console.debug(`Loading tiles ${selected_tileset_key}`);
 	let sel = tilesets.tilesets.find(el => el.key === selected_tileset_key);
 	console.assert(sel != undefined);
 
@@ -145,10 +145,17 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 		new_filter = null;
 	}
 
-	map.on('load', () => {
+	if (!map.loaded()) {
+		map.once('load', () => {
+			map.setFilter('waterway-line-casing', new_filter);
+			map.setFilter('waterway-line', new_filter);
+			map.setFilter('waterway-text', new_filter);
+			map.redraw();
+		});
+	} else {
 		map.setFilter('waterway-line-casing', new_filter);
 		map.setFilter('waterway-line', new_filter);
 		map.setFilter('waterway-text', new_filter);
 		map.redraw();
-	});
+	}
 }
