@@ -131,17 +131,22 @@
 					>
 					view on osm.org <img src="open_ext.svg" style="height: 1em" />
 			</button>
-			<button id=open_in_josm x-data
-						style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
+			<span id=open_in_josm x-data="{show_josm_not_running: false}">
+				<button style="display: inline-flex; flex-direction: row; align-items: center; gap: 0.2ch;"
 						@click="let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 								let b = map.getBounds();
 								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
-								this.disabled = true;
-								fetch(url);
-								this.disabled = false;"
-					>
-				edit area in josm <img src="open_ext.svg" style="height: 1em" />
-			</button>
+								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
+								this.disabled = false;
+								if (!res_ok) {
+									show_josm_not_running = true;
+									setTimeout(() => show_josm_not_running=false, 5000);
+								}"
+						>
+					edit area in josm <img src="open_ext.svg" style="height: 1em" />
+				</button>
+				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
+			</span>
 		</div>
 		</header>
 
