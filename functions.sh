@@ -21,7 +21,7 @@ function process() {
 	echo "Starting tippecanoe..."
 	tippecanoe \
 		-n "OSM River Topologies" \
-		-N "Generated on $(date -I) from OSM data from $FILE_TIMESTAMP with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
+		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
 		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
