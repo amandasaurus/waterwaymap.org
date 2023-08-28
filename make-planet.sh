@@ -12,16 +12,13 @@ if [ ! -s planet-waterway.osm.pbf ] ; then
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf waterway
 fi
 
-if [ -z "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" ] ; then
+LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
+if [ -z "$LAST_TIMESTAMP" ] ; then
 	LAST_TIMESTAMP=$(osmium fileinfo --no-progress -e -g data.timestamp.last  planet-waterway.osm.pbf)
-	# set the timestamp header
-	rm -rf new.osm.pbf
-	osmium cat --output-header timestamp=$LAST_TIMESTAMP -o new.osm.pbf planet-waterway.osm.pbf
-	mv -v new.osm.pbf planet-waterway.osm.pbf
 fi
 
 TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
-if [ $(( $(date +%s) - "$(date -d "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" +%s)" )) -gt $(units -t 2days sec) ] ; then
+if [ $(( $(date +%s) - "$(date -d "$LAST_TIMESTAMP" +%s)" )) -gt $(units -t 2days sec) ] ; then
 	pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/day/ -s 10000 planet-waterway.osm.pbf
 	osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 fi
@@ -32,6 +29,7 @@ fi
 pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -s 10000 planet-waterway.osm.pbf
 osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 osmium check-refs planet-waterway.osm.pbf || true
+LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
 
 osmium check-refs --no-progress --show-ids planet-waterway.osm.pbf |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
 if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
@@ -49,7 +47,7 @@ if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
 	rm -f empty.opl
 
 	rm -rf new.osm.pbf
-	osmium apply-changes --output-header="timestamp!" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc
+	osmium apply-changes --output-header="osmium_replication_timestamp=$LAST_TIMESTAMP" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc
 	mv -v new.osm.pbf planet-waterway.osm.pbf
 	rm -fv add-incomplete-ways.osc
 	osmium check-refs planet-waterway.osm.pbf || true
