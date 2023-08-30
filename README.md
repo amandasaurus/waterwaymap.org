@@ -9,6 +9,7 @@ See the [website](https://amandasaurus.github.io/osm-river-basins/).
 * [Fedi/Mastodon post](https://en.osm.town/@amapanda/110118513232919061)
 * [OSM Discourse Community Forum](https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655)
 * [OSM Changesets that have used this tool](https://resultmaps.neis-one.org/osm-changesets?comment=RiverMapping)
+* [Hacker News](https://news.ycombinator.com/item?id=37321292)
 
 ## Copyright
 
