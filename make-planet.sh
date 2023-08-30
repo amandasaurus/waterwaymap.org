@@ -56,6 +56,11 @@ osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf
 
 # Now do processing
 
+if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
+	echo "./docs/data/tilesets.json is empty somehow, so add a base"
+	jo tilesets=[] > ./docs/data/tilesets.json
+fi
+
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
 jo tilesets=[] > ./docs/data/tilesets.json
