@@ -34,8 +34,8 @@ function process() {
 		--order-descending-by=length_m \
 		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
-	mv "${TMP}.geojson" "./docs/data/${PREFIX}.geojson"
+	mv "${TMP}.geojson" "./${PREFIX}.geojson"
+	gzip -f -9 "./${PREFIX}.geojson" &
 	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
 	echo "GeoJSON & PMTiles created successfully."
-	gzip -f -9 "./docs/data/${PREFIX}.geojson" &
 }
