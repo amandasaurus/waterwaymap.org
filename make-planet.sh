@@ -87,6 +87,13 @@ process planet-waterway.osm.pbf planet-waterway-river-canal "-f waterway∈river
 jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-river-canal"|.tilesets[4].text = "<code>waterway=river</code> or <code>=canal</code>"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway∈river,canal"
 
+SECONDS=0
+process planet-waterway.osm.pbf planet-waterway-boatable "-f waterway -f boat∈yes,motor"
+jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-boatable"|.tilesets[5].text = "Navigabe by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f boat=yes"
+
+jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
+
 rclone sync ./docs/data/ cloudflare:pmtiles0/2023-04-01/  --progress
 
 wait
