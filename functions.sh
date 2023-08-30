@@ -25,8 +25,6 @@ function process() {
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
 		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
-		--maximum-tile-bytes="$(units -t 5MiB bytes)" \
-		--maximum-tile-features=5000000 \
 		-y length_m -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
@@ -34,6 +32,8 @@ function process() {
 		--order-descending-by=length_m \
 		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
+	#	--maximum-tile-bytes="$(units -t 5MiB bytes)" \
+	#	--maximum-tile-features=5000000 \
 	mv "${TMP}.geojson" "./${PREFIX}.geojson"
 	gzip -f -9 "./${PREFIX}.geojson" &
 	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
