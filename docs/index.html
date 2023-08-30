@@ -23,7 +23,8 @@
 		<!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
 		<link rel="icon" href="data:,">
-        <link rel="stylesheet" href="maplibre-gl-2.4.0.css">
+		<link rel="stylesheet" href="maplibre-gl-2.4.0.css">
+        <link rel="alternative" type="application/rss+xml" href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml" title="OSM River Basins Data Update">
         <script src="maplibre-gl-2.4.0.js"></script>
         <script src="pmtiles-2.7.1.js"></script>
         <script src="alpine-3.12.3.js" defer></script>
@@ -83,8 +84,9 @@
 			</template>
 		</p>
 		<template id=data_age x-data x-if="$store.tilesets_loaded">
-			<div>
+			<div class=inline_centre>
 				Data from <a :href="`https://www.timeanddate.com/countdown/generic?p0=1440&iso=${$store.tilesets.data_timestamp}`" x-text="$store.tilesets.data_timestamp"></a>
+				<a href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml"><img src="img/rss.png" alt="RSS Feed icon" style="height: 1em;" ></a>
 			</div>
 		</template>
 		<p id=colours_switcher x-data>Colours on the map are randomly assigned.
