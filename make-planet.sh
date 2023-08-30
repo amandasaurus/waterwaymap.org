@@ -63,11 +63,9 @@ fi
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river "-f waterway=river"
-jo tilesets=[] > ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway=river"
-jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
