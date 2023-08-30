@@ -94,7 +94,10 @@ echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f wa
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
 
+./rss_update.sh ./docs/data/data_updates.xml "OSM River Basins Data update" "The OSM River Basins Map has been updated with OSM data up until $LAST_TIMESTAMP"
+
 rclone sync ./docs/data/ cloudflare:pmtiles0/2023-04-01/  --progress
+
 
 wait
 
