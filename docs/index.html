@@ -152,7 +152,7 @@
 				<button class=inline_centre
 						@click="let current_url = location.protocol + '//' + location.host + location.pathname+location.search ;
 								let b = map.getBounds();
-								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;new_layer=true&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
+								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${current_url}&amp;changeset_hashtags=%23RiverMapping`;
 								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
 								this.disabled = false;
 								if (!res_ok) {
