@@ -89,7 +89,7 @@ echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f wa
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-boatable "-f waterway -f boat∈yes,motor"
-jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-boatable"|.tilesets[5].text = "Navigabe by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-boatable"|.tilesets[5].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f boat=yes"
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
