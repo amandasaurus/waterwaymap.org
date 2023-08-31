@@ -36,6 +36,7 @@ function process() {
 	#	--maximum-tile-bytes="$(units -t 5MiB bytes)" \
 	mv "${TMP}.geojson" "./${PREFIX}.geojson"
 	gzip -f -9 "./${PREFIX}.geojson" &
+	echo "PMTiles created successfully. size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
 	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
 	echo "GeoJSON & PMTiles created successfully."
 }
