@@ -23,6 +23,7 @@
 		<!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
 		<link rel="icon" href="data:,">
+		<link rel=stylesheet href="style.css" />
 		<link rel="stylesheet" href="maplibre-gl-2.4.0.css">
         <link rel="alternative" type="application/rss+xml" href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml" title="OSM River Basins Data Update">
         <script src="maplibre-gl-2.4.0.js"></script>
@@ -30,39 +31,7 @@
         <script src="alpine-3.12.3.js" defer></script>
 		<script src="mapstyle.js"></script>
         <script src="setup.js"></script>
-        <style>
-            body {
-                margin: 0;
-				display: flex;
-				flex-direction: column;
-				height: 100vh;
-            }
-			header, footer {
-				flex-grow: 0;
-				flex-shrink: 0;
-			}
-			main {
-				flex-grow: 1;
-			}
-            #map {
-                height:100%; width:100%;
-            }
 
-			header {
-				padding-left: 1ch;
-				padding-right: 1ch;
-			}
-			header > p {
-				max-width: 100ch;
-			}
-
-			.inline_centre {
-				display: inline-flex;
-				flex-direction: row;
-				align-items: center;
-				gap: 0.2ch;
-			}
-        </style>
     </head>
 
 	<body>
