@@ -17,7 +17,7 @@ function process() {
 
 
 	osm-lump-ways -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
-	echo "GeoJSON created successfully."
+	echo "GeoJSON created successfully. size: $(ls -lh "${TMP}.geojson" | cut -d" " -f5)"
 	echo "Starting tippecanoe..."
 	tippecanoe \
 		-n "OSM River Topologies" \
