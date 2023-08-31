@@ -12,6 +12,7 @@ if [ ! -s planet-waterway.osm.pbf ] ; then
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf waterway
 fi
 
+SECONDS=0
 LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
 if [ -z "$LAST_TIMESTAMP" ] ; then
 	LAST_TIMESTAMP=$(osmium fileinfo --no-progress -e -g data.timestamp.last  planet-waterway.osm.pbf)
@@ -53,6 +54,7 @@ if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
 fi
 rm -f incomplete_ways.txt
 osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to download data updates from osm.org"
 
 # Now do processing
 
