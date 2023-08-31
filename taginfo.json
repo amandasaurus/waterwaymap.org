@@ -1,0 +1,30 @@
+{
+  "project": {
+    "name": "OSM River Basins",
+    "project_url": "https://amandasaurus.github.io/osm-river-basins/",
+    "contact_email": "amanda@technomancy.org",
+    "contact_name": "Amanda McCann",
+    "doc_url": "https://github.com/amandasaurus/osm-river-basins",
+    "description": "How are waterways connected?"
+  },
+  "data_url": "https://amandasaurus.github.io/osm-river-basins/taginfo.json",
+  "data_updated": "20230901T093000Z",
+  "data_format": 1,
+  "tags": [
+    {
+      "key": "name",
+      "description": "Used to calculate if ",
+	  "object_types": ["way"]
+    },
+    {
+      "key": "waterway",
+      "description": "Used to connect ways together to build waterway topology",
+	  "object_types": ["way"]
+    },
+    {
+      "key": "boat",
+      "description": "Used to calculate navigable waterways view",
+	  "object_types": ["way"]
+    }
+  ]
+}
