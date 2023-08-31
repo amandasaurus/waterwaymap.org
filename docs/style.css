@@ -1,3 +1,16 @@
+@font-face {
+  font-family: cantarell_bold;
+  src: url(Cantarell-Bold.woff2)
+}
+
+@font-face {
+  font-family: cantarell_regular;
+  src: url(Cantarell-Regular.woff2)
+}
+html, input, button, textarea {
+	font-family: cantarell;
+}
+
 body {
 	margin: 0;
 	display: flex;
@@ -21,6 +34,10 @@ header {
 }
 header > p {
 	max-width: 100ch;
+}
+
+h1 {
+	font-family: cantarell;
 }
 
 .inline_centre {
