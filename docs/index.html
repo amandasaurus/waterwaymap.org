@@ -166,6 +166,16 @@
 				</button>
 				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
 			</span>
+			<span id=open_in_id x-data>
+				<button class=inline_centre
+				   class=inline_centre
+				   @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id##map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+				   @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id##map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+					>
+					<img src="img/id.svg" alt="iD logo" style="height: 1em">
+					edit in iD <img src="img/open_ext.svg" style="height: 1em" />
+				</button>
+			</span>
 		</div>
 		</header>
 
