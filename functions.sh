@@ -26,6 +26,7 @@ function process() {
 		--single-precision \
 		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
 		-y length_m -y root_wayid_120 \
+		--maximum-tile-features=5000000 \
 		-l waterway \
 		--gamma 2 \
 		--coalesce-smallest-as-needed \
@@ -33,7 +34,6 @@ function process() {
 		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
 	#	--maximum-tile-bytes="$(units -t 5MiB bytes)" \
-	#	--maximum-tile-features=5000000 \
 	mv "${TMP}.geojson" "./${PREFIX}.geojson"
 	gzip -f -9 "./${PREFIX}.geojson" &
 	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
