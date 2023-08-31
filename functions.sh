@@ -24,16 +24,16 @@ function process() {
 		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
-		--simplify-only-low-zooms --extend-zooms-if-still-dropping \
+		 --extend-zooms-if-still-dropping \
+		--drop-densest-as-needed \
 		-y length_m -y root_wayid_120 \
-		--maximum-tile-features=5000000 \
+		--no-feature-limit \
 		-l waterway \
 		--gamma 2 \
-		--coalesce-smallest-as-needed \
 		--order-descending-by=length_m \
 		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
-	#	--maximum-tile-bytes="$(units -t 5MiB bytes)" \
+	 	#--maximum-tile-bytes="$(units -t 5MiB bytes)" \
 	mv "${TMP}.geojson" "./${PREFIX}.geojson"
 	gzip -f -9 "./${PREFIX}.geojson" &
 	echo "PMTiles created successfully. size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
