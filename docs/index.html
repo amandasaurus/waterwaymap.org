@@ -99,13 +99,13 @@
 				<label for=min_filter_enabled>
 					<input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" />
 					Min. length
-					<input :disabled="!min_filter_enabled" type=number x-model.number.debounce="min_filter" size=6 />
+					<input :disabled="!min_filter_enabled" type=number min=0 x-model.number.debounce="min_filter" size=6 />
 					<select x-model=min_filter_unit><option>m</option><option>km</option></select>
 				</label>
 				<label for=max_filter_enabled>
 					<input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" />
 					Max. length
-					<input :disabled="!max_filter_enabled" type=number x-model.number.debounce="max_filter" size=6 />
+					<input :disabled="!max_filter_enabled" type=number min=0 x-model.number.debounce="max_filter" size=6 />
 					<select x-model=max_filter_unit><option>m</option><option>km</option></select>
 				</label>
 		</div>
