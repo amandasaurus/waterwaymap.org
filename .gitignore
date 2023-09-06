@@ -1,5 +1,6 @@
 *.geojson
-*.geojson.gz
+*.geojson.*z*
+*.geojson.br
 *.osm.pbf
 *.pmtiles
 *.pmtiles-journal
