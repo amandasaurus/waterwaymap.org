@@ -2,6 +2,10 @@
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
+if [ "${1:-}" = "-v" ]; then
+	set -x
+fi
+
 source functions.sh
 
 ./dl_updates_from_osm.sh
