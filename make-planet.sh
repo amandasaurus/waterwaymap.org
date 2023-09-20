@@ -30,19 +30,19 @@ echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f wa
 jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
 
 SECONDS=0
-process planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f name"
-jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-name-no-group"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name</code>. Purely topological grouping"' | sponge ./docs/data/tilesets.json
-echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name"
+process planet-waterway.osm.pbf planet-waterway-name-no-group "-f waterway -f ∃~name(:.+)?"
+jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-name-no-group"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name*</code>. Purely topological grouping"' | sponge ./docs/data/tilesets.json
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∃~name(:.+)?"
 
 SECONDS=0
-process planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f name -g name"
-jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-name-group-name"|.tilesets[2].text = "with <code>waterway</code> &amp; <code>name</code> tags. grouped by topology &amp; name"' | sponge ./docs/data/tilesets.json
-echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f name -g name"
+process planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f ∃~name(:.+)? -g wikidata,name"
+jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-name-group-name"|.tilesets[2].text = "with <code>waterway</code> &amp; <code>name*</code> tags. grouped by topology &amp; <code>wikidata</code> then <code>name</code>"' | sponge ./docs/data/tilesets.json
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∃~name(:.+)? -g wikidata,name"
 
-SECONDS=0
-process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄name"
-jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/data/tilesets.json
-echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∄name"
+#SECONDS=0
+#process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄~name(:.+)?"
+#jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/data/tilesets.json
+#echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∄~name(:.+)?"
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-river-canal "-f waterway∈river,canal"
