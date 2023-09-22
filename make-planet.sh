@@ -55,10 +55,12 @@ process planet-waterway.osm.pbf planet-waterway-boatable "-f waterway -f boat∈
 jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-boatable"|.tilesets[5].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f boat=yes"
 
-# Keeps getting OOM killed
-#process planet-waterway.osm.pbf planet-waterway-all "-f waterway"
-#jq <./docs/data/tilesets.json '.tilesets[6].key = "planet-waterway-all"|.tilesets[6].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
-#echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway"
+SECONDS=0
+process planet-waterway.osm.pbf planet-waterway-all "-f waterway"
+jq <./docs/data/tilesets.json '.tilesets[6].key = "planet-waterway-all"|.tilesets[6].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
+echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway"
+
+
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
 
