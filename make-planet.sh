@@ -39,7 +39,6 @@ process planet-waterway.osm.pbf planet-waterway-name-group-name "-f waterway -f 
 jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-name-group-name"|.tilesets[2].text = "with <code>waterway</code> &amp; <code>name*</code> tags. grouped by topology &amp; <code>wikidata</code> then <code>name</code>"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway -f ∃~name(:.+)? -g wikidata,name"
 
-# Keeps getting OOM killed
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-noname "-f waterway -f ∄~name(:.+)?"
 jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/data/tilesets.json
