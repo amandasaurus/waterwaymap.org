@@ -13,6 +13,10 @@ if [ ! -s planet-waterway.osm.pbf ] ; then
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf waterway
 fi
 echo "planet-waterway.osm.pbf, size: $(ls -lh planet-waterway.osm.pbf | cut -d" " -f5)"
+# quick shortcut for when we run this a log
+if [ $(( $(date +%s) - $(stat -c %Y planet-waterway.osm.pbf) )) -lt 600 ] ; then
+	exit 0
+fi
 
 SECONDS=0
 LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
