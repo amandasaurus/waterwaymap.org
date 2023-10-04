@@ -19,7 +19,7 @@ function process() {
 	osm-lump-ways -v -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
 	echo "GeoJSON created successfully. uncompressed size: $(ls -lh "${TMP}.geojson" | cut -d" " -f5)"
 	echo "Starting tippecanoe..."
-	tippecanoe \
+	timeout 5h tippecanoe \
 		-n "OSM River Topologies" \
 		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
