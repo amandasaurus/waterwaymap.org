@@ -19,22 +19,24 @@ function process() {
 	osm-lump-ways -v -i "$INPUT" -o "${TMP}.geojson" $LUMP_ARGS $MIN_LENGTH_ARG --save-as-linestrings
 	echo "GeoJSON created successfully. uncompressed size: $(ls -lh "${TMP}.geojson" | cut -d" " -f5)"
 	echo "Starting tippecanoe..."
-	timeout 5h tippecanoe \
-		-n "OSM River Topologies" \
-		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
-		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		--single-precision \
-		-y length_m -y root_wayid_120 \
-		-l waterway \
-		--drop-smallest-as-needed \
-		--coalesce --reorder \
-		--simplification 8 \
-		--no-progress-indicator \
-		-o "${TMP}.pmtiles" "${TMP}.geojson"
-	 	#--maximum-tile-bytes="$(units -t 5MiB bytes)" \
-	mv "${TMP}.geojson" "./${PREFIX}.geojson"
-	gzip -f -9 "./${PREFIX}.geojson" &
-	echo "PMTiles created successfully. size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
-	mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
-	echo "GeoJSON & PMTiles created successfully."
+	(
+		timeout 5h tippecanoe \
+			-n "OSM River Topologies" \
+			-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
+			-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+			--single-precision \
+			-y length_m -y root_wayid_120 \
+			-l waterway \
+			--drop-smallest-as-needed \
+			--coalesce --reorder \
+			--simplification 8 \
+			--no-progress-indicator \
+			-o "${TMP}.pmtiles" "${TMP}.geojson"
+			#--maximum-tile-bytes="$(units -t 5MiB bytes)" \
+		mv "${TMP}.geojson" "./${PREFIX}.geojson"
+		gzip -f -9 "./${PREFIX}.geojson" &
+		echo "PMTiles created successfully. size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
+		mv "${TMP}.pmtiles" "./docs/data/${PREFIX}.pmtiles"
+		echo "GeoJSON & PMTiles created successfully."
+	) &
 }
