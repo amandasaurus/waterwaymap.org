@@ -21,7 +21,7 @@ if [ -z "$LAST_TIMESTAMP" ] ; then
 fi
 
 TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
-pyosmium-up-to-date -vv -s 10000 planet-waterway.osm.pbf
+pyosmium-up-to-date --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -vv -s 10000 planet-waterway.osm.pbf
 osmium tags-filter --overwrite --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 osmium check-refs planet-waterway.osm.pbf || true
 
