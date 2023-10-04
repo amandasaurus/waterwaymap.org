@@ -13,6 +13,7 @@ source functions.sh
 SECONDS=0
 LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
 if [ -z "$LAST_TIMESTAMP" ] ; then
+	echo "Detecting the latest OSM object…"
 	LAST_TIMESTAMP=$(osmium fileinfo --no-progress -e -g data.timestamp.last  planet-waterway.osm.pbf)
 fi
 

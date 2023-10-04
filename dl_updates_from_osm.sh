@@ -2,13 +2,17 @@
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
+echo "Starting dl_updates_from_osm.sh"
+
 if [ ! -s planet-waterway.osm.pbf ] ; then
+	echo "No planet-waterway.osm.pbf, downloading.."
 	if [ ! -e planet-latest.osm.pbf ] ; then
 		aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
 		# TODO rename from planet-YYMMDD.osm.obf to -latest
 	fi
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf waterway
 fi
+echo "planet-waterway.osm.pbf, size: $(ls -lh planet-waterway.osm.pbf | cut -d" " -f5)"
 
 SECONDS=0
 LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
