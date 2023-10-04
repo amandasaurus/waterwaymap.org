@@ -33,7 +33,7 @@ function process() {
 			-l waterway \
 			--coalesce --reorder \
 			--gamma 2 \
-			--progress-interval=20 \
+			--no-progress-indicator \
 			-o "${TMP}.pmtiles" "${TMP}.geojson"
 		mv "${TMP}.geojson" "./${PREFIX}.geojson"
 		gzip -f -9 "./${PREFIX}.geojson" &
