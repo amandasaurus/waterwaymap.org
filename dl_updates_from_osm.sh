@@ -21,11 +21,11 @@ if [ -z "$LAST_TIMESTAMP" ] ; then
 fi
 
 TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
-if [ $(( $(date +%s) - "$(date -d "$LAST_TIMESTAMP" +%s)" )) -gt $(units -t 2days sec) ] ; then
+if [ $(( $(date +%s) - "$(date -d "$LAST_TIMESTAMP" +%s)" )) -gt "$(units -t 2days sec)" ] ; then
 	pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/day/ -s 10000 planet-waterway.osm.pbf
 	osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 fi
-if [ $(( $(date +%s) - "$(date -d "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" +%s)" )) -gt $(units -t 2hours sec) ] ; then
+if [ $(( $(date +%s) - "$(date -d "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" +%s)" )) -gt "$(units -t 2hours sec)" ] ; then
 	pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/hour/ -s 10000 planet-waterway.osm.pbf
 	osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 fi
@@ -35,8 +35,8 @@ osmium check-refs planet-waterway.osm.pbf || true
 
 osmium check-refs --no-progress --show-ids planet-waterway.osm.pbf |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
 if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
-	cat incomplete_ways.txt | while read WID ; do
-		curl -s -o way_${WID}.osm.xml https://api.openstreetmap.org/api/0.6/way/${WID}/full
+	cat incomplete_ways.txt | while read -r WID ; do
+		curl -s -o "way_${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
 	done
 	osmium cat --overwrite -o incomplete_ways.osm.pbf way_*.osm.xml
 	rm way_*.osm.xml
