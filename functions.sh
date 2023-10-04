@@ -24,14 +24,11 @@ function process() {
 		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
-		--extend-zooms-if-still-dropping \
-		--simplification=8 \
-		--drop-densest-as-needed \
 		-y length_m -y root_wayid_120 \
-		--no-feature-limit \
 		-l waterway \
-		--gamma 2 \
-		--order-descending-by=length_m \
+		--drop-smallest-as-needed \
+		--coalesce --reorder \
+		--simplification 8 \
 		--no-progress-indicator \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
 	 	#--maximum-tile-bytes="$(units -t 5MiB bytes)" \
