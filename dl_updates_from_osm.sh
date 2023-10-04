@@ -21,16 +21,8 @@ if [ -z "$LAST_TIMESTAMP" ] ; then
 fi
 
 TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
-if [ $(( $(date +%s) - "$(date -d "$LAST_TIMESTAMP" +%s)" )) -gt "$(units -t 2days sec)" ] ; then
-	pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/day/ -s 10000 planet-waterway.osm.pbf
-	osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
-fi
-if [ $(( $(date +%s) - "$(date -d "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" +%s)" )) -gt "$(units -t 2hours sec)" ] ; then
-	pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/hour/ -s 10000 planet-waterway.osm.pbf
-	osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
-fi
-pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -s 10000 planet-waterway.osm.pbf
-osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
+pyosmium-up-to-date -vv -s 10000 planet-waterway.osm.pbf
+osmium tags-filter --overwrite --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 osmium check-refs planet-waterway.osm.pbf || true
 
 osmium check-refs --no-progress --show-ids planet-waterway.osm.pbf |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
@@ -49,7 +41,7 @@ if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
 	rm -f empty.opl incomplete_ways.osm.pbf
 
 	rm -rf new.osm.pbf
-	osmium apply-changes --output-header="osmium_replication_timestamp=$LAST_TIMESTAMP" --output-header="timestamp=${LAST_TIMESTAMP}" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc
+	osmium apply-changes --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --output-header="osmium_replication_timestamp=$LAST_TIMESTAMP" --output-header="timestamp=${LAST_TIMESTAMP}" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc
 	mv -v new.osm.pbf planet-waterway.osm.pbf
 	rm -fv add-incomplete-ways.osc
 	osmium check-refs planet-waterway.osm.pbf || true
