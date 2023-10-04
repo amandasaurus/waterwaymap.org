@@ -21,7 +21,15 @@ if [ -z "$LAST_TIMESTAMP" ] ; then
 fi
 
 TMP=$(mktemp -p . "tmp.planet.XXXXXX.osm.pbf")
-pyosmium-up-to-date --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -vv -s 10000 planet-waterway.osm.pbf
+if [ $(( $(date +%s) - "$(date -d "$LAST_TIMESTAMP" +%s)" )) -gt "$(units -t 2days sec)" ] ; then
+       pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/day/ -s 10000 planet-waterway.osm.pbf
+       osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
+fi
+if [ $(( $(date +%s) - "$(date -d "$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)" +%s)" )) -gt "$(units -t 2hours sec)" ] ; then
+       pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/hour/ -s 10000 planet-waterway.osm.pbf
+       osmium tags-filter --overwrite --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
+fi
+pyosmium-up-to-date -vv --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -s 10000 planet-waterway.osm.pbf
 osmium tags-filter --overwrite --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --remove-tags planet-waterway.osm.pbf -o "$TMP" w/waterway && mv "$TMP" planet-waterway.osm.pbf
 osmium check-refs planet-waterway.osm.pbf || true
 
