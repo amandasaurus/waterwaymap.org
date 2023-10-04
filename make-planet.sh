@@ -62,7 +62,7 @@ echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f wa
 
 SECONDS=0
 process planet-waterway.osm.pbf planet-waterway-flowing "-f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway"
-jq <./docs/data/tilesets.json '.tilesets[7].key = "planet-waterway-flowing"|.tilesets[7].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[6].key = "planet-waterway-flowing"|.tilesets[6].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to do update for -f waterway w/o dam-like"
 
 
