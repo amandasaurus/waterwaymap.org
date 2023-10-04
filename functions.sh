@@ -24,17 +24,14 @@ function process() {
 		-N "Generated on $(date -I) from OSM data from ${FILE_TIMESTAMP:-OSMIUM_HEADER_MISSING} with $(osm-lump-ways --version) and argument $LUMP_ARGS" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		--single-precision \
-		--extend-zooms-if-still-dropping \
 		--simplification=8 \
 		--drop-densest-as-needed \
 		-y length_m -y root_wayid_120 \
-		--no-feature-limit \
 		-l waterway \
+		--coalesce --reorder \
 		--gamma 2 \
-		--order-descending-by=length_m \
-		--no-progress-indicator \
+		--progress-interval=20 \
 		-o "${TMP}.pmtiles" "${TMP}.geojson"
-	 	#--maximum-tile-bytes="$(units -t 5MiB bytes)" \
 	mv "${TMP}.geojson" "./${PREFIX}.geojson"
 	gzip -f -9 "./${PREFIX}.geojson" &
 	echo "PMTiles created successfully. size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
