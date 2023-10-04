@@ -12,7 +12,7 @@ function process() {
 	if [[ $LUMP_ARGS =~ "min-length-m" ]] ; then
 		MIN_LENGTH_ARG=""
 	else
-		MIN_LENGTH_ARG="--min-length-m 100"
+		MIN_LENGTH_ARG="--min-length-m 100000"
 	fi
 
 
