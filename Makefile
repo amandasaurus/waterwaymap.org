@@ -13,31 +13,31 @@ planet-waterway-river.geojson: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-name-no-group.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∃~name(:.+)?"
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∃~name(:.+)?"
 	mv tmp.$@ $@
 
 planet-waterway-name-group-name.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g wikidata,name
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g wikidata,name
 	mv tmp.$@ $@
 
 planet-waterway-noname.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∄~name(:.+)?"
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f "∄~name(:.+)?"
 	mv tmp.$@ $@
 
 planet-waterway-river-canal.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway∈river,canal
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway∈river,canal
 	mv tmp.$@ $@
 
 planet-waterway-boatable.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f boat∈yes,motor
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f boat∈yes,motor
 	mv tmp.$@ $@
 
 planet-waterway-all.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway
 	mv tmp.$@ $@
 
 planet-waterway-flowing.geojson: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 1000 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway
 	mv tmp.$@ $@
 
 %.pmtiles: %.geojson
