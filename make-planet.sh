@@ -28,15 +28,18 @@ make all
 mv ./*pmtiles ./docs/data/ || true
 ln -s ./docs/data/*.pmtiles ./ || true
 
-jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | sponge ./docs/data/tilesets.json
+
+#jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-river"' | sponge ./docs/data/tilesets.json
 #jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-name-no-group"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name*</code>. Purely topological grouping"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-name-group-name"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name*</code> tags. grouped by topology &amp; <code>wikidata</code> then <code>name</code>"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-name-group-name"|.tilesets[1].text = "with <code>waterway</code> &amp; <code>name*</code> tags. grouped by topology &amp; <code>wikidata</code> then <code>name</code>"' | sponge ./docs/data/tilesets.json
 #jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-noname"|.tilesets[3].text = "Unnamed <code>waterway</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-river-canal"|.tilesets[2].text = "<code>waterway=river</code> or <code>=canal</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-boatable"|.tilesets[3].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-all"|.tilesets[4].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-flowing"|.tilesets[5].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-river-canal"|.tilesets[2].text = "<code>waterway=river</code> or <code>=canal</code>"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-boatable"|.tilesets[3].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-all"|.tilesets[4].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
+#jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-flowing"|.tilesets[5].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
 
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
