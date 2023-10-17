@@ -1,6 +1,6 @@
-# `osm-river-basins`
+# `osm-river-basins` - [`waterwaymap.org`](https://waterwaymap.org)
 
-See the [website](https://amandasaurus.github.io/osm-river-basins/).
+See the [website](https://waterwaymap.org).
 
 ![map of europe with all the river basins higlighted](https://amandasaurus.github.io/osm-river-basins/screenshot.png)
 

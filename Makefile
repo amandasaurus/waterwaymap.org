@@ -17,7 +17,7 @@ planet-waterway-name-no-group.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g wikidata,name --split-into-single-paths
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
 	mv tmp.$@ $@
 
 planet-waterway-noname.geojsons: planet-waterway.osm.pbf
