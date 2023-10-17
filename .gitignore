@@ -1,4 +1,5 @@
 *.geojson
+*.geojsons
 *.geojson.*z*
 *.geojson.br
 *.osm.pbf
