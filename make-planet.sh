@@ -23,15 +23,15 @@ if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
 	jo tilesets=[] > ./docs/data/tilesets.json
 fi
 
-make planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles
+make planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-name-group-name.pmtiles
 
 mv ./*pmtiles ./docs/data/ || true
 ln -s ./docs/data/*.pmtiles ./ || true
 
-jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All <code>waterway</code>"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All Waterways (<code>waterway</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-boatable"|.tilesets[1].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-river-stream"|.tilesets[2].text = "River or Stream (<code>waterway=river,stream</code>)"' | sponge ./docs/data/tilesets.json
-#jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-name-group-name"|.tilesets[2].text = "with <code>waterway</code> &amp; <code>name*</code> tags. grouped by topology &amp; <code>wikidata</code> then <code>name</code>"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-name-group-name"|.tilesets[3].text = "Named Waterways (<code>waterway</code> &amp; <code>name*</code> tags, grouped by <code>wikidata</code> then <code>name</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | sponge ./docs/data/tilesets.json
 
 #jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-river"|.tilesets[0].text = "only <code>waterway=river</code>"' | sponge ./docs/data/tilesets.json
