@@ -11,7 +11,7 @@ var mapstyle_layers = [
 		"type": "line",
 		"paint": {
 			"line-color":  "black",
-			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1.1, 6, 1.2, 7, 5],
+			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1.1, 4, 1.1, 6, 2.2, 7, 5],
 		},
 		"layout": {
 			"line-cap":  "round",
@@ -40,7 +40,7 @@ var mapstyle_layers = [
 					7, '#cab2d6',
 					'black',
 			],
-			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1, 6, 1, 7, 3, 15, 3, 20, 5],
+			"line-width": ["interpolate", ["linear"], ["zoom"], 0, 1, 4, 1, 6, 2, 7, 3, 15, 3, 20, 5],
 		}
 	},
 	{
