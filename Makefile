@@ -28,6 +28,10 @@ planet-waterway-river-canal.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal
 	mv tmp.$@ $@
 
+planet-waterway-river-stream.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream
+	mv tmp.$@ $@
+
 planet-waterway-river-canal-stream.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal,stream
 	mv tmp.$@ $@
