@@ -32,8 +32,8 @@ if [ ! -f "$RSS_FILE" ]; then
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
     <author><name>Amanda McCann</name></author>
-    <title type="text">OSM River Basins Data Updates</title>
-    <link>https://amandasaurus.github.io/osm-river-basins</link>
+    <title type="text">Waterway Map | OSM River Basins Data Updates</title>
+    <link>https://WaterwayMap.org/</link>
     <description>Data updates for the OSM River Basins project</description>
 </channel>
 </rss>' > "$RSS_FILE"
@@ -43,7 +43,7 @@ xmlstarlet ed --inplace \
     -s "//channel" -t elem -n "item" -v "" \
     -s "//channel/item[last()]" -t elem -n "title" -v "$TITLE" \
     -s "//channel/item[last()]" -t elem -n "author" -v "amanda@technomancy.org" \
-    -s "//channel/item[last()]" -t elem -n "link" -v "https://amandasaurus.github.io/osm-river-basins" \
+    -s "//channel/item[last()]" -t elem -n "link" -v "https://waterwaymap.org" \
     -s "//channel/item[last()]" -t elem -n "pubDate" -v "$CURRENT_DATE" \
     -s "//channel/item[last()]" -t elem -n "content:encoded" -v "$MESSAGE" \
     -i "//channel/item[last()]/content:encoded" -t attr -n "type" -v "html" \
