@@ -32,7 +32,7 @@ document.addEventListener("alpine:init", async () => {
 	}
 
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
-	min_filter_enabled = params.has('min_len');
+	filter = decodeFilterParams(params.get("len") ?? "")
 	min_filter = params.get('min_len') ?? 0;
 	min_filter_unit = params.get('min_len_unit') ?? "km";
 	max_filter_enabled = params.has('max_len');
@@ -77,7 +77,7 @@ document.addEventListener("alpine:init", async () => {
 		})
 	);
 	map.addControl(new maplibregl.NavigationControl());
-	filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit);
+	filterParamsChanged(filter.min_filter_enabled, filter.min_filter, filter.min_filter_unit, filter.max_filter_enabled, filter,max_filter, filter.max_filter_unit);
 
 	map.on("load", () => {
 		let radios = document.querySelectorAll("#layer_switchers input");
@@ -98,36 +98,58 @@ document.addEventListener("alpine:init", async () => {
 });
 
 
+function decodeFilterParams(s) {
+	let filter_regex = /(?<min_filter>\d+(\.\d+)?)?(?<min_filter_unit>(m|km))?..(?<max_filter>\d+(\.\d+)?)?(?<max_filter_unit>(m|km))?/;
+	let groups = s.match(filter_regex)?.groups ?? {};
+	let min_filter_enabled = groups['min_filter'] != undefined;
+	let max_filter_enabled = groups['max_filter'] != undefined;
+	let min_filter = parseInt((groups.min_filter ?? "0"), 10);
+	let max_filter = parseInt((groups.max_filter ?? "0"), 10);
+	return {
+		min_filter_enabled: min_filter_enabled, min_filter: min_filter, min_filter_unit: groups.min_filter_unit,
+		max_filter_enabled: max_filter_enabled, max_filter: max_filter, max_filter_unit: groups.max_filter_unit
+	};
+}
+
+function encodeFilterParams(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
+	let result = "";
+	if (min_filter_enabled) {
+		result += `${min_filter}${min_filter_unit}`;
+	}
+	if (min_filter_enabled || max_filter_enabled) {
+		result += ".."
+	}
+	if (max_filter_enabled) {
+		result += `${max_filter}${max_filter_unit}`;
+	}
+	return result
+}
 
 function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
-	if (min_filter_enabled) {
-		params.set('min_len', min_filter);
-		params.set('min_len_unit', min_filter_unit);
+	params.delete('min_len');
+	params.delete('min_len_unit');
+	params.delete('max_len');
+	params.delete('max_len_unit');
+	let encoded_len = encodeFilterParams(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit);
+	if (encoded_len == "") {
+		params.delete('len');
 	} else {
-		params.delete('min_len');
-		params.delete('min_len_unit');
-	}
-	if (max_filter_enabled) {
-		params.set('max_len', max_filter);
-		params.set('max_len_unit', max_filter_unit);
-	} else {
-		params.delete('max_len');
-		params.delete('max_len_unit');
+		params.set("len", encoded_len);
 	}
 	location.hash = '#' + params.toString();
 
 	let new_filter = null;
 	if (min_filter_unit == 'm') {
 		min_filter = parseInt(min_filter, 10);
-	} else if (min_filter_unit == 'km') {
+	} else if (min_filter_unit == 'km' || min_filter_unit == undefined) {
 		min_filter = parseInt(min_filter, 10)*1000;
 	} else {
 		console.error("unknown min_filter_unit: ", min_filter_unit);
 	}
 	if (max_filter_unit == 'm') {
 		max_filter = parseInt(max_filter, 10);
-	} else if (max_filter_unit == 'km') {
+	} else if (max_filter_unit == 'km' || min_filter_unit == undefined) {
 		max_filter = parseInt(max_filter, 10)*1000;
 	} else {
 		console.error("unknown max_filter_unit: ", max_filter_unit);
