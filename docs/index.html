@@ -78,12 +78,11 @@
 		</p>
 
 		<div	id="length_filters"
-				x-data="{len_filter: {} }"
+				x-data="{len_filter: {}}"
 				x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
 						len_filter = decodeFilterParams(hsh.get('len') ?? '');
-						$watch(len_filter, _ => { filterParamsChanged(len_filter); });
-				"
-				>
+						$watch('len_filter', len_filter => filterParamsChanged(len_filter) );
+						">
 				Exclude based on length:
 				<label for=min_filter_enabled>
 					<input id=min_filter_enabled type=checkbox x-model="len_filter.min_filter_enabled" />
