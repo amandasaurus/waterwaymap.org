@@ -32,12 +32,7 @@ document.addEventListener("alpine:init", async () => {
 	}
 
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
-	filter = decodeFilterParams(params.get("len") ?? "")
-	min_filter = params.get('min_len') ?? 0;
-	min_filter_unit = params.get('min_len_unit') ?? "km";
-	max_filter_enabled = params.has('max_len');
-	max_filter = params.get('max_len') ?? 0;
-	max_filter_unit = params.get('max_len_unit') ?? "km";
+	len_filter = decodeFilterParams(params.get("len") ?? "")
 	selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
 	Alpine.store("selected_tileset", selected_tileset_key);
 
@@ -77,7 +72,7 @@ document.addEventListener("alpine:init", async () => {
 		})
 	);
 	map.addControl(new maplibregl.NavigationControl());
-	filterParamsChanged(filter.min_filter_enabled, filter.min_filter, filter.min_filter_unit, filter.max_filter_enabled, filter,max_filter, filter.max_filter_unit);
+	filterParamsChanged(len_filter);
 
 	map.on("load", () => {
 		let radios = document.querySelectorAll("#layer_switchers input");
@@ -125,13 +120,13 @@ function encodeFilterParams(min_filter_enabled, min_filter, min_filter_unit, max
 	return result
 }
 
-function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
+function filterParamsChanged(len_filter) {
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
 	params.delete('min_len');
 	params.delete('min_len_unit');
 	params.delete('max_len');
 	params.delete('max_len_unit');
-	let encoded_len = encodeFilterParams(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit);
+	let encoded_len = encodeFilterParams(len_filter.min_filter_enabled, len_filter.min_filter, len_filter.min_filter_unit, len_filter.max_filter_enabled, len_filter.max_filter, len_filter.max_filter_unit);
 	if (encoded_len == "") {
 		params.delete('len');
 	} else {
@@ -140,19 +135,19 @@ function filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, ma
 	location.hash = '#' + params.toString();
 
 	let new_filter = null;
-	if (min_filter_unit == 'm') {
-		min_filter = parseInt(min_filter, 10);
-	} else if (min_filter_unit == 'km' || min_filter_unit == undefined) {
-		min_filter = parseInt(min_filter, 10)*1000;
+	if (len_filter.min_filter_unit == 'm') {
+		min_filter = parseInt(len_filter.min_filter, 10);
+	} else if (len_filter.min_filter_unit == 'km' || len_filter.min_filter_unit == undefined) {
+		min_filter = parseInt(len_filter.min_filter, 10)*1000;
 	} else {
-		console.error("unknown min_filter_unit: ", min_filter_unit);
+		console.error("unknown min_filter_unit: ", len_filter.min_filter_unit);
 	}
-	if (max_filter_unit == 'm') {
-		max_filter = parseInt(max_filter, 10);
-	} else if (max_filter_unit == 'km' || min_filter_unit == undefined) {
-		max_filter = parseInt(max_filter, 10)*1000;
+	if (len_filter.max_filter_unit == 'm') {
+		max_filter = parseInt(len_filter.max_filter, 10);
+	} else if (len_filter.max_filter_unit == 'km' || len_filter.min_filter_unit == undefined) {
+		max_filter = parseInt(len_filter.max_filter, 10)*1000;
 	} else {
-		console.error("unknown max_filter_unit: ", max_filter_unit);
+		console.error("unknown max_filter_unit: ", len_filter.max_filter_unit);
 	}
 
 	let min_filter_expr = ['>=', 'length_m', min_filter];

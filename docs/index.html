@@ -43,14 +43,11 @@
 		<p id="layer_switchers" x-data>
 			<template x-if="!$store.tilesets_loaded"><span>⏳ Loading map please wait...</span></template>
 			<template x-if="$store.tilesets_loaded">
-				<div>
+				<select name=tiles x-model="$store.selected_tileset">
 					<template x-for="tileset in $store.tilesets.tilesets">
-						<label>
-							<input type=radio name=tiles :value="tileset.key" x-model="$store.selected_tileset">
-							<span x-html="tileset.text"></span>
-						</label>
+						<option :value="tileset.key" x-html="tileset.text"></option>
 					</template>
-				</div>
+				</select>
 			</template>
 		</p>
 		<template id=data_age x-data x-if="$store.tilesets_loaded">
@@ -81,32 +78,24 @@
 		</p>
 
 		<div	id="length_filters"
-				x-data="{min_filter_enabled: false, min_filter: 0, min_filter_unit: 'km', max_filter_enabled: false, max_filter: 0, max_filter_unit: 'km', }"
+				x-data="{len_filter: {} }"
 				x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
-						min_filter_enabled = hsh.has('min_len'); min_filter = hsh.get('min_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
-						max_filter_enabled = hsh.has('max_len'); max_filter = hsh.get('max_len') ?? 0; min_filter_unit = hsh.get('min_len_unit') ?? min_filter_unit;
-
-						let vars_to_watch = ['min_filter_enabled', 'min_filter', 'min_filter_unit', 'max_filter_enabled', 'max_filter', 'max_filter_unit'];
-						for (let var_to_watch of vars_to_watch) {
-							$watch(var_to_watch, _ => {
-								filterParamsChanged(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit)
-								}
-							);
-						}
+						len_filter = decodeFilterParams(hsh.get('len') ?? '');
+						$watch(len_filter, _ => { filterParamsChanged(len_filter); });
 				"
 				>
 				Exclude based on length:
 				<label for=min_filter_enabled>
-					<input id=min_filter_enabled type=checkbox x-model="min_filter_enabled" />
+					<input id=min_filter_enabled type=checkbox x-model="len_filter.min_filter_enabled" />
 					Min. length
-					<input :disabled="!min_filter_enabled" type=number min=0 x-model.number.debounce="min_filter" size=6 />
-					<select x-model=min_filter_unit><option>m</option><option>km</option></select>
+					<input :disabled="!len_filter.min_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.min_filter" size=6 />
+					<select x-model=len_filter.min_filter_unit><option>m</option><option>km</option></select>
 				</label>
 				<label for=max_filter_enabled>
-					<input id=max_filter_enabled type=checkbox x-model="max_filter_enabled" />
+					<input id=max_filter_enabled type=checkbox x-model="len_filter.max_filter_enabled" />
 					Max. length
-					<input :disabled="!max_filter_enabled" type=number min=0 x-model.number.debounce="max_filter" size=6 />
-					<select x-model=max_filter_unit><option>m</option><option>km</option></select>
+					<input :disabled="!max_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.max_filter" size=6 />
+					<select x-model="len_filter.max_filter_unit"><option>m</option><option>km</option></select>
 				</label>
 		</div>
 
