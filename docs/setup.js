@@ -75,19 +75,18 @@ document.addEventListener("alpine:init", async () => {
 	filterParamsChanged(len_filter);
 
 	map.on("load", () => {
-		let radios = document.querySelectorAll("#layer_switchers input");
-		for (let el of radios) {
-			el.addEventListener("input", (e) => {
-				let new_key = e.target.value;
-				console.assert(new_key != undefined);
-				let selected_tileset = tilesets.tilesets.find(el => el.key == new_key);
-				console.assert(selected_tileset != undefined);
-				var loc = new URLSearchParams((location.hash ?? "#").substr(1));
-				loc.set("tiles", new_key);
-				location.hash = "#" +loc.toString();
-				map.getSource("waterway").setUrl("pmtiles://" + selected_tileset.url);
-			});
-		}
+		console.log("map loaded");
+		let select = document.querySelector("#layer_switchers #selected_tileset");
+		select.addEventListener("change", (e) => {
+			let new_key = e.target.value;
+			console.assert(new_key != undefined);
+			let selected_tileset = tilesets.tilesets.find(el => el.key == new_key);
+			console.assert(selected_tileset != undefined);
+			var loc = new URLSearchParams((location.hash ?? "#").substr(1));
+			loc.set("tiles", new_key);
+			location.hash = "#" +loc.toString();
+			map.getSource("waterway").setUrl("pmtiles://" + selected_tileset.url);
+		});
 	});
 
 });
