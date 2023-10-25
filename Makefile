@@ -1,7 +1,5 @@
 .PRECIOUS: planet-waterway.osm.pbf
 
-all: planet-waterway-name-group-name.pmtiles planet-waterway-or-naturalwater.pmtiles planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles
-
 planet-waterway.osm.pbf:
 	./dl_updates_from_osm.sh
 

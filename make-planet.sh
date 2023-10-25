@@ -23,11 +23,7 @@ if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
 	jo tilesets=[] > ./docs/data/tilesets.json
 fi
 
-make planet-waterway-boatable.pmtiles
-make planet-waterway-all.pmtiles
-make planet-waterway-river-stream.pmtiles
-make planet-waterway-excl-non-waterway.pmtiles
-make planet-waterway-name-group-name.pmtiles
+make -j2 planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles
 
 echo "All data files generated"
 
@@ -44,7 +40,7 @@ jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | spon
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
 
 ./rss_update.sh ./docs/data/data_updates.xml "OSM River Basins Data update" "The OSM River Basins Map has been updated with OSM data up until $LAST_TIMESTAMP"
-echo "RSS feed update, last data timestamp is $LAST_TIMESTAMP"
+echo "RSS feed updated, last data timestamp is $LAST_TIMESTAMP"
 
 echo "All data & metadata finishing. Beginning upload..."
 rclone sync --bwlimit 2M ./docs/data/ cloudflare:pmtiles0/2023-04-01/

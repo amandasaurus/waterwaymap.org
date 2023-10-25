@@ -1,19 +1,19 @@
 {
   "project": {
-    "name": "OSM River Basins",
-    "project_url": "https://amandasaurus.github.io/osm-river-basins/",
+    "name": "WaterwayMap.org | OSM River Basins",
+    "project_url": "https://waterwaymap.org/",
     "contact_email": "amanda@technomancy.org",
     "contact_name": "Amanda McCann",
     "doc_url": "https://github.com/amandasaurus/osm-river-basins",
     "description": "How are waterways connected?"
   },
-  "data_url": "https://amandasaurus.github.io/osm-river-basins/taginfo.json",
+  "data_url": "https://waterwaymap.org/taginfo.json",
   "data_updated": "20230901T093000Z",
   "data_format": 1,
   "tags": [
     {
       "key": "name",
-      "description": "Used to calculate if ",
+      "description": "OSM Ways are grouped together based on name to ",
 	  "object_types": ["way"]
     },
     {
