@@ -92,28 +92,28 @@ document.addEventListener("alpine:init", async () => {
 
 
 function decodeFilterParams(s) {
-	let filter_regex = /(?<min_filter>\d+(\.\d+)?)?(?<min_filter_unit>(m|km))?..(?<max_filter>\d+(\.\d+)?)?(?<max_filter_unit>(m|km))?/;
+	let filter_regex = /(?<min_filter>\d+)?..(?<max_filter>\d+)?/;
 	let groups = s.match(filter_regex)?.groups ?? {};
 	let min_filter_enabled = groups['min_filter'] != undefined;
 	let max_filter_enabled = groups['max_filter'] != undefined;
 	let min_filter = parseInt((groups.min_filter ?? "0"), 10);
 	let max_filter = parseInt((groups.max_filter ?? "0"), 10);
 	return {
-		min_filter_enabled: min_filter_enabled, min_filter: min_filter, min_filter_unit: groups.min_filter_unit,
-		max_filter_enabled: max_filter_enabled, max_filter: max_filter, max_filter_unit: groups.max_filter_unit
+		min_filter_enabled: min_filter_enabled, min_filter: min_filter, 
+		max_filter_enabled: max_filter_enabled, max_filter: max_filter, 
 	};
 }
 
-function encodeFilterParams(min_filter_enabled, min_filter, min_filter_unit, max_filter_enabled, max_filter, max_filter_unit) {
+function encodeFilterParams(min_filter_enabled, min_filter, max_filter_enabled, max_filter) {
 	let result = "";
 	if (min_filter_enabled) {
-		result += `${min_filter}${min_filter_unit}`;
+		result += `${min_filter}`;
 	}
 	if (min_filter_enabled || max_filter_enabled) {
 		result += ".."
 	}
 	if (max_filter_enabled) {
-		result += `${max_filter}${max_filter_unit}`;
+		result += `${max_filter}`;
 	}
 	return result
 }
@@ -124,7 +124,7 @@ function filterParamsChanged(len_filter) {
 	params.delete('min_len_unit');
 	params.delete('max_len');
 	params.delete('max_len_unit');
-	let encoded_len = encodeFilterParams(len_filter.min_filter_enabled, len_filter.min_filter, len_filter.min_filter_unit, len_filter.max_filter_enabled, len_filter.max_filter, len_filter.max_filter_unit);
+	let encoded_len = encodeFilterParams(len_filter.min_filter_enabled, len_filter.min_filter, len_filter.max_filter_enabled, len_filter.max_filter);
 	if (encoded_len == "") {
 		params.delete('len');
 	} else {
@@ -133,20 +133,8 @@ function filterParamsChanged(len_filter) {
 	location.hash = '#' + params.toString();
 
 	let new_filter = null;
-	if (len_filter.min_filter_unit == 'm') {
-		min_filter = parseInt(len_filter.min_filter, 10);
-	} else if (len_filter.min_filter_unit == 'km' || len_filter.min_filter_unit == undefined) {
-		min_filter = parseInt(len_filter.min_filter, 10)*1000;
-	} else {
-		console.error("unknown min_filter_unit: ", len_filter.min_filter_unit);
-	}
-	if (len_filter.max_filter_unit == 'm') {
-		max_filter = parseInt(len_filter.max_filter, 10);
-	} else if (len_filter.max_filter_unit == 'km' || len_filter.min_filter_unit == undefined) {
-		max_filter = parseInt(len_filter.max_filter, 10)*1000;
-	} else {
-		console.error("unknown max_filter_unit: ", len_filter.max_filter_unit);
-	}
+	min_filter = parseInt(len_filter.min_filter, 10)*1000;
+	max_filter = parseInt(len_filter.max_filter, 10)*1000;
 
 	let min_filter_expr = ['>=', 'length_m', min_filter];
 	let max_filter_expr = ['<=', 'length_m', max_filter];

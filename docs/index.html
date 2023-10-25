@@ -88,13 +88,13 @@
 					<input id=min_filter_enabled type=checkbox x-model="len_filter.min_filter_enabled" />
 					Min. length
 					<input :disabled="!len_filter.min_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.min_filter" size=6 />
-					<select x-model=len_filter.min_filter_unit><option>m</option><option>km</option></select>
+					km
 				</label>
 				<label for=max_filter_enabled>
 					<input id=max_filter_enabled type=checkbox x-model="len_filter.max_filter_enabled" />
 					Max. length
 					<input :disabled="!max_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.max_filter" size=6 />
-					<select x-model="len_filter.max_filter_unit"><option>m</option><option>km</option></select>
+					km
 				</label>
 		</div>
 
