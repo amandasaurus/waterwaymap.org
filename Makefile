@@ -70,5 +70,4 @@ planet-waterway-excl-non-waterway.geojsons: planet-waterway.osm.pbf
 		-l waterway \
 		--gamma 2 \
 		-o tmp.$@ $<
-	#echo "PMTiles created successfully (in ${SECONDS}sec $(units "${SECONDS}sec" time)). size: $(ls -lh "${TMP}.pmtiles" | cut -d" " -f5)"
 	mv tmp.$@ $@
