@@ -12,7 +12,6 @@ document.addEventListener("alpine:init", async () => {
 	let tilesets_raw = await fetch(`${url_prefix}tilesets.json`);
 	tilesets_raw = await tilesets_raw.json();
 	Alpine.store("tilesets", tilesets_raw);
-	Alpine.store("tilesets_loaded", true);
 
 	let tilesets = Alpine.store("tilesets");
 				
@@ -32,9 +31,10 @@ document.addEventListener("alpine:init", async () => {
 	}
 
 	let params = new URLSearchParams((location.hash ?? '#').substr(1));
-	len_filter = decodeFilterParams(params.get("len") ?? "")
-	selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
+	let len_filter = decodeFilterParams(params.get("len") ?? "")
+	let selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
 	Alpine.store("selected_tileset", selected_tileset_key);
+	Alpine.store("tilesets_loaded", true);
 
 	let sel = tilesets.tilesets.find(el => el.key === selected_tileset_key);
 	console.assert(sel != undefined);
@@ -75,8 +75,7 @@ document.addEventListener("alpine:init", async () => {
 	filterParamsChanged(len_filter);
 
 	map.on("load", () => {
-		console.log("map loaded");
-		let select = document.querySelector("#layer_switchers #selected_tileset");
+		let select = document.querySelector("#selected_tileset");
 		select.addEventListener("change", (e) => {
 			let new_key = e.target.value;
 			console.assert(new_key != undefined);
@@ -151,13 +150,13 @@ function filterParamsChanged(len_filter) {
 
 	let min_filter_expr = ['>=', 'length_m', min_filter];
 	let max_filter_expr = ['<=', 'length_m', max_filter];
-	if (min_filter_enabled && max_filter_enabled) {
+	if (len_filter.min_filter_enabled && len_filter.max_filter_enabled) {
 		new_filter = ['all', min_filter_expr, max_filter_expr];
-	} else if (!min_filter_enabled && max_filter_enabled) {
+	} else if (!len_filter.min_filter_enabled && len_filter.max_filter_enabled) {
 		new_filter = max_filter_expr;
-	} else if (min_filter_enabled && !max_filter_enabled) {
+	} else if (len_filter.min_filter_enabled && !len_filter.max_filter_enabled) {
 		new_filter = min_filter_expr;
-	} else if (!min_filter_enabled && !max_filter_enabled) {
+	} else if (!len_filter.min_filter_enabled && !len_filter.max_filter_enabled) {
 		new_filter = null;
 	}
 
