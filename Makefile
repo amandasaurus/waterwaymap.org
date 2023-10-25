@@ -63,6 +63,7 @@ planet-waterway-excl-non-waterway.geojsons: planet-waterway.osm.pbf
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
+		--no-feature-limit \
 		--simplification=8 \
 		--drop-densest-as-needed \
 		-y length_m -y root_wayid_120 \
