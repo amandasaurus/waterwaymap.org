@@ -43,9 +43,9 @@
 		<p id="layer_switchers" x-data>
 			<template x-if="!$store.tilesets_loaded"><span>⏳ Loading map please wait...</span></template>
 			<template x-if="$store.tilesets_loaded">
-				<select id=selected_tileset name=selected_tileset x-model="$store.selected_tileset">
+				<select id=selected_tileset name=selected_tileset>
 					<template x-for="tileset in $store.tilesets.tilesets">
-						<option :value="tileset.key"><span x-html="tileset.text"></span></option>
+						<option :value="tileset.key" x-html="tileset.text" :selected="$store.selected_tileset == tileset.key"></option>
 					</template>
 				</select>
 			</template>
