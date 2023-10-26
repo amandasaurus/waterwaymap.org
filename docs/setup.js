@@ -94,10 +94,15 @@ document.addEventListener("alpine:init", async () => {
 function decodeFilterParams(s) {
 	let filter_regex = /(?<min_filter>\d+)?\.\.(?<max_filter>\d+)?/;
 	let groups = s.match(filter_regex)?.groups ?? {};
-	let min_filter_enabled = groups['min_filter'] != undefined;
-	let max_filter_enabled = groups['max_filter'] != undefined;
+	let min_filter_enabled = (groups['min_filter'] ?? "0") != "0";
+	let max_filter_enabled = (groups['max_filter'] ?? "inf") != "inf";
 	let min_filter = parseInt((groups.min_filter ?? "0"), 10);
-	let max_filter = parseInt((groups.max_filter ?? "0"), 10);
+	let max_filter;
+	if (groups['max_filter'] ?? "inf" == "inf") {
+		max_filter = null;
+	} else {
+		max_filter = parseInt((groups.max_filter ?? "0"), 10);
+	}
 	return {
 		min_filter_enabled: min_filter_enabled, min_filter: min_filter, 
 		max_filter_enabled: max_filter_enabled, max_filter: max_filter, 
@@ -106,14 +111,22 @@ function decodeFilterParams(s) {
 
 function encodeFilterParams(min_filter_enabled, min_filter, max_filter_enabled, max_filter) {
 	let result = "";
+	if (!min_filter_enabled && !max_filter_enabled) {
+		return "";
+	}
 	if (min_filter_enabled) {
 		result += `${min_filter}`;
+	} else {
+		result += "0";
 	}
+
 	if (min_filter_enabled || max_filter_enabled) {
 		result += ".."
 	}
 	if (max_filter_enabled) {
 		result += `${max_filter}`;
+	} else {
+		result += "inf"
 	}
 	return result
 }
