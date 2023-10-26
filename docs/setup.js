@@ -92,7 +92,7 @@ document.addEventListener("alpine:init", async () => {
 
 
 function decodeFilterParams(s) {
-	let filter_regex = /(?<min_filter>\d+)?..(?<max_filter>\d+)?/;
+	let filter_regex = /(?<min_filter>\d+)?\.\.(?<max_filter>\d+)?/;
 	let groups = s.match(filter_regex)?.groups ?? {};
 	let min_filter_enabled = groups['min_filter'] != undefined;
 	let max_filter_enabled = groups['max_filter'] != undefined;
