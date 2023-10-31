@@ -98,7 +98,7 @@ function decodeFilterParams(s) {
 	let max_filter_enabled = (groups['max_filter'] ?? "inf") != "inf";
 	let min_filter = parseInt((groups.min_filter ?? "0"), 10);
 	let max_filter;
-	if (groups['max_filter'] ?? "inf" == "inf") {
+	if ((groups['max_filter'] ?? "inf") == "inf") {
 		max_filter = null;
 	} else {
 		max_filter = parseInt((groups.max_filter ?? "0"), 10);
