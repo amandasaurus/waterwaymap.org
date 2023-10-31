@@ -1,12 +1,15 @@
 *.geojson
-*.geojsons
 *.geojson.*z*
 *.geojson.br
+*.geojsons
+*.gpkg
+*.gpkg.zst
+*.gpkg.zst.torrent
 *.osm.pbf
 *.pmtiles
 *.pmtiles-journal
+/add-incomplete-ways.osc
 /docs/data/*
 /incomplete_ways.txt
 /tmp.*.geojson
 /tmp.*.pmtiles.tmp
-/add-incomplete-ways.osc
