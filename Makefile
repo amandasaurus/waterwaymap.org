@@ -4,7 +4,24 @@ planet-waterway.osm.pbf:
 	./dl_updates_from_osm.sh
 
 %.gz: %
-	gzip -9 -f $<
+	gzip -9 -k -f $<
+
+%.zst: %
+	zstd -9 -f $<
+
+%.gpkg: %.geojsons
+	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
+
+%.torrent: %
+	mktorrent -l 22 $< \
+     -a udp://tracker.opentrackr.org:1337 \
+     -a udp://tracker.datacenterlight.ch:6969/announce,http://tracker.datacenterlight.ch:6969/announce \
+     -a udp://tracker.torrent.eu.org:451 \
+     -a udp://tracker-udp.gbitt.info:80/announce,http://tracker.gbitt.info/announce,https://tracker.gbitt.info/announce \
+     -a http://retracker.local/announce \
+     -w "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/$<" \
+     -c "WaterwayMap.org data export. licensed under https://opendatacommons.org/licenses/odbl/ by OpenStreetMap contributors" \
+     -o $@ > /dev/null
 
 planet-waterway-river.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -v -i planet-waterway.osm.pbf -o tmp.$@ -f waterway=river --min-length-m 100  --save-as-linestrings

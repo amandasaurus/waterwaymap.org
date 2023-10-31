@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
@@ -24,10 +24,12 @@ if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
 fi
 
 make planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles
+make planet-waterway-river-stream.gpkg.zst planet-waterway-river-stream.gpkg.zst.torrent
 
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
+mv ./*gpkg* ./docs/data/ || true
 ln -s ./docs/data/*.pmtiles ./ || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All Waterways (<code>waterway</code>)"' | sponge ./docs/data/tilesets.json
