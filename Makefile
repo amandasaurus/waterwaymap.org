@@ -13,6 +13,7 @@ planet-waterway.osm.pbf:
 	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
 
 %.torrent: %
+	rm -fv $@
 	mktorrent -l 22 $< \
      -a udp://tracker.opentrackr.org:1337 \
      -a udp://tracker.datacenterlight.ch:6969/announce,http://tracker.datacenterlight.ch:6969/announce \
