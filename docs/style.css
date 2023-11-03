@@ -7,8 +7,13 @@
   font-family: cantarell_regular;
   src: url(Cantarell-Regular.woff2)
 }
+
 html, input, button, textarea {
 	font-family: cantarell;
+	font-size: 1.5vmin;
+}
+select {
+	max-width: 80%;
 }
 
 body {
@@ -21,12 +26,6 @@ header, footer {
 	flex-grow: 0;
 	flex-shrink: 0;
 }
-main {
-	flex-grow: 1;
-}
-#map {
-	height:100%; width:100%;
-}
 
 header {
 	padding-left: 1ch;
@@ -36,8 +35,19 @@ header > p {
 	max-width: 100ch;
 }
 
+main {
+	flex-grow: 1;
+}
+#map {
+	height:100%; width:100%;
+}
+
 h1 {
 	font-family: cantarell;
+}
+
+footer {
+	max-height: 5vh;
 }
 
 .inline_centre {
