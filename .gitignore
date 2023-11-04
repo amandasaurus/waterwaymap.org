@@ -1,5 +1,6 @@
 *.geojson
 *.geojson.*z*
+*.geojsons.*z*
 *.geojson.br
 *.geojsons
 *.gpkg
