@@ -37,6 +37,7 @@ jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-boatable"|.ti
 jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-river-stream"|.tilesets[2].text = "River or Stream (<code>waterway=river,stream</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-excl-non-waterway"|.tilesets[3].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-name-group-name"|.tilesets[4].text = "Named Waterways (<code>waterway</code> &amp; <code>name*</code> tags, grouped by <code>name</code> tag)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-or-naturalwater"|.tilesets[5].text = "Waterways or Water (<code>waterway</code> &amp; <code>natural=water</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | sponge ./docs/data/tilesets.json
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
