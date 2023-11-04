@@ -23,7 +23,7 @@ if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
 	jo tilesets=[] > ./docs/data/tilesets.json
 fi
 
-make planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles
+make planet-waterway-boatable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-or-naturalwater.pmtiles
 make planet-waterway-river-stream.gpkg.zst planet-waterway-river-stream.gpkg.zst.torrent
 
 echo "All data files generated"
