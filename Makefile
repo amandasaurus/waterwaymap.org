@@ -10,7 +10,7 @@ planet-waterway.osm.pbf:
 	zstd -9 -f $<
 
 %.gpkg: %.geojsons
-	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
+	ogr2ogr -select root_wayid,length_m_int,tag_group_0 -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
 
 %.torrent: %
 	rm -fv $@
