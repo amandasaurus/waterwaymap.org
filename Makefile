@@ -9,8 +9,11 @@ planet-waterway.osm.pbf:
 %.zst: %
 	zstd -9 -f $<
 
-%.gpkg: %.geojsons
-	ogr2ogr -select root_wayid,length_m_int,tag_group_0 -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
+%-ge100km.gpkg: %.geojsons
+	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
+
+%-ge20km.geojsons: %.geojsons
+	ogr2ogr -sql "select root_wayid, length_m_int as length_m, tag_group_0 as name from \"$*\" where length_km >= 20" -unsetFid -overwrite $@ $<
 
 %.torrent: %
 	rm -fv $@
@@ -58,6 +61,10 @@ planet-waterway-river-or-named.geojsons: planet-waterway.osm.pbf
 
 planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
+	mv tmp.$@ $@
+
+planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f canoe=yes
 	mv tmp.$@ $@
 
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
