@@ -8,9 +8,23 @@
   src: url(Cantarell-Regular.woff2)
 }
 
+@font-face {
+  font-family: roca_two_bold;
+  src: url(roca-two-bold.woff2)
+}
+@font-face {
+  font-family: roca_two_regular;
+  src: url(roca-two-regular.woff2)
+}
+
+
+h1, html, input, button, textarea {
+	font-family: roca_two_regular;
+}
+
 html, input, button, textarea {
-	font-family: cantarell;
-	font-size: max(10pt, 1.5vmin);
+	//font-size: clamp(1.5vmin, 16pt, 2vmin);
+	font-size: 10pt;
 }
 select {
 	max-width: 80%;
@@ -43,7 +57,8 @@ main {
 }
 
 h1 {
-	font-family: cantarell;
+	font-family: roca_two_bold;
+	font-size: max(5vmin, 2em);
 }
 
 footer {
