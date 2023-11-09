@@ -12,6 +12,10 @@ See the [website](https://waterwaymap.org).
 * [Changesets on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)
 * [Hacker News](https://news.ycombinator.com/item?id=37321292)
 
+## Related Projects
+
+* [JOSM Waterway Style](https://josm.openstreetmap.de/wiki/Styles/Waterways)
+
 ## Copyright
 
 Copyright MIT or Apache-2.0, 2017→2021 Amanda McCann <amanda@technomancy.org>
