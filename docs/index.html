@@ -113,7 +113,7 @@
 			<span id=open_in_josm x-data="{show_josm_not_running: false}">
 				<button class=inline_centre
 						@click="let b = map.getBounds();
-								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=%23RiverMapping`;
+								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
 								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
 								this.disabled = false;
 								if (!res_ok) {
@@ -128,9 +128,9 @@
 			<span id=open_in_id x-data>
 				<button class=inline_centre
 				   class=inline_centre
-					@click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#comment=%23RiverMapping&source=${encodeURIComponent(location.href)}&hashtags=%23RiverMapping&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+					@click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
 						window.open(url);"
-					@auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#comment=%23RiverMapping&source=${encodeURIComponent(location.href)}&hashtags=%23RiverMapping&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+					@auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
 						window.open(url);"
 					>
 					<img src="img/id.svg" alt="iD logo" style="height: 1em">
