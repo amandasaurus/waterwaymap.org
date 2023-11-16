@@ -4,6 +4,7 @@
 *.geojson.br
 *.geojsons
 *.gpkg
+*.gpkg-journal
 *.gpkg.zst
 *.gpkg.zst.torrent
 *.osm.pbf
