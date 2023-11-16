@@ -137,6 +137,15 @@
 					edit in iD <img src="img/open_ext.svg" style="height: 1em" />
 				</button>
 			</span>
+			<a id=open_geo x-data
+			   href="#"
+			   class=inline_centre
+			   target=_blank
+			   @click.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
+			   @auxclick.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
+					>
+					geo: url (open on mobile) <img src="img/open_ext.svg" style="height: 1em" />
+			</a>
 		</div>
 		</header>
 
