@@ -24,8 +24,12 @@ if [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
 fi
 
 # Tiles
+SECONDS=0
 make planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons planet-waterway-all.geojsons planet-waterway-river-stream.geojsons planet-waterway-excl-non-waterway.geojsons planet-waterway-name-group-name.geojsons
+echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
+SECONDS=0
 make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles
+echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 # Data files for people to download (need to double to ensure not deleted)
 #make -j2 planet-waterway-river-stream-ge100km.gpkg.zst planet-waterway-river-stream-ge100km.gpkg.zst.torrent planet-waterway-name-group-name-ge20km.geojsons.zst planet-waterway-name-group-name-ge20km.geojsons.zst.torrent
