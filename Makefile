@@ -76,7 +76,7 @@ planet-waterway-or-naturalwater.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-excl-non-waterway.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway
+	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
 	mv tmp.$@ $@
 
 %.pmtiles: %.geojsons
