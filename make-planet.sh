@@ -48,6 +48,7 @@ jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-name-group-na
 #jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-or-naturalwater"|.tilesets[5].text = "Waterways or Water (<code>waterway</code> &amp; <code>natural=water</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-canoeable"|.tilesets[5].text = "Navigable by canoe (<code>waterway</code>,<code>canoe=yes</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[6].key = "planet-waterway-nonartifical"|.tilesets[6].text = "Non-artificial Waterways (<code>river</code>,<code>stream</code>,<code>rapids</code>)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[7].key = "planet-waterway-missing-wiki"|.tilesets[7].text = "Waterway without a Wikipedia/wikidata link"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | sponge ./docs/data/tilesets.json
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json

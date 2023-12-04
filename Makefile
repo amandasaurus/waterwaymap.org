@@ -84,6 +84,10 @@ planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
 	mv tmp.$@ $@
 
+planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
+	mv tmp.$@ $@
+
 %.pmtiles: %.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
