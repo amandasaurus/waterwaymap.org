@@ -28,11 +28,11 @@ planet-waterway.osm.pbf:
      -o $@ > /dev/null
 
 planet-waterway-river.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i planet-waterway.osm.pbf -o tmp.$@ -f waterway=river --min-length-m 100  --save-as-linestrings
+	osm-lump-ways -i planet-waterway.osm.pbf -o tmp.$@ -f waterway=river --min-length-m 100  --save-as-linestrings
 	mv tmp.$@ $@
 
 planet-waterway-name-no-group.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?"
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?"
 	mv tmp.$@ $@
 
 planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
@@ -40,43 +40,48 @@ planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-noname.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∄~name(:.+)?"
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∄~name(:.+)?"
 	mv tmp.$@ $@
 
 planet-waterway-river-canal.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal
 	mv tmp.$@ $@
 
 planet-waterway-river-stream.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream
 	mv tmp.$@ $@
 
 planet-waterway-river-canal-stream.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal,stream
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,canal,stream
 	mv tmp.$@ $@
 
 planet-waterway-river-or-named.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∈river,canal∨∃name
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∈river,canal∨∃name
 	mv tmp.$@ $@
 
 planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
 	mv tmp.$@ $@
 
 planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f canoe=yes
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f canoe=yes
 	mv tmp.$@ $@
 
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway
 	mv tmp.$@ $@
 
 planet-waterway-or-naturalwater.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∨natural=water
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∨natural=water
 	mv tmp.$@ $@
 
+
 planet-waterway-excl-non-waterway.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -v -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
+	mv tmp.$@ $@
+
+planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
 	mv tmp.$@ $@
 
 %.pmtiles: %.geojsons
