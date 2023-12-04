@@ -101,5 +101,6 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 		-y length_m -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
+		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@

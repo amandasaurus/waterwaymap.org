@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
