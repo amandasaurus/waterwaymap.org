@@ -37,7 +37,7 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons t
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
-mv ./*zst* ./docs/data/ || true
+mv ./*zst* ./docs/data/ 2>/dev/null || true
 ln -s ./docs/data/*.pmtiles ./ || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All Waterways (<code>waterway</code>)"' | sponge ./docs/data/tilesets.json
