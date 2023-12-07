@@ -25,10 +25,10 @@ fi
 
 # Tiles
 SECONDS=0
-make planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons planet-waterway-name-group-name.geojsons planet-waterway-water.geojsons planet-waterway-nonartifical.geojsons
+make planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons planet-waterway-name-group-name.geojsons planet-waterway-water.geojsons planet-waterway-nonartifical.geojsons planet-waterway-rivers-etc.geojsons
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
-make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-water.pmtiles planet-waterway-nonartifical.pmtiles
+make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-water.pmtiles planet-waterway-nonartifical.pmtiles planet-waterway-rivers-etc.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 echo "All data files generated"
@@ -42,6 +42,7 @@ jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-nonartifical"
 jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-boatable"|.tilesets[2].text = "Navigable by boat (<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-canoeable"|.tilesets[3].text = "Navigable by canoe (<code>canoe=yes</code>)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-name-group-name"|.tilesets[4].text = "Named Waterways"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-rivers-etc"|.tilesets[5].text = "Rivers (etc.)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-water"' | sponge ./docs/data/tilesets.json
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
