@@ -25,14 +25,11 @@ fi
 
 # Tiles
 SECONDS=0
-make planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons planet-waterway-all.geojsons planet-waterway-river-stream.geojsons planet-waterway-excl-non-waterway.geojsons planet-waterway-name-group-name.geojsons planet-waterway-nonartifical.geojsons
+make planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons planet-waterway-name-group-name.geojsons planet-waterway-water.geojsons planet-waterway-nonartifical.geojsons
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
-make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-all.pmtiles planet-waterway-river-stream.pmtiles planet-waterway-excl-non-waterway.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-nonartifical.pmtiles
+make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-water.pmtiles planet-waterway-nonartifical.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
-
-# Data files for people to download (need to double to ensure not deleted)
-#make -j2 planet-waterway-river-stream-ge100km.gpkg.zst planet-waterway-river-stream-ge100km.gpkg.zst.torrent planet-waterway-name-group-name-ge20km.geojsons.zst planet-waterway-name-group-name-ge20km.geojsons.zst.torrent
 
 echo "All data files generated"
 
@@ -40,15 +37,12 @@ mv ./*pmtiles ./docs/data/ || true
 mv ./*zst* ./docs/data/ 2>/dev/null || true
 ln -s ./docs/data/*.pmtiles ./ || true
 
-jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-all"|.tilesets[0].text = "All Waterways (<code>waterway</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-boatable"|.tilesets[1].text = "Navigable by boat (<code>waterway</code>,<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-river-stream"|.tilesets[2].text = "River or Stream (<code>waterway=river,stream</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-excl-non-waterway"|.tilesets[3].text = "<code>waterway</code> w/o some “dam”-like values"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-name-group-name"|.tilesets[4].text = "Named Waterways (<code>waterway</code> &amp; <code>name*</code> tags, grouped by <code>name</code> tag)"' | sponge ./docs/data/tilesets.json
-#jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-or-naturalwater"|.tilesets[5].text = "Waterways or Water (<code>waterway</code> &amp; <code>natural=water</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[5].key = "planet-waterway-canoeable"|.tilesets[5].text = "Navigable by canoe (<code>waterway</code>,<code>canoe=yes</code>)"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.tilesets[6].key = "planet-waterway-nonartifical"|.tilesets[6].text = "Non-artificial Waterways"' | sponge ./docs/data/tilesets.json
-jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-all"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-nonartifical"|.tilesets[1].text = "Natural Waterways (excl. canals etc)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[2].key = "planet-waterway-boatable"|.tilesets[2].text = "Navigable by boat (<code>boat=yes,motor</code>)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[3].key = "planet-waterway-canoeable"|.tilesets[3].text = "Navigable by canoe (<code>canoe=yes</code>)"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.tilesets[4].key = "planet-waterway-name-group-name"|.tilesets[4].text = "Named Waterways"' | sponge ./docs/data/tilesets.json
+jq <./docs/data/tilesets.json '.selected_tileset = "planet-waterway-water"' | sponge ./docs/data/tilesets.json
 
 jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./docs/data/tilesets.json
 
