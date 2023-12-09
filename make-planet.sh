@@ -31,11 +31,19 @@ SECONDS=0
 make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-waterway-name-group-name.pmtiles planet-waterway-water.pmtiles planet-waterway-nonartifical.pmtiles planet-waterway-rivers-etc.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
+SECONDS=0
+rm -fv tmp.planet-cycles.geojson
+./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-cycles.geojson -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
+mv tmp.planet-cycles.geojson planet-cycles.geojson
+echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate cycles"
+
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
+mv ./*geojson ./docs/data/ || true
 mv ./*zst* ./docs/data/ 2>/dev/null || true
 ln -s ./docs/data/*.pmtiles ./ || true
+ln -s ./docs/data/*.geojson ./ || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-nonartifical"|.tilesets[1].text = "Natural Waterways (excl. canals etc)"' | sponge ./docs/data/tilesets.json
