@@ -27,7 +27,7 @@ document.addEventListener("alpine:init", async () => {
 				"waterway": {
 					type: "geojson",
 					data: url,
-					cluster: false,
+					tolerance: 0,
 				},
 				"osmcarto": {
 					type: "raster",
