@@ -33,7 +33,7 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons t
 
 SECONDS=0
 rm -fv tmp.planet-cycles.geojson
-./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-cycles.geojson -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
+./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-cycles.geojson -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water,ditch
 mv tmp.planet-cycles.geojson planet-cycles.geojson
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate cycles"
 
