@@ -128,6 +128,21 @@
 				</button>
 				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
 			</span>
+			<span id=open_in_josm_new_layer x-data="{show_josm_not_running: false}">
+				<button class=inline_centre
+						@click="let b = map.getBounds();
+								let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
+								this.disabled = false;
+								if (!res_ok) {
+									show_josm_not_running = true;
+									setTimeout(() => show_josm_not_running=false, 5000);
+								}"
+						>
+					<img src="img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm (new layer) <img src="img/open_ext.svg" style="height: 1em" />
+				</button>
+				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
+			</span>
 			<span id=open_in_id x-data>
 				<button class=inline_centre
 				   class=inline_centre
