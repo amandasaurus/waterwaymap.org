@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+		<!-- HTML Meta Tags -->
+		<title>[TMP] WaterwayMap.org - loops</title>
+
+		<link rel="icon" href="data:,">
+		<link rel=stylesheet href="/style.css" />
+		<link rel="stylesheet" href="/maplibre-gl-2.4.0.css">
+        <script src="/maplibre-gl-2.4.0.js"></script>
+        <script src="/pmtiles-2.7.1.js"></script>
+        <script src="/alpine-3.12.3.js" defer></script>
+		<script src="mapstyle.js"></script>
+        <script src="setup.js"></script>
+
+    </head>
+
+	<body>
+        <header>
+			<h1 class=inline_centre style="margin: 0; margin-top: 0.3ch;"><img src="/img/osm.png" alt="OpenStreetMap logo" style="height: 1em"><span>🏞️ WaterwayMap: Loops</span></h1>
+
+		<div>This area:
+			<a id=open_on_osm x-data
+			   href="#"
+			   class=inline_centre
+			   target=_blank
+			   @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+			   @auxclick.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+					>
+					<img src="/img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> osm.org <img src="/img/open_ext.svg" style="height: 1em" />
+			</a>
+			<span id=open_in_josm x-data="{show_josm_not_running: false}">
+				<button class=inline_centre
+						@click="let b = map.getBounds();
+								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
+								this.disabled = false;
+								if (!res_ok) {
+									show_josm_not_running = true;
+									setTimeout(() => show_josm_not_running=false, 5000);
+								}"
+						>
+					<img src="/img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm <img src="/img/open_ext.svg" style="height: 1em" />
+				</button>
+				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
+			</span>
+			<span id=open_in_josm_new_layer x-data="{show_josm_not_running: false}">
+				<button class=inline_centre
+						@click="let b = map.getBounds();
+								let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
+								this.disabled = false;
+								if (!res_ok) {
+									show_josm_not_running = true;
+									setTimeout(() => show_josm_not_running=false, 5000);
+								}"
+						>
+					<img src="/img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm (new layer) <img src="/img/open_ext.svg" style="height: 1em" />
+				</button>
+				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
+			</span>
+			<span id=open_in_id x-data>
+				<button class=inline_centre
+				   class=inline_centre
+					@click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+						window.open(url);"
+					@auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+						window.open(url);"
+					>
+					<img src="/img/id.svg" alt="iD logo" style="height: 1em">
+					edit in iD <img src="/img/open_ext.svg" style="height: 1em" />
+				</button>
+			</span>
+			<a id=open_geo x-data
+			   href="#"
+			   class=inline_centre
+			   target=_blank
+			   @click.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
+			   @auxclick.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
+					>
+					geo: url (open on mobile) <img src="/img/open_ext.svg" style="height: 1em" />
+			</a>
+		</div>
+		</header>
+
+		<main>
+			<div id="map"></div>
+		</main>
+
+		<footer class=inline_centre style="padding: 0.5ch; font-size: smaller;">
+			<span>
+				Map Data <img src="/img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a> (<a href="https://www.openstreetmap.org/copyright">open data licence</a>). 
+			</span>
+			<span>
+				📜 source <a href="https://github.com/amandasaurus/waterwaymap.org"><code>amandasaurus/waterwaymap.org</code> on github</a>
+			</span>
+			<span>
+				<a href="mailto:Amanda McCann <amanda@technomancy.org>?subject=waterwaymap.org%20contact">📧 report problem</a>
+			</span>
+		</footer>
+
+    </body>
+</html>
