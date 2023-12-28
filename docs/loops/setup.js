@@ -31,6 +31,7 @@ document.addEventListener("alpine:init", async () => {
 				},
 				"osmcarto": {
 					type: "raster",
+					tileSize: 256,
 					tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
 					attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
 				},
