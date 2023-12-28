@@ -64,7 +64,7 @@ planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f canoe=yes∨canoe=portage
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f canoe∈yes,portage
 	mv tmp.$@ $@
 
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
