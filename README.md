@@ -12,6 +12,13 @@ See the [website](https://waterwaymap.org).
 * [Changesets on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)
 * [Hacker News](https://news.ycombinator.com/item?id=37321292)
 
+## Loops
+
+Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https://waterwaymap.org/loops/).
+
+* [Fedi/Masto post](https://en.osm.town/@amapanda/111658136395447174)
+* [OSM Forum announcement](https://community.openstreetmap.org/t/the-wonders-of-early-medieval-fore-abbey-and-osm-river-topology-today-i-e-waterwaymap-org-is-going-around-in-circles/107497)
+
 ## Related Projects
 
 * [JOSM Waterway Style](https://josm.openstreetmap.de/wiki/Styles/Waterways)
