@@ -3,6 +3,23 @@
 planet-waterway.osm.pbf:
 	./dl_updates_from_osm.sh
 
+%.pmtiles: %.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-n "OSM River Topologies" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-zg \
+		--no-feature-limit \
+		--simplification=8 \
+		--drop-densest-as-needed \
+		-y length_m -y root_wayid_120 \
+		-l waterway \
+		--gamma 2 \
+		--no-progress-indicator \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
 %.gz: %
 	gzip -9 -k -f $<
 
@@ -92,19 +109,7 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-%.pmtiles: %.geojsons
-	rm -fv tmp.$@
-	timeout 8h tippecanoe \
-		-n "OSM River Topologies" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
-		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
-		--no-feature-limit \
-		--simplification=8 \
-		--drop-densest-as-needed \
-		-y length_m -y root_wayid_120 \
-		-l waterway \
-		--gamma 2 \
-		--no-progress-indicator \
-		-o tmp.$@ $<
-	mv tmp.$@ $@
+planet-cycles.geojsons: planet-waterway.osm.pbf
+	rm -fv tmp.planet-cycles.geojsons
+	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water -f waterway∉canal,ditch,drain,link
+	mv tmp.planet-cycles.geojsons $@
