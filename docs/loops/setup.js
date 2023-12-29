@@ -9,8 +9,17 @@ document.addEventListener("alpine:init", async () => {
 		url_prefix = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/";
 	}
 
+	// add the PMTiles plugin to the maplibregl global.
+	let protocol = new pmtiles.Protocol();
+	maplibregl.addProtocol("pmtiles", protocol.tile);
+
 	let key = "planet-cycles"
-	url = `${url_prefix}${key}.geojson`;
+	url = `${url_prefix}${key}.pmtiles`;
+
+	var p = new pmtiles.PMTiles(url)
+	// this is so we share one instance across the JS code and the map renderer
+	protocol.add(p);
+
 
 	Alpine.store("tilesets_loaded", true);
 
@@ -21,13 +30,33 @@ document.addEventListener("alpine:init", async () => {
 		center: [0, 0],
 		style: {
 			version: 8,
-			layers: mapstyle_layers,
+			layers: [
+				{
+					"id": "osmcarto",
+					"type": "raster",
+					"source": "osmcarto",
+				},
+				{
+					"id":"loops",
+					"source": "loops",
+					"source-layer":"waterway",
+					"type": "line",
+					"paint": {
+						"line-color":  "black",
+						"line-width": 3,
+					},
+					"layout": {
+						"line-cap":  "round",
+						"line-join":  "round",
+					},
+				},
+			],
 			"glyphs": "/font/{fontstack}/{range}.pbf",
 			sources: {
-				"waterway": {
-					type: "geojson",
-					data: url,
-					tolerance: 0,
+				"loops": {
+					type: "vector",
+					url: "pmtiles://" + url,
+					attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
 				},
 				"osmcarto": {
 					type: "raster",
