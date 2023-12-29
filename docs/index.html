@@ -159,8 +159,8 @@
 			   href="#"
 			   class=inline_centre
 			   target=_blank
-			   @click.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
-			   @auxclick.prevent="let url = `geo://${map.getBounds().getCenter().lat},${map.getBounds().getCenter().lng}?z=${Math.round(map.getZoom())}`; window.open(url);"
+			   @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
+			   @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
 					>
 					geo: url (open on mobile) <img src="img/open_ext.svg" style="height: 1em" />
 			</a>
