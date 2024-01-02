@@ -111,5 +111,5 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 
 planet-cycles.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-cycles.geojsons
-	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water -f waterway∉canal,ditch,drain,link
+	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water,derelict_canal -f waterway∉canal,ditch,drain -f waterway∉put_in,link
 	mv tmp.planet-cycles.geojsons $@
