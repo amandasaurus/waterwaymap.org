@@ -5,9 +5,9 @@ var mapstyle_layers = [
 		"source": "osmcarto"
 	},
 	{
-		"id":"waterway-line",
+		"id":"loops-line",
 		"type": "line",
-		"source": "waterway",
+		"source": "loops",
 		"layout": {
 			"line-cap":  "round",
 			"line-join":  "round"

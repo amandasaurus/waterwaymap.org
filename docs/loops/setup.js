@@ -39,7 +39,7 @@ document.addEventListener("alpine:init", async () => {
 				{
 					"id":"loops",
 					"source": "loops",
-					"source-layer":"waterway",
+					"source-layer":"loops",
 					"type": "line",
 					"paint": {
 						"line-color":  "black",
