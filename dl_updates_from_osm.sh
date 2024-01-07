@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o errexit -o nounset
+set -o errexit -o nounset -o pipefail
 cd "$(dirname "$0")"
 
 echo "Starting dl_updates_from_osm.sh"
@@ -44,7 +44,7 @@ osmium check-refs planet-waterway.osm.pbf || true
 
 osmium check-refs --no-progress --show-ids planet-waterway.osm.pbf |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
 if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
-	echo "There are $(wc -l incomplete_ways|cut -f1 -d" ") incomplete ways, which we need to download"
+	echo "There are $(wc -l incomplete_ways.txt|cut -f1 -d" ") incomplete ways, which we need to download"
 	cat incomplete_ways.txt | while read -r WID ; do
 		curl -s -o "way_${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
 	done
