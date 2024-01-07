@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o errexit -o nounset -o pipefail
+set -o errexit -o nounset
 cd "$(dirname "$0")"
 
 echo "Starting dl_updates_from_osm.sh"
@@ -9,7 +9,7 @@ if [ ! -s planet-waterway.osm.pbf ] ; then
 	if [ ! -e planet-latest.osm.pbf ] ; then
 		echo "No planet-waterway.osm.pbf, downloading.."
 		aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
-		# TODO rename from planet-YYMMDD.osm.obf to -latest
+		# TODO rename from planet-YYMMDD.osm.pbf to -latest
 	fi
 	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf $TAG_FILTER
 fi
