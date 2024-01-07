@@ -110,11 +110,11 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-cycles.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
-	rm -fv tmp.planet-cycles.geojsons
+	rm -fv tmp.planet-{cycles,upstreams,ends}.geojsons
 	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water,derelict_canal,offshore_field,boat_lift -f waterway∉canal,ditch,drain -f waterway∉put_in,link --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
 	mv tmp.planet-cycles.geojsons planet-cycles.geojsons
-	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons
-	mv tmp.planet-ends.geojsons planet-ends.geojsons
+	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
+	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 
 planet-cycles.pmtiles: planet-cycles.geojsons
 	rm -fv tmp.$@
@@ -145,6 +145,23 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		--cluster-densest-as-needed \
 		-y from_upstream_m \
 		-l upstreams \
+		--gamma 2 \
+		--no-progress-indicator \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
+planet-ends.pmtiles: planet-ends.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-n "OSM Waterway Endpoints" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-zg \
+		--no-feature-limit \
+		--simplification=8 \
+		--cluster-densest-as-needed \
+		-y from_upstream_m \
+		-l upstream_m \
 		--gamma 2 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
