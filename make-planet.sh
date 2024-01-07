@@ -39,7 +39,6 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate cycles"
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
-mv ./*geojson ./docs/data/ || true
 mv ./*zst* ./docs/data/ 2>/dev/null || true
 ln -s ./docs/data/*.pmtiles ./ || true
 ln -s ./docs/data/*.geojson ./ || true
