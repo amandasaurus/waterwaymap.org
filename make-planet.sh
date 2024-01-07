@@ -57,6 +57,8 @@ jq <./docs/data/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge
 ./rss_update.sh ./docs/data/data_updates.xml "OSM River Basins Data update" "The OSM River Basins Map has been updated with OSM data up until $LAST_TIMESTAMP"
 echo "RSS feed updated, last data timestamp is $LAST_TIMESTAMP"
 
+echo "Current size of the data is: $(du -hsc ./docs/data/ | head -1 | cut -f1)"
+
 echo "All data & metadata finishing. Beginning upload..."
 rclone sync --bwlimit 2M ./docs/data/ cloudflare:pmtiles0/2023-04-01/
 echo "Upload finished"
