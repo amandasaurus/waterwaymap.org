@@ -68,11 +68,10 @@ document.addEventListener("alpine:init", async () => {
 		}
 	});
 
-	tilesToLoad=new Set();
 	function loadingEffect (e) {
-		if (e.sourceId=="loops" && e?.tile) {
-			((e.type=="dataloading") ? tilesToLoad.add : tilesToLoad.delete)(e.tile.uid);
-			map.setPaintProperty("loops", "line-color", tilesToLoad.size == 0 ? "black" : "red");
+		document.getElementById("loading_message").textContent = e.target.areTilesLoaded() ? "Data has loaded." : "Please wait for data to load.";
+		if (e.target.getLayer("loops")) {
+			e.target.setPaintProperty("loops", "line-color", e.target.areTilesLoaded() ? "black" : "red");
 		}
 	}
 	map.on('dataloading', loadingEffect);
