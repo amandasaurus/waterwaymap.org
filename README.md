@@ -21,6 +21,10 @@ Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https:/
 * [Fedi/Masto post](https://en.osm.town/@amapanda/111658136395447174)
 * [OSM Forum announcement](https://community.openstreetmap.org/t/the-wonders-of-early-medieval-fore-abbey-and-osm-river-topology-today-i-e-waterwaymap-org-is-going-around-in-circles/107497)
 
+### Statistics
+
+[`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) has made a mastodon account summarizing stats: [`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats) [feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
+
 ## Related Projects
 
 * [JOSM Waterway Style](https://josm.openstreetmap.de/wiki/Styles/Waterways)
