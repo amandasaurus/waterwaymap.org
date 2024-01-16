@@ -4,6 +4,8 @@ See the [website](https://waterwaymap.org).
 
 ![map of europe with all the river basins higlighted](https://waterwaymap.org/screenshot.png)
 
+[News & Updates on the OSM Town Mapstodon](https://en.osm.town/@amapanda/tagged/WaterwayMapOrg).
+
 ## See also
 
 * [Fedi/Mastodon post](https://en.osm.town/@amapanda/110118513232919061)
