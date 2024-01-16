@@ -41,8 +41,6 @@ echo "All data files generated"
 mv ./*pmtiles ./docs/data/ || true
 mv ./planet-cycles.geojsons ./docs/data/
 mv ./*zst* ./docs/data/ 2>/dev/null || true
-ln -s ./docs/data/*.pmtiles ./ || true
-ln -s ./docs/data/*.geojson ./ || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-nonartifical"|.tilesets[1].text = "Natural Waterways (excl. canals etc)"' | sponge ./docs/data/tilesets.json
