@@ -160,8 +160,8 @@ planet-ends.pmtiles: planet-ends.geojsons
 		--no-feature-limit \
 		--simplification=8 \
 		--cluster-densest-as-needed \
-		-y from_upstream_m \
-		-l upstream_m \
+		-y upstream_m \
+		-l ends \
 		--gamma 2 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
