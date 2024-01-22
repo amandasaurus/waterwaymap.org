@@ -33,7 +33,7 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons t
 
 SECONDS=0
 rm -fv tmp.planet-cycles.geojson
-make planet-cycles.pmtiles planet-cycles.geojsons
+make planet-cycles.pmtiles planet-cycles.geojsons planet-ends.pmtiles planet-ends.geojsons
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate cycles"
 
 echo "All data files generated"
