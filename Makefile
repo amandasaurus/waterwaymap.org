@@ -163,9 +163,9 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-r1 \
 		--cluster-distance 3 \
 		--accumulate-attribute upstream_m:max \
-		-y upstream_m \
+		-y upstream_m -y nid \
 		-l ends \
-		--gamma 2 \
+		--gamma 3 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
