@@ -156,10 +156,13 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-n "OSM Waterway Endpoints" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
+		-z 9 \
 		--no-feature-limit \
 		--simplification=8 \
-		--cluster-densest-as-needed \
+		--order-descending-by upstream_m \
+		-r1 \
+		--cluster-distance 3 \
+		--accumulate-attribute upstream_m:max \
 		-y upstream_m \
 		-l ends \
 		--gamma 2 \
