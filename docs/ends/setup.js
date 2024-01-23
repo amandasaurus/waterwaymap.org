@@ -43,7 +43,7 @@ document.addEventListener("alpine:init", async () => {
 					"type": "circle",
 					"paint": {
 						"circle-color": "black",
-						"circle-radius": ["interpolate", ["linear"], ["get", "upstream_m"], 0, 0, 10*1000, 1, 1000*1000, 10]
+						"circle-radius": ["interpolate", ["linear"], ["get", "upstream_m"], 0, 0, 10*1000, 1, 100*1000, 2, 1000*1000, 10]
 					}
 				},
 				{
@@ -54,12 +54,12 @@ document.addEventListener("alpine:init", async () => {
 					"paint": {
 						"text-color": "black",
 					},
-					"filter": [">", ["get", "upstream_m"], 10*1000],
+					"filter": [">", ["get", "upstream_m"], 50*1000],
 					"layout": {
 						"text-font": [ "Open Sans Semibold" ],
 						"text-field": ["concat", ["round", ["/", ["get", "upstream_m"], 1000]], " km"],
 						"text-offset": [0, 1],
-						"text-size": ["interpolate", ["linear"], ["get", "upstream_m"], 0, 0, 1000*1000, 15]
+						"text-size": ["interpolate", ["linear"], ["get", "upstream_m"], 0, 0, 50*1000, 10, 1000*1000, 15]
 					}
 				}
 			],
