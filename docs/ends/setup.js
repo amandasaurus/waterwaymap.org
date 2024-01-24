@@ -90,4 +90,13 @@ document.addEventListener("alpine:init", async () => {
 	);
 	map.addControl(new maplibregl.NavigationControl());
 
+	map.on("mousemove", (e) => {
+		const features = map.queryRenderedFeatures(e.point);
+		if (features.length == 0) {
+			return;
+		}
+		const props = features[0].properties;
+		document.getElementById("hover_results").innerHTML = `<a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank">Node ${props.nid}</a> (<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>) has ${props.upstream_m/1000.0} km of upstreams and ends here.`;
+	});
+
 });
