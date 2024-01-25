@@ -40,6 +40,16 @@
 		<div>Places where waterways end in OpenStreetMap. Please wait for data to load.</div>
 		<div id="hover_results">Hover over a point to see more...</div>
 		<div>This area:
+			<a id=open_on_wwm x-data
+			   href="#"
+			   class=inline_centre
+			   target=_blank
+			   @click.prevent="let url = `https://waterwaymap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+			   @auxclick.prevent="let url = `https://waterwaymap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+					>
+					WaterwayMap main
+					<img src="/img/open_ext.svg" style="height: 1em" />
+			</a>
 			<a id=open_on_osm x-data
 			   href="#"
 			   class=inline_centre
