@@ -143,10 +143,12 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		--no-feature-limit \
 		--simplification=8 \
 		--cluster-densest-as-needed \
+		-r1 \
+		--cluster-distance 1 \
+		--accumulate-attribute from_upstream_m:max \
 		-y from_upstream_m \
 		-l upstreams \
 		--gamma 2 \
-		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -156,16 +158,15 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-n "OSM Waterway Endpoints" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-r1 \
 		-z 9 \
 		--no-feature-limit \
-		--simplification=8 \
 		--order-descending-by upstream_m \
 		-r1 \
-		--cluster-distance 3 \
-		--accumulate-attribute upstream_m:max \
+		--cluster-distance 5 \
+		--accumulate-attribute upstream_m:sum \
 		-y upstream_m -y nid \
 		-l ends \
-		--gamma 3 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
