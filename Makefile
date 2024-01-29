@@ -159,7 +159,8 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-r1 \
-		-z 9 \
+		-z 10 \
+		--feature-filter '{ "*": [">=", "upstream_m", 2000 ] }' \
 		--no-feature-limit \
 		--order-descending-by upstream_m \
 		-r1 \
