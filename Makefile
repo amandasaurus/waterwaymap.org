@@ -171,3 +171,7 @@ planet-ends.pmtiles: planet-ends.geojsons
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
+
+planet-ends.geojsons.gz: planet-ends.geojsons
+	rm -fv $@
+	gzip -k -9 $<
