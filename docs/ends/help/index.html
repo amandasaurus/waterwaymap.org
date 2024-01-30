@@ -28,7 +28,7 @@
 			<h2>About WWM.org End points</h2>
 
 
-			<p>Within OpenStreetMap, all ways are an ordered list of nodes, i.e. all ways have a direction. Mostly this is ignored. Waterways (rivers, streams, etc.) are mapped as a ways, with a `wtaerway` tag. The direction of flow is the way direction. Looking at individual node objects, rather than way objects, we can see other nodes that it is connected to (with `waterway` way objects), and see waterways going into this node (from other nodes), and going out of this node (to other nodes).</p>
+			<p>Within OpenStreetMap, all ways are an ordered list of nodes, i.e. all ways have a direction. Mostly this is ignored. Waterways (rivers, streams, etc.) are mapped as a ways, with a `waterway` tag. The direction of flow is the way direction. Looking at individual node objects, rather than way objects, we can see other nodes that it is connected to (with `waterway` way objects), and see waterways going into this node (from other nodes), and going out of this node (to other nodes).</p>
 
 			<p>When a node has no “incoming water”, the upstream is 0. The upstream value is then shared equally to all the outgoing nodes (with the addition of the length between this node and the outgoing nodes).</p>
 			<p>Each dot shows a node, where a <code>waterway</code> way ends, without any outgoing node. The number is the total length of upstream waterways which end at that point. The size of the dot is based on that. This is an “end point”. Waterway end points should happen normally. There will be a waterway end point where a river enters the sea.</p>
