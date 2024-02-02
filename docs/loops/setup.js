@@ -13,7 +13,7 @@ document.addEventListener("alpine:init", async () => {
 	let protocol = new pmtiles.Protocol();
 	maplibregl.addProtocol("pmtiles", protocol.tile);
 
-	let key = "planet-cycles"
+	let key = "planet-loops"
 	url = `${url_prefix}${key}.pmtiles`;
 
 	var p = new pmtiles.PMTiles(url)

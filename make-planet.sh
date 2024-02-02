@@ -32,14 +32,14 @@ make planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles planet-w
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 SECONDS=0
-rm -fv tmp.planet-cycles.geojson
-make planet-cycles.pmtiles planet-cycles.geojsons planet-ends.pmtiles planet-ends.geojsons planet-ends.geojson.gz
-echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate cycles"
+rm -fv tmp.planet-loops.geojson
+make planet-loops.pmtiles planet-loops.geojsons planet-ends.pmtiles planet-ends.geojsons planet-ends.geojson.gz
+echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends"
 
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
-mv ./planet-cycles.geojsons ./docs/data/
+mv ./planet-loops.geojsons ./docs/data/
 mv ./planet-ends.geojsons.gz ./docs/data/
 mv ./*zst* ./docs/data/ 2>/dev/null || true
 

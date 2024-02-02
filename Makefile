@@ -109,14 +109,14 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-planet-cycles.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
-	rm -fv tmp.planet-{cycles,upstreams,ends}.geojsons
+planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
+	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate -f waterway∉ditch,drain,tidal_channel -f waterway≠canal∨lock=yes -f waterway∉put_in,link --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
-	mv tmp.planet-cycles.geojsons planet-cycles.geojsons
+	mv tmp.planet-loops.geojsons planet-loops.geojsons
 	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 
-planet-cycles.pmtiles: planet-cycles.geojsons
+planet-loops.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "OSM Waterway Loops" \
