@@ -123,12 +123,15 @@ planet-loops.pmtiles: planet-loops.geojsons
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
-		--no-feature-limit \
 		--simplification=8 \
+		-r1 \
 		--cluster-densest-as-needed \
-		-y root_nid \
+		--no-feature-limit \
+		--no-tile-size-limit \
+		--accumulate-attribute num_nodes:sum \
+		--accumulate-attribute length_m:sum \
+		-y root_nid -y num_nodes -y length_m \
 		-l loops \
-		--gamma 2 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
@@ -140,7 +143,6 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
-		--no-feature-limit \
 		--simplification=8 \
 		--cluster-densest-as-needed \
 		-r1 \
