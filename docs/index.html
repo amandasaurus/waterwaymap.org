@@ -1,122 +1,211 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<!-- HTML Meta Tags -->
-		<title>WaterwayMap.org - OSM River Basins</title>
-		<meta name="description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
+  <head>
+    <meta charset="utf-8" />
+    <!-- HTML Meta Tags -->
+    <title>WaterwayMap.org - OSM River Basins</title>
+    <meta
+      name="description"
+      content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
+    />
 
-		<!-- Facebook Meta Tags -->
-		<meta property="og:url" content="https://waterwaymap.org/">
-		<meta property="og:type" content="website">
-		<meta property="og:title" content="WaterwayMap.org | OSM River Basins">
-		<meta property="og:description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
-		<meta property="og:image" content="./screenshot.png">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://waterwaymap.org/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WaterwayMap.org | OSM River Basins" />
+    <meta
+      property="og:description"
+      content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
+    />
+    <meta property="og:image" content="./screenshot.png" />
 
-		<!-- Twitter Meta Tags -->
-		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:domain" content="WaterwayMap.org">
-		<meta property="twitter:url" content="https://waterwaymap.org/">
-		<meta name="twitter:title" content="WaterwayMap.org | OSM River Basins">
-		<meta name="twitter:description" content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps.">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="WaterwayMap.org" />
+    <meta property="twitter:url" content="https://waterwaymap.org/" />
+    <meta name="twitter:title" content="WaterwayMap.org | OSM River Basins" />
+    <meta
+      name="twitter:description"
+      content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
+    />
 
-		<!-- Meta Tags Generated via https://www.opengraph.xyz -->
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
-		<link rel="icon" href="data:,">
-		<link rel=stylesheet href="style.css" />
-		<link rel="stylesheet" href="maplibre-gl-2.4.0.css">
-		<script src="maplibre-gl-2.4.0.js"></script>
-		<script src="pmtiles-2.7.1.js"></script>
-		<script src="alpine-3.12.3.js" defer></script>
-		<script src="mapstyle.js"></script>
-		<script src="setup.js"></script>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="maplibre-gl-2.4.0.css" />
+    <script src="maplibre-gl-2.4.0.js"></script>
+    <script src="pmtiles-2.7.1.js"></script>
+    <script src="alpine-3.12.3.js" defer></script>
+    <script src="mapstyle.js"></script>
+    <script src="setup.js"></script>
 
-		<!-- RSS feed of data updates -->
-		<link rel="alternative" type="application/rss+xml" href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml" title="OSM River Basins Data Update">
-		<meta name="ahrefs-site-verification" content="c9513759ebdea3ec02e6720d40892389897fbb4cd1b944bfc60d65223d2d66b5">
-	</head>
+    <!-- RSS feed of data updates -->
+    <link
+      rel="alternative"
+      type="application/rss+xml"
+      href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml"
+      title="OSM River Basins Data Update"
+    />
+    <meta
+      name="ahrefs-site-verification"
+      content="c9513759ebdea3ec02e6720d40892389897fbb4cd1b944bfc60d65223d2d66b5"
+    />
+  </head>
 
-	<body>
-        <header>
-			<h1 class=inline_centre style="margin: 0; margin-top: 0.3ch;"><img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em"><span>🏞️ WaterwayMap</span></h1>
-		<p>
-			How are <a href="https://wiki.openstreetmap.org/wiki/Key:waterway"><code>waterway</code></a> connected in <a href="https://www.openstreetmap.org">OpenStreetMap</a>.
-		</p>
+  <body>
+    <header x-data="{ open: false }">
+      <button @click="open = !open">Toggle Header</button>
+      <div x-show="open">
+        <h1 class="inline_centre" style="margin: 0; margin-top: 0.3ch">
+          <img
+            src="img/osm.png"
+            alt="OpenStreetMap logo"
+            style="height: 1em"
+          /><span>🏞️ WaterwayMap</span>
+        </h1>
+        <p>
+          How are
+          <a href="https://wiki.openstreetmap.org/wiki/Key:waterway"
+            ><code>waterway</code></a
+          >
+          connected in
+          <a href="https://www.openstreetmap.org">OpenStreetMap</a>.
+        </p>
 
-		<p id="layer_switchers" x-data>
-			<template x-if="!$store.tilesets_loaded"><span>⏳ Loading map please wait...</span></template>
-			<template x-if="$store.tilesets_loaded">
-				<select id=selected_tileset name=selected_tileset>
-					<template x-for="tileset in $store.tilesets.tilesets">
-						<option :value="tileset.key" x-html="tileset.text" :selected="$store.selected_tileset == tileset.key"></option>
-					</template>
-				</select>
-			</template>
-		</p>
-		<template id=data_age x-data x-if="$store.tilesets_loaded">
-			<div class=inline_centre>
-				Data from <a :href="`https://www.timeanddate.com/countdown/generic?p0=1440&iso=${$store.tilesets.data_timestamp}`" x-text="$store.tilesets.data_timestamp"></a>
-				<a href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml"><img src="img/rss.png" alt="RSS Feed icon" style="height: 1em;" ></a>
-			</div>
-		</template>
-		<p id=colours_switcher x-data>Colours on the map are randomly assigned.
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 2], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				2 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 3], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				3 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 4], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				4 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 5], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				5 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 6], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				6 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 7], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])">
-				7 colours
-			</button>
-			<button @click="map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])">
-				11 colours
-			</button>
-		</p>
+        <p id="layer_switchers" x-data>
+          <template x-if="!$store.tilesets_loaded"
+            ><span>⏳ Loading map please wait...</span></template
+          >
+          <template x-if="$store.tilesets_loaded">
+            <select id="selected_tileset" name="selected_tileset">
+              <template x-for="tileset in $store.tilesets.tilesets">
+                <option
+                  :value="tileset.key"
+                  x-html="tileset.text"
+                  :selected="$store.selected_tileset == tileset.key"
+                ></option>
+              </template>
+            </select>
+          </template>
+        </p>
+        <template id="data_age" x-data x-if="$store.tilesets_loaded">
+          <div class="inline_centre">
+            Data from
+            <a
+              :href="`https://www.timeanddate.com/countdown/generic?p0=1440&iso=${$store.tilesets.data_timestamp}`"
+              x-text="$store.tilesets.data_timestamp"
+            ></a>
+            <a
+              href="https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/data_updates.xml"
+              ><img src="img/rss.png" alt="RSS Feed icon" style="height: 1em"
+            /></a>
+          </div>
+        </template>
+        <p id="colours_switcher" x-data>
+          Colours on the map are randomly assigned.
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 2], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            2 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 3], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            3 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 4], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            4 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 5], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            5 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 6], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            6 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 7], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+          >
+            7 colours
+          </button>
+          <button
+            @click="map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])"
+          >
+            11 colours
+          </button>
+        </p>
 
-		<div	id="length_filters"
-				x-data="{len_filter: {}}"
-				x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
+        <div
+          id="length_filters"
+          x-data="{len_filter: {}}"
+          x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
 						len_filter = decodeFilterParams(hsh.get('len') ?? '');
 						$watch('len_filter', len_filter => filterParamsChanged(len_filter) );
-						">
-				Exclude based on length:
-				<label for=min_filter_enabled>
-					<input id=min_filter_enabled type=checkbox x-model="len_filter.min_filter_enabled" />
-					Min. length
-					<input :disabled="!len_filter.min_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.min_filter" size=6 />
-					km
-				</label>
-				<label for=max_filter_enabled>
-					<input id=max_filter_enabled type=checkbox x-model="len_filter.max_filter_enabled" />
-					Max. length
-					<input :disabled="!max_filter_enabled" type=number min=0 x-model.number.debounce="len_filter.max_filter" size=6 />
-					km
-				</label>
-		</div>
+						"
+        >
+          Exclude based on length:
+          <label for="min_filter_enabled">
+            <input
+              id="min_filter_enabled"
+              type="checkbox"
+              x-model="len_filter.min_filter_enabled"
+            />
+            Min. length
+            <input
+              :disabled="!len_filter.min_filter_enabled"
+              type="number"
+              min="0"
+              x-model.number.debounce="len_filter.min_filter"
+              size="6"
+            />
+            km
+          </label>
+          <label for="max_filter_enabled">
+            <input
+              id="max_filter_enabled"
+              type="checkbox"
+              x-model="len_filter.max_filter_enabled"
+            />
+            Max. length
+            <input
+              :disabled="!max_filter_enabled"
+              type="number"
+              min="0"
+              x-model.number.debounce="len_filter.max_filter"
+              size="6"
+            />
+            km
+          </label>
+        </div>
 
-		<div>This area:
-			<a id=open_on_osm x-data
-			   href="#"
-			   class=inline_centre
-			   target=_blank
-			   @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
-			   @auxclick.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
-					>
-					<img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> osm.org <img src="img/open_ext.svg" style="height: 1em" />
-			</a>
-			<span id=open_in_josm x-data="{show_josm_not_running: false}">
-				<button class=inline_centre
-						@click="let b = map.getBounds();
+        <div>
+          This area:
+          <a
+            id="open_on_osm"
+            x-data
+            href="#"
+            class="inline_centre"
+            target="_blank"
+            @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+            @auxclick.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+          >
+            <img
+              src="img/osm.png"
+              alt="OpenStreetMap logo"
+              style="height: 1em"
+            />
+            osm.org <img src="img/open_ext.svg" style="height: 1em" />
+          </a>
+          <span id="open_in_josm" x-data="{show_josm_not_running: false}">
+            <button
+              class="inline_centre"
+              @click="let b = map.getBounds();
 								let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
 								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
 								this.disabled = false;
@@ -124,14 +213,21 @@
 									show_josm_not_running = true;
 									setTimeout(() => show_josm_not_running=false, 5000);
 								}"
-						>
-					<img src="img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm <img src="img/open_ext.svg" style="height: 1em" />
-				</button>
-				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
-			</span>
-			<span id=open_in_josm_new_layer x-data="{show_josm_not_running: false}">
-				<button class=inline_centre
-						@click="let b = map.getBounds();
+            >
+              <img src="img/josm.svg" alt="JOSM logo" style="height: 1em" />
+              edit in josm <img src="img/open_ext.svg" style="height: 1em" />
+            </button>
+            <span x-transition x-show="show_josm_not_running"
+              >JOSM isn't running...</span
+            >
+          </span>
+          <span
+            id="open_in_josm_new_layer"
+            x-data="{show_josm_not_running: false}"
+          >
+            <button
+              class="inline_centre"
+              @click="let b = map.getBounds();
 								let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
 								let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
 								this.disabled = false;
@@ -139,56 +235,75 @@
 									show_josm_not_running = true;
 									setTimeout(() => show_josm_not_running=false, 5000);
 								}"
-						>
-					<img src="img/josm.svg" alt="JOSM logo" style="height: 1em"> edit in josm (new layer) <img src="img/open_ext.svg" style="height: 1em" />
-				</button>
-				<span x-transition x-show="show_josm_not_running">JOSM isn't running...</span>
-			</span>
-			<span id=open_in_id x-data>
-				<button class=inline_centre
-				   class=inline_centre
-					@click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+            >
+              <img src="img/josm.svg" alt="JOSM logo" style="height: 1em" />
+              edit in josm (new layer)
+              <img src="img/open_ext.svg" style="height: 1em" />
+            </button>
+            <span x-transition x-show="show_josm_not_running"
+              >JOSM isn't running...</span
+            >
+          </span>
+          <span id="open_in_id" x-data>
+            <button
+              class="inline_centre"
+              class="inline_centre"
+              @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
 						window.open(url);"
-					@auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+              @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
 						window.open(url);"
-					>
-					<img src="img/id.svg" alt="iD logo" style="height: 1em">
-					edit in iD <img src="img/open_ext.svg" style="height: 1em" />
-				</button>
-			</span>
-			<a id=open_geo x-data
-			   href="#"
-			   class=inline_centre
-			   target=_blank
-			   @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
-			   @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
-					>
-					geo: url (open on mobile) <img src="img/open_ext.svg" style="height: 1em" />
-			</a>
-		</div>
-		</header>
+            >
+              <img src="img/id.svg" alt="iD logo" style="height: 1em" />
+              edit in iD <img src="img/open_ext.svg" style="height: 1em" />
+            </button>
+          </span>
+          <a
+            id="open_geo"
+            x-data
+            href="#"
+            class="inline_centre"
+            target="_blank"
+            @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
+            @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
+          >
+            geo: url (open on mobile)
+            <img src="img/open_ext.svg" style="height: 1em" />
+          </a>
+        </div>
+      </div>
+    </header>
 
-		<main>
-			<div id="map"></div>
-		</main>
+    <main>
+      <div id="map"></div>
+    </main>
 
-		<footer class=inline_centre style="padding: 0.5ch; font-size: smaller;">
-			<span>
-				Map Data <img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em"> <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a> (<a href="https://www.openstreetmap.org/copyright">open data licence</a>). 
-			</span>
-			<span>
-				<a href="/loops/">Loops in Waterways</a> (mistakes)
-			</span>
-			<span>
-				📜 source <a href="https://github.com/amandasaurus/waterwaymap.org"><code>amandasaurus/waterwaymap.org</code> on github</a>
-			</span>
-			<span>
-				<a href="mailto:Amanda McCann <amanda@technomancy.org>?subject=waterwaymap.org%20contact">📧 report problem</a>
-			</span>
-			<span>
-				<a href="https://en.osm.town/@amapanda/tagged/WaterwayMapOrg">Updates on Social Media: <code>#WaterwayMapOrg</code> from @amapanda@en.osm.town</a>
-			</span>
-		</footer>
-
-    </body>
+    <footer class="inline_centre" style="padding: 0.5ch; font-size: smaller">
+      <span>
+        Map Data
+        <img src="img/osm.png" alt="OpenStreetMap logo" style="height: 1em" />
+        <a href="https://www.openstreetmap.org">© OpenStreetMap contributors</a>
+        (<a href="https://www.openstreetmap.org/copyright">open data licence</a
+        >).
+      </span>
+      <span> <a href="/loops/">Loops in Waterways</a> (mistakes) </span>
+      <span>
+        📜 source
+        <a href="https://github.com/amandasaurus/waterwaymap.org"
+          ><code>amandasaurus/waterwaymap.org</code> on github</a
+        >
+      </span>
+      <span>
+        <a
+          href="mailto:Amanda McCann <amanda@technomancy.org>?subject=waterwaymap.org%20contact"
+          >📧 report problem</a
+        >
+      </span>
+      <span>
+        <a href="https://en.osm.town/@amapanda/tagged/WaterwayMapOrg"
+          >Updates on Social Media: <code>#WaterwayMapOrg</code> from
+          @amapanda@en.osm.town</a
+        >
+      </span>
+    </footer>
+  </body>
 </html>
