@@ -25,6 +25,14 @@ Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https:/
 
 [`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) has made a mastodon account summarizing stats: [`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats) [feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
 
+## End Points
+
+Points at which waterways end are shown on: [`WaterwayMap.org/ends/`](https://waterwaymap.org/ends/).
+
+* [Fedi/Masto post](https://en.osm.town/@amapanda/111844170704856219)
+* [OSM Ccommunity Forum announcement](https://community.openstreetmap.org/t/the-end-of-waterway-map/108632)
+
+
 ## Related Projects
 
 * [JOSM Waterway Style](https://josm.openstreetmap.de/wiki/Styles/Waterways)
