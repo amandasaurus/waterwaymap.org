@@ -14,28 +14,28 @@
     {
       "key": "name",
       "description": "OSM Ways are grouped together based on name to ",
-	  "object_types": ["way"]
+      "object_types": ["way"]
     },
     {
       "key": "waterway",
       "description": "Used to connect ways together to build waterway topology",
-	  "object_types": ["way"]
+      "object_types": ["way"]
     },
     {
       "key": "boat",
       "description": "Used to calculate navigable waterways view",
-	  "object_types": ["way"]
+      "object_types": ["way"]
     },
     {
       "key": "lock",
       "value": "yes",
       "description": "Used to calcualte if water flows through a canal or not",
-	  "object_types": ["way"]
+      "object_types": ["way"]
     },
     {
       "key": "canoe",
       "description": "Used to calculate canoe navigable waterways view",
-	  "object_types": ["way"]
+      "object_types": ["way"]
     }
   ]
 }
