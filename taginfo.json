@@ -1,14 +1,14 @@
 {
+  "data_updated": "20240211T174000Z",
   "project": {
     "name": "WaterwayMap.org | OSM River Basins",
     "project_url": "https://waterwaymap.org/",
     "contact_email": "amanda@technomancy.org",
     "contact_name": "Amanda McCann",
-    "doc_url": "https://github.com/amandasaurus/osm-river-basins",
+    "doc_url": "https://github.com/amandasaurus/waterwaymap.org",
     "description": "How are waterways connected?"
   },
   "data_url": "https://waterwaymap.org/taginfo.json",
-  "data_updated": "20230901T093000Z",
   "data_format": 1,
   "tags": [
     {
@@ -24,6 +24,17 @@
     {
       "key": "boat",
       "description": "Used to calculate navigable waterways view",
+	  "object_types": ["way"]
+    },
+    {
+      "key": "lock",
+      "value": "yes",
+      "description": "Used to calcualte if water flows through a canal or not",
+	  "object_types": ["way"]
+    },
+    {
+      "key": "canoe",
+      "description": "Used to calculate canoe navigable waterways view",
 	  "object_types": ["way"]
     }
   ]
