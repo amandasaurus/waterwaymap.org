@@ -14,6 +14,11 @@ See the [website](https://waterwaymap.org).
 * [Changesets on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)
 * Hacker News: [#1 (2023-08-30) (as “OSM River Basins”)](https://news.ycombinator.com/item?id=37321292), [#2 (2024-01-24)](https://news.ycombinator.com/item?id=39110434)
 
+### OSM Tagging Discussions from this tool
+
+* [Should river lines be mapped through lakes, estuaries, gulfs, and other large water bodies?](https://community.openstreetmap.org/t/should-river-lines-be-mapped-through-lakes-estuaries-gulfs-and-other-large-water-bodies/104438) _(Oct. 2023)_
+* [Properly mapping dry washes](https://community.openstreetmap.org/t/properly-mapping-dry-washes/108437) _(Jan. 2024)_
+
 ## Loops
 
 Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https://waterwaymap.org/loops/).
