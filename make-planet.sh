@@ -60,7 +60,7 @@ echo "RSS feed updated, last data timestamp is $LAST_TIMESTAMP"
 echo "Current size of the data is: $(du -hsc ./docs/data/ | head -1 | cut -f1)"
 
 echo "All data & metadata finishing. Beginning upload..."
-rclone sync --transfers 1 --order-by size,descending --bwlimit 2M ./docs/data/ cloudflare:pmtiles0/2023-04-01/
+rclone sync --transfers 1 --order-by size,descending --bwlimit 2M ./docs/data/ cloudflare:data-waterwaymap-org/
 echo "Upload finished"
 
 wait
