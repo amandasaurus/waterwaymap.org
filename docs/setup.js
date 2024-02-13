@@ -6,7 +6,7 @@ document.addEventListener("alpine:init", async () => {
 	if (is_local) {
 		url_prefix = "./data/";
 	} else {
-		url_prefix = "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/";
+		url_prefix = "https://data.waterwaymap.org/";
 	}
 
 	let tilesets_raw = await fetch(`${url_prefix}tilesets.json`);

@@ -40,7 +40,7 @@ planet-waterway.osm.pbf:
      -a udp://tracker.torrent.eu.org:451 \
      -a udp://tracker-udp.gbitt.info:80/announce,http://tracker.gbitt.info/announce,https://tracker.gbitt.info/announce \
      -a http://retracker.local/announce \
-     -w "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/$<" \
+	 -w "https://data.waterwaymap.org/$<" \
      -c "WaterwayMap.org data export. licensed under https://opendatacommons.org/licenses/odbl/ by OpenStreetMap contributors" \
      -o $@ > /dev/null
 
