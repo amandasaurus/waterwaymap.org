@@ -36,6 +36,22 @@ document.addEventListener("alpine:init", async () => {
           source: "osmcarto",
         },
         {
+          id: "loops-halo",
+          source: "loops",
+          "source-layer": "loops",
+          type: "line",
+          filter: ["<", ["zoom"], 10],
+          paint: {
+            "line-color": "black",
+            "line-opacity": 0.2,
+            "line-width": 15,
+          },
+          layout: {
+            "line-cap": "round",
+            "line-join": "round",
+          },
+        },
+        {
           id: "loops",
           source: "loops",
           "source-layer": "loops",
