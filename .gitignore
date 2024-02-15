@@ -9,6 +9,7 @@
 *.gpkg.zst.torrent
 *.osm.pbf
 *.pmtiles
+*.pmtiles2
 *.pmtiles-journal
 /add-incomplete-ways.osc
 /docs/data/*
