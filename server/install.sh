@@ -13,7 +13,7 @@ fi
 
 apt update -qq
 apt full-upgrade -qq --yes --auto-remove
-apt install --yes -qq git build-essential btop aria2 osmium-tool neovim jo jq moreutils rclone screen
+apt install --yes -qq git build-essential btop aria2 osmium-tool neovim jo jq moreutils rclone screen units pyosmium
 mkdir -p /srv/
 
 if [ ! -d /srv/waterwaymap.org/ ] ; then
