@@ -1,0 +1,15 @@
+metadata:
+  id: loops # Required, used for storage by Tilekiln
+  bounds: [-180, -85.05112877980659, 180, 85.0511287798066 ] # Optional bounds
+  name: loops
+  center: [0, 0, 4] # center for tilejson, optional
+vector_layers:
+  loops:
+    fields:
+      root_nids: Number
+    sql:
+      - minzoom: 0
+        maxzoom: 8
+        extent: 2048
+        buffer: 1000
+        file: loops.sql.jinja2

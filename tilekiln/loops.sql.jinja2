@@ -1,0 +1,5 @@
+SELECT
+    coalesce(ST_AsMVTGeom(way, {{bbox}}, {{extent}}), st_AsMVTGeom(st_pointn(st_geometryn(way, 1), 1), {{bbox}}, {{extent}})) AS way,
+	root_nid
+  FROM loops
+  WHERE way && {{bbox}}
