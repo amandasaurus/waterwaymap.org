@@ -53,14 +53,14 @@ document.addEventListener("alpine:init", async () => {
           type: "vector",
           url: "pmtiles://" + sel.url,
           attribution:
-            '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+            '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',
         },
         osmcarto: {
           type: "raster",
           tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
           tileSize: 256,
           attribution:
-            '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+            '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',
         },
       },
     },
