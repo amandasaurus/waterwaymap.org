@@ -18,7 +18,7 @@ fi
 
 # Now do processing
 
-if [ ! -s docs/data/tilesets.json ] || [ -z "$(jq <docs/data/tilesets.json .tilesets)" ] ; then
+if [ ! -s ./docs/data/tilesets.json ] || [ -z "$(jq <./docs/data/tilesets.json .tilesets)" ] ; then
 	echo "./docs/data/tilesets.json is empty somehow, so add a base"
 	jo tilesets=[] > ./docs/data/tilesets.json
 fi
