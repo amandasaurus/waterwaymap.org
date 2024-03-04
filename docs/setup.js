@@ -207,39 +207,3 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   })
 });
-
-// example1.addEventListener('click', () => {
-//   if (navigator.share) {
-//     navigator.share({
-//       title: 'MDN',
-//       text: 'Learn web development on MDN!',
-//       url: 'https://developer.mozilla.org',
-//     }).then(() => {
-//       console.log('Thanks for sharing!');
-//     })
-//     .catch(console.error);
-//   } else {
-//     // shareDialog.classList.add('is-open');
-//     console.log('Copy link');
-//   }
-// });
-
-
-// let shareData = {
-//   title: 'MDN',
-//   text: 'Learn web development on MDN!',
-//   url: 'https://developer.mozilla.org',
-// }
-
-// const shareButton = document.querySelector('shareButton');
-// const resultPara = document.querySelector('.result');
-
-// shareButton.addEventListener('click', () => {
-//   navigator.share(shareData)
-//     .then(() =>
-//       resultPara.textContent = 'MDN shared successfully'
-//     )
-//     .catch((e) =>
-//       resultPara.textContent = 'Error: ' + e
-//     )
-// });
