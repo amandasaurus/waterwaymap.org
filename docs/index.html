@@ -347,7 +347,9 @@
       </div>
     </div>
     
-    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div x-data class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true"
+		   @show-bs-modal.dot="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; document.getElementById('geo_url_text').innerHTML=url;"
+		>
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -369,7 +371,7 @@
               @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
               @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
             >
-              geo:x,x?z=x <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+			<code id="geo_url_text">geo:</code> URL (mobile) <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
