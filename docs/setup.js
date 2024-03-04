@@ -77,6 +77,8 @@ document.addEventListener("alpine:init", async () => {
   map.addControl(new maplibregl.NavigationControl());
   filterParamsChanged(len_filter);
 
+  map.setPadding({ top: 57 });
+
   map.on("load", () => {
     let select = document.querySelector("#selected_tileset");
     select.addEventListener("change", (e) => {
@@ -187,3 +189,57 @@ function filterParamsChanged(len_filter) {
   }
   // need some way to signify the filtering is done...
 }
+
+document.addEventListener("DOMContentLoaded", () => {  
+  document.querySelector('#shareButton')  
+    .addEventListener('click', () => {  
+      if (navigator.share) {
+        navigator.share({
+          title: 'WaterwayMap',
+          text: 'WaterwayMap.org - OSM River Basins',
+          url: 'http://127.0.0.1/',
+        }).then(() => {
+          console.log('Thanks for sharing!');
+        })
+        .catch(console.error);
+      } else {
+        document.querySelector('#shareDialog').classList.remove('d-none');
+      }
+  })
+});
+
+// example1.addEventListener('click', () => {
+//   if (navigator.share) {
+//     navigator.share({
+//       title: 'MDN',
+//       text: 'Learn web development on MDN!',
+//       url: 'https://developer.mozilla.org',
+//     }).then(() => {
+//       console.log('Thanks for sharing!');
+//     })
+//     .catch(console.error);
+//   } else {
+//     // shareDialog.classList.add('is-open');
+//     console.log('Copy link');
+//   }
+// });
+
+
+// let shareData = {
+//   title: 'MDN',
+//   text: 'Learn web development on MDN!',
+//   url: 'https://developer.mozilla.org',
+// }
+
+// const shareButton = document.querySelector('shareButton');
+// const resultPara = document.querySelector('.result');
+
+// shareButton.addEventListener('click', () => {
+//   navigator.share(shareData)
+//     .then(() =>
+//       resultPara.textContent = 'MDN shared successfully'
+//     )
+//     .catch((e) =>
+//       resultPara.textContent = 'Error: ' + e
+//     )
+// });
