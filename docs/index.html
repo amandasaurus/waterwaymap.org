@@ -69,20 +69,20 @@
           
           <div class="btn-group my-2 my-md-0 me-2" role="group" aria-label="Button group with nested dropdown">
             <div class="btn-group" role="group" x-data>
-              <a class="btn btn-outline-primary"
+              <button class="btn btn-outline-primary"
                     @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
                     @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
                   >
                     Edit
-              </a>
+              </button>
               <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu">
                 <li id="open_in_id" x-data>
-                  <a
+                  <button
                     class="dropdown-item"
                     @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
@@ -90,11 +90,10 @@
                   window.open(url);"
                   >
                     Edit with iD
-                  </a>
+                  </button>
                 </li>
-                <li><hr class="dropdown-divider"></li>
                 <li id="open_in_josm" x-data="{show_josm_not_running: false}">
-                  <a
+                  <button
                     class="dropdown-item"
                     @click="let b = map.getBounds();
                       let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
@@ -105,11 +104,11 @@
                         setTimeout(() => show_josm_not_running=false, 5000);
                       }"
                   >
-                  Edit with JOSM</a>
+                  Edit with JOSM</button>
                   <span x-transition x-show="show_josm_not_running">JOSM isn't running…</span>
                 </li>
                 <li id="open_in_josm_new_layer" x-data="{show_josm_not_running: false}">
-                  <a
+                  <button
                     class="dropdown-item"
                     @click="let b = map.getBounds();
                       let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
@@ -120,7 +119,7 @@
                         setTimeout(() => show_josm_not_running=false, 5000);
                       }"
                     >
-                  Edit with JOSM (New layer)</a>
+                  Edit with JOSM (New layer)</button>
                   <span x-transition x-show="show_josm_not_running">JOSM isn't running…</span>
                 </li>
                 
