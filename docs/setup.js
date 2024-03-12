@@ -203,7 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(console.error);
       } else {
+	  navigator.clipboard.writeText(location.href)
         document.querySelector('#shareDialog').classList.remove('d-none');
+		setTimeout(() => { document.querySelector('#shareDialog').classList.add('d-none'); } , 5000);
       }
   })
 });
