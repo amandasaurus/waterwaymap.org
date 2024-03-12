@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         navigator.share({
           title: 'WaterwayMap',
           text: 'WaterwayMap.org - OSM River Basins',
-          url: 'http://127.0.0.1/',
+          url: location.href,
         }).then(() => {
           console.log('Thanks for sharing!');
         })
