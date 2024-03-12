@@ -190,22 +190,25 @@ function filterParamsChanged(len_filter) {
   // need some way to signify the filtering is done...
 }
 
-document.addEventListener("DOMContentLoaded", () => {  
-  document.querySelector('#shareButton')  
-    .addEventListener('click', () => {  
-      if (navigator.share) {
-        navigator.share({
-          title: 'WaterwayMap',
-          text: 'WaterwayMap.org - OSM River Basins',
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#shareButton").addEventListener("click", () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "WaterwayMap",
+          text: "WaterwayMap.org - OSM River Basins",
           url: location.href,
-        }).then(() => {
-          console.log('Thanks for sharing!');
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
         })
         .catch(console.error);
-      } else {
-	  navigator.clipboard.writeText(location.href)
-        document.querySelector('#shareDialog').classList.remove('d-none');
-		setTimeout(() => { document.querySelector('#shareDialog').classList.add('d-none'); } , 5000);
-      }
-  })
+    } else {
+      navigator.clipboard.writeText(location.href);
+      document.querySelector("#shareDialog").classList.remove("d-none");
+      setTimeout(() => {
+        document.querySelector("#shareDialog").classList.add("d-none");
+      }, 5000);
+    }
+  });
 });
