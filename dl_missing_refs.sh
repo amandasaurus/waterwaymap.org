@@ -1,4 +1,31 @@
 #!/bin/bash
+# Makes an OSM PBF file referntially complete, by downloading nodes from
+# OSM.org API that are referenced from ways in the input file.
+#
+# The `dl_updates_from_osm.sh` script does repeated `pyosmium-up-to-date` on a
+# filtered OSM file, applying OSM diffs, and afterwards filtering out unwanted
+# ways. OSM Diffs do not contain the referred objects. When a way is changed,
+# to add a `waterway` tag, that new way version will be in the diff, and for
+# the first time in the filtered OSM file. However the diff will not have
+# included the ways in that way. An OSM file, updated this way, will not be
+# referrantially complete. Some tools (e.g. `osm2pgsql`) will silently accept
+# (& ignore) these incomplete objects. `osm-lump-ways` will fail to process,
+# and report an error. 
+#
+# A simple solution is to keep the who 75 GiB planet file around, run
+# `pyosmium-up-to-date` on that, and filter afterwards. That will always be
+# referentially complete. However `pyosmium-up-to-date` must rewrite the planet
+# file, and takes about 45 minutes. Filtering this new file, takes longer too.
+# IME it is quicker to do pyosmium-up-to-date on a filtered file and run this
+# programme after.
+#
+# If the OSM diff service returned some form of “augmented diffs”¹, or the OSM
+# data model was changed to add the node position to ways directly (as Jochen
+# Topf has suggested²), then this would't be needed.
+#
+# ¹ <https://wiki.openstreetmap.org/wiki/Overpass_API/Augmented_Diffs>
+# ² <https://media.jochentopf.com/media/2022-08-15-study-evolution-of-the-osm-data-model.pdf>
+#
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 

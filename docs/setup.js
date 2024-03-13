@@ -190,56 +190,25 @@ function filterParamsChanged(len_filter) {
   // need some way to signify the filtering is done...
 }
 
-document.addEventListener("DOMContentLoaded", () => {  
-  document.querySelector('#shareButton')  
-    .addEventListener('click', () => {  
-      if (navigator.share) {
-        navigator.share({
-          title: 'WaterwayMap',
-          text: 'WaterwayMap.org - OSM River Basins',
-          url: 'http://127.0.0.1/',
-        }).then(() => {
-          console.log('Thanks for sharing!');
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#shareButton").addEventListener("click", () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "WaterwayMap",
+          text: "WaterwayMap.org - OSM River Basins",
+          url: location.href,
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
         })
         .catch(console.error);
-      } else {
-        document.querySelector('#shareDialog').classList.remove('d-none');
-      }
-  })
+    } else {
+      navigator.clipboard.writeText(location.href);
+      document.querySelector("#shareDialog").classList.remove("d-none");
+      setTimeout(() => {
+        document.querySelector("#shareDialog").classList.add("d-none");
+      }, 5000);
+    }
+  });
 });
-
-// example1.addEventListener('click', () => {
-//   if (navigator.share) {
-//     navigator.share({
-//       title: 'MDN',
-//       text: 'Learn web development on MDN!',
-//       url: 'https://developer.mozilla.org',
-//     }).then(() => {
-//       console.log('Thanks for sharing!');
-//     })
-//     .catch(console.error);
-//   } else {
-//     // shareDialog.classList.add('is-open');
-//     console.log('Copy link');
-//   }
-// });
-
-
-// let shareData = {
-//   title: 'MDN',
-//   text: 'Learn web development on MDN!',
-//   url: 'https://developer.mozilla.org',
-// }
-
-// const shareButton = document.querySelector('shareButton');
-// const resultPara = document.querySelector('.result');
-
-// shareButton.addEventListener('click', () => {
-//   navigator.share(shareData)
-//     .then(() =>
-//       resultPara.textContent = 'MDN shared successfully'
-//     )
-//     .catch((e) =>
-//       resultPara.textContent = 'Error: ' + e
-//     )
-// });

@@ -98,7 +98,7 @@ planet-waterway-water.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water -f waterway∉canal,ditch,drain
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water→F; waterway∈ditch,drain,tidal_channel→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F"
 	mv tmp.$@ $@
 
 planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
@@ -111,7 +111,7 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 
 planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate→F; waterway∈ditch,drain,tidal_channel→F; waterway∈put_in,link→F; waterway=canal∧lock=yes→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F" --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate→F; waterway∈ditch,drain,tidal_channel→F; waterway∈put_in,link→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F" --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
 	mv tmp.planet-loops.geojsons planet-loops.geojsons
 	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
