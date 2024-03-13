@@ -38,6 +38,11 @@
       name="ahrefs-site-verification"
       content="c9513759ebdea3ec02e6720d40892389897fbb4cd1b944bfc60d65223d2d66b5"
     />
+    <script
+      data-goatcounter="https://waterwaymaporg.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="maplibre-gl-2.4.0.css" />
@@ -92,7 +97,7 @@
               <button
                 class="btn btn-outline-primary"
                 @click="let b = map.getBounds();
-										 let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+										 let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
 										 let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
 										 this.disabled = false;
 										 if (!res_ok) {
@@ -104,9 +109,9 @@
               </button>
               <button
                 class="btn btn-outline-primary"
-                @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+                @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
-                @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+                @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
               >
                 Edit (iD)
@@ -123,9 +128,9 @@
                 <li id="open_in_id" x-data>
                   <button
                     class="dropdown-item"
-                    @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+                    @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
-                    @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
+                    @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
                   >
                     Edit with iD
@@ -135,7 +140,7 @@
                   <button
                     class="dropdown-item"
                     @click="let b = map.getBounds();
-                      let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+                      let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
                       let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
                       this.disabled = false;
                       if (!res_ok) {
@@ -156,7 +161,7 @@
                   <button
                     class="dropdown-item"
                     @click="let b = map.getBounds();
-                      let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#RiverMapping;#WaterwayMapOrg')}`;
+                      let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
                       let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
                       this.disabled = false;
                       if (!res_ok) {
