@@ -6,15 +6,14 @@ document.addEventListener("alpine:init", async () => {
   if (is_local) {
     url_prefix = `http://${location.host}/data/`;
   } else {
-    url_prefix =
-      "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/";
+    url_prefix = "https://data.waterwaymap.org/";
   }
 
   // add the PMTiles plugin to the maplibregl global.
   let protocol = new pmtiles.Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
 
-  let key = "planet-cycles";
+  let key = "planet-loops";
   url = `${url_prefix}${key}.pmtiles`;
 
   var p = new pmtiles.PMTiles(url);
@@ -35,6 +34,22 @@ document.addEventListener("alpine:init", async () => {
           id: "osmcarto",
           type: "raster",
           source: "osmcarto",
+        },
+        {
+          id: "loops-halo",
+          source: "loops",
+          "source-layer": "loops",
+          type: "line",
+          filter: ["<", ["zoom"], 10],
+          paint: {
+            "line-color": "black",
+            "line-opacity": 0.2,
+            "line-width": 15,
+          },
+          layout: {
+            "line-cap": "round",
+            "line-join": "round",
+          },
         },
         {
           id: "loops",
