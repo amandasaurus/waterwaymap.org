@@ -40,7 +40,7 @@ planet-waterway.osm.pbf:
      -a udp://tracker.torrent.eu.org:451 \
      -a udp://tracker-udp.gbitt.info:80/announce,http://tracker.gbitt.info/announce,https://tracker.gbitt.info/announce \
      -a http://retracker.local/announce \
-     -w "https://pub-02bff1796dd84d2d842f219d10ae945d.r2.dev/2023-04-01/$<" \
+	 -w "https://data.waterwaymap.org/$<" \
      -c "WaterwayMap.org data export. licensed under https://opendatacommons.org/licenses/odbl/ by OpenStreetMap contributors" \
      -o $@ > /dev/null
 
@@ -81,7 +81,7 @@ planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f canoe∈yes,portage
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f canoe∈yes,portage,permissive,designated,destination,customers,permit
 	mv tmp.$@ $@
 
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
@@ -94,11 +94,11 @@ planet-waterway-or-naturalwater.geojsons: planet-waterway.osm.pbf
 
 
 planet-waterway-water.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water
 	mv tmp.$@ $@
 
 planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water -f waterway∉canal,ditch
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water→F; waterway∈ditch,drain,tidal_channel→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F"
 	mv tmp.$@ $@
 
 planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
@@ -109,26 +109,29 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-planet-cycles.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
-	rm -fv tmp.planet-{cycles,upstreams,ends}.geojsons
-	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,spillway,safe_water,derelict_canal,offshore_field,boat_lift -f waterway∉canal,ditch,drain -f waterway∉put_in,link --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
-	mv tmp.planet-cycles.geojsons planet-cycles.geojsons
+planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
+	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate→F; waterway∈ditch,drain,tidal_channel→F; waterway∈put_in,link→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F" --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
+	mv tmp.planet-loops.geojsons planet-loops.geojsons
 	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 
-planet-cycles.pmtiles: planet-cycles.geojsons
+planet-loops.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "OSM Waterway Loops" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
-		--no-feature-limit \
 		--simplification=8 \
+		-r1 \
 		--cluster-densest-as-needed \
-		-y root_nid \
+		--no-feature-limit \
+		--no-tile-size-limit \
+		--accumulate-attribute num_nodes:sum \
+		--accumulate-attribute length_m:sum \
+		-y root_nid -y num_nodes -y length_m \
 		-l loops \
-		--gamma 2 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
@@ -140,13 +143,14 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
-		--no-feature-limit \
 		--simplification=8 \
 		--cluster-densest-as-needed \
+		-r1 \
+		--cluster-distance 1 \
+		--accumulate-attribute from_upstream_m:max \
 		-y from_upstream_m \
 		-l upstreams \
 		--gamma 2 \
-		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -156,13 +160,20 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-n "OSM Waterway Endpoints" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
+		-r1 \
+		-z 10 \
+		--feature-filter '{ "*": [">=", "upstream_m", 2000 ] }' \
 		--no-feature-limit \
-		--simplification=8 \
-		--cluster-densest-as-needed \
-		-y from_upstream_m \
-		-l upstream_m \
-		--gamma 2 \
+		--order-descending-by upstream_m \
+		-r1 \
+		--cluster-distance 5 \
+		--accumulate-attribute upstream_m:sum \
+		-y upstream_m -y nid \
+		-l ends \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
+
+planet-ends.geojsons.gz: planet-ends.geojsons
+	rm -fv $@
+	gzip -k -9 $<

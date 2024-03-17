@@ -1,0 +1,4 @@
+Host wwm-render1
+Hostname X.X.X.X
+User root
+IdentityFile ~/.ssh/id_rsa_name

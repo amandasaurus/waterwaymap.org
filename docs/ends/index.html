@@ -3,7 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <!-- HTML Meta Tags -->
-    <title>WaterwayMap.org - Loops</title>
+    <title>WaterwayMap.org - End points</title>
+    <meta
+      name="description"
+      content="Where water flows in OpenStreetMap, and where it ends. Map of end points of waterways in OSM. QA & Data analysis tool."
+    />
 
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="/style.css" />
@@ -11,8 +15,30 @@
     <script src="/maplibre-gl-2.4.0.js"></script>
     <script src="/pmtiles-2.7.1.js"></script>
     <script src="/alpine-3.12.3.js" defer></script>
-    <script src="mapstyle.js"></script>
     <script src="setup.js"></script>
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://waterwaymap.org/ends/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WaterwayMap.org - End points" />
+    <meta
+      property="og:description"
+      content="Where water flows in OpenStreetMap, and where it ends. Map of end points of waterways in OSM. QA & Data analysis tool."
+    />
+    <meta property="og:image" content="" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="waterwaymap.org" />
+    <meta property="twitter:url" content="https://waterwaymap.org/ends/" />
+    <meta name="twitter:title" content="WaterwayMap.org - End points" />
+    <meta
+      name="twitter:description"
+      content="Where water flows in OpenStreetMap, and where it ends. Map of end points of waterways in OSM. QA & Data analysis tool."
+    />
+    <meta name="twitter:image" content="" />
+
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
     <script
       data-goatcounter="https://waterwaymaporg.goatcounter.com/count"
       async
@@ -27,15 +53,28 @@
           src="/img/osm.png"
           alt="OpenStreetMap logo"
           style="height: 1em"
-        /><span>🏞️ WaterwayMap: Loops</span>
+        /><span>🏞️ WaterwayMap: End points</span>
       </h1>
 
       <div>
-        Circular waterways in OpenStreetMap. These are probably all mistakes.
-        Please wait for data to load.
+        Places where waterways end in OpenStreetMap. Please wait for data to
+        load. <a href="./help/">Help about this map</a>
       </div>
+      <div id="hover_results">Hover over a point to see more...</div>
       <div>
         This area:
+        <a
+          id="open_on_wwm"
+          x-data
+          href="#"
+          class="inline_centre"
+          target="_blank"
+          @click.prevent="let url = `https://waterwaymap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+          @auxclick.prevent="let url = `https://waterwaymap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
+        >
+          WaterwayMap main
+          <img src="/img/open_ext.svg" style="height: 1em" />
+        </a>
         <a
           id="open_on_osm"
           x-data

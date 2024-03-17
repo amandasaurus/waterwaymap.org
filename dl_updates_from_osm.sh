@@ -42,27 +42,6 @@ pyosmium-up-to-date -v --ignore-osmosis-headers --server https://planet.openstre
 osmium tags-filter --overwrite --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/  --remove-tags planet-waterway.osm.pbf -o "$TMP" $TAG_FILTER && mv "$TMP" planet-waterway.osm.pbf
 osmium check-refs planet-waterway.osm.pbf || true
 
-osmium check-refs --no-progress --show-ids planet-waterway.osm.pbf |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
-if [ "$(wc -l incomplete_ways.txt | cut -f1 -d" ")" -gt 0 ] ; then
-	echo "There are $(wc -l incomplete_ways.txt|cut -f1 -d" ") incomplete ways, which we need to download"
-	cat incomplete_ways.txt | while read -r WID ; do
-		curl -s -o "way_${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
-	done
-	osmium cat --overwrite -o incomplete_ways.osm.pbf way_*.osm.xml
-	rm way_*.osm.xml
-	rm -rf incomplete_ways2.osm.pbf
-	osmium sort -o incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
-	mv incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
-	echo "" > empty.opl
-	rm -rf add-incomplete-ways.osc
-	osmium derive-changes empty.opl incomplete_ways.osm.pbf -o add-incomplete-ways.osc
-	rm -f empty.opl incomplete_ways.osm.pbf
+./dl_missing_refs.sh planet-waterway.osm.pbf
 
-	rm -rf new.osm.pbf
-	osmium apply-changes --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --output-header="osmium_replication_timestamp=$LAST_TIMESTAMP" --output-header="timestamp=${LAST_TIMESTAMP}" -o new.osm.pbf planet-waterway.osm.pbf add-incomplete-ways.osc
-	mv -v new.osm.pbf planet-waterway.osm.pbf
-	rm -fv add-incomplete-ways.osc
-	osmium check-refs planet-waterway.osm.pbf || true
-fi
-rm -f incomplete_ways.txt
 echo "Took $SECONDS sec ( $(units "${SECONDS}sec" time) ) to download data updates from osm.org"

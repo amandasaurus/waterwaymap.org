@@ -13,26 +13,12 @@ document.addEventListener("alpine:init", async () => {
   let protocol = new pmtiles.Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
 
-  let key = "planet-loops";
+  let key = "planet-ends";
   url = `${url_prefix}${key}.pmtiles`;
 
   var p = new pmtiles.PMTiles(url);
   // this is so we share one instance across the JS code and the map renderer
   protocol.add(p);
-
-  tilesToLoad = new Set();
-  function loadingEffect(e) {
-    if (e.sourceId == "loops" && e?.tile) {
-      (e.type == "dataloading" ? tilesToLoad.add : tilesToLoad.delete)(
-        e.tile.uid,
-      );
-      map.setPaintProperty(
-        "loops",
-        "line-color",
-        tilesToLoad.size == 0 ? "black" : "red",
-      );
-    }
-  }
 
   Alpine.store("tilesets_loaded", true);
 
@@ -50,39 +36,61 @@ document.addEventListener("alpine:init", async () => {
           source: "osmcarto",
         },
         {
-          id: "loops-halo",
-          source: "loops",
-          "source-layer": "loops",
-          type: "line",
-          filter: ["<", ["zoom"], 10],
+          id: "ends",
+          source: "ends",
+          "source-layer": "ends",
+          type: "circle",
           paint: {
-            "line-color": "black",
-            "line-opacity": 0.2,
-            "line-width": 15,
-          },
-          layout: {
-            "line-cap": "round",
-            "line-join": "round",
+            "circle-color": "black",
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              ["get", "upstream_m"],
+              0,
+              0,
+              10 * 1000,
+              1,
+              100 * 1000,
+              2,
+              1000 * 1000,
+              10,
+            ],
           },
         },
         {
-          id: "loops",
-          source: "loops",
-          "source-layer": "loops",
-          type: "line",
+          id: "ends-text",
+          source: "ends",
+          "source-layer": "ends",
+          type: "symbol",
           paint: {
-            "line-color": "black",
-            "line-width": 3,
+            "text-color": "black",
           },
+          filter: [">", ["get", "upstream_m"], 50 * 1000],
           layout: {
-            "line-cap": "round",
-            "line-join": "round",
+            "text-font": ["Open Sans Semibold"],
+            "text-field": [
+              "concat",
+              ["round", ["/", ["get", "upstream_m"], 1000]],
+              " km",
+            ],
+            "text-offset": [0, 1],
+            "text-size": [
+              "interpolate",
+              ["linear"],
+              ["get", "upstream_m"],
+              0,
+              0,
+              50 * 1000,
+              10,
+              1000 * 1000,
+              15,
+            ],
           },
         },
       ],
       glyphs: "/font/{fontstack}/{range}.pbf",
       sources: {
-        loops: {
+        ends: {
           type: "vector",
           url: "pmtiles://" + url,
           attribution:
@@ -98,10 +106,6 @@ document.addEventListener("alpine:init", async () => {
       },
     },
   });
-  map.on("dataloading", loadingEffect);
-  map.on("data", loadingEffect);
-  map.on("dataabort", loadingEffect);
-
   // Add geolocate control to the map.
   map.addControl(
     new maplibregl.GeolocateControl({
@@ -112,4 +116,15 @@ document.addEventListener("alpine:init", async () => {
     }),
   );
   map.addControl(new maplibregl.NavigationControl());
+
+  map.on("mousemove", (e) => {
+    const features = map.queryRenderedFeatures(e.point);
+    if (features.length == 0) {
+      return;
+    }
+    const props = features[0].properties;
+
+    document.getElementById("hover_results").innerHTML =
+      `<a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank">Node ${props.nid}</a> (<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>) has ${Math.round(props.upstream_m / 1000.0)} km of upstreams and ends here.`;
+  });
 });
