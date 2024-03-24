@@ -29,11 +29,16 @@
     {
       "key": "lock",
       "value": "yes",
-      "description": "Used to calcualte if water flows through a canal or not",
+      "description": "Used to calculate if water flows through a canal or not",
       "object_types": ["way"]
     },
     {
       "key": "canoe",
+      "description": "Used to calculate canoe navigable waterways view",
+      "object_types": ["way"]
+    },
+    {
+      "key": "portage",
       "description": "Used to calculate canoe navigable waterways view",
       "object_types": ["way"]
     }
