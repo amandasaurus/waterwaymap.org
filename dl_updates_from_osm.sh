@@ -3,7 +3,7 @@ set -o errexit -o nounset
 cd "$(dirname "$0")"
 
 echo "Starting dl_updates_from_osm.sh"
-TAG_FILTER="w/waterway w/natural=water w/canoe"
+TAG_FILTER="w/waterway w/natural=water w/canoe w/portage"
 
 if [ ! -s planet-waterway.osm.pbf ] ; then
 	if [ ! -e planet-latest.osm.pbf ] ; then
