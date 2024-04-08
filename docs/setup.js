@@ -34,8 +34,14 @@ document.addEventListener("alpine:init", async () => {
   let len_filter = decodeFilterParams(params.get("len") ?? "");
   let selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
   if (!(selected_tileset_key in tilesets.tilesets)) {
-	  console.error("The selected tileset "+selected_tileset_key+" doesn't exist, using default of "+tilesets.selected_tileset+" instead.");
-	  selected_tileset_key = tilesets.selected_tileset;
+    console.error(
+      "The selected tileset " +
+        selected_tileset_key +
+        " doesn't exist, using default of " +
+        tilesets.selected_tileset +
+        " instead.",
+    );
+    selected_tileset_key = tilesets.selected_tileset;
   }
   Alpine.store("selected_tileset", selected_tileset_key);
   Alpine.store("tilesets_loaded", true);
