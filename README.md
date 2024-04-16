@@ -15,7 +15,7 @@ See the [website](https://waterwaymap.org).
 ## Who's using mapping with this?
 
 * [neis-one `#WaterwayMapOrg`](https://resultmaps.neis-one.org/osm-changesets?comment=WaterwayMapOrg) (older [`#RiverMapping` tag](https://resultmaps.neis-one.org/osm-changesets?comment=RiverMapping)).
-* [OSMCha `#WaterwayMapOrg`](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)
+* [OSMCha `#WaterwayMapOrg`](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23WaterwayMapOrg%22%2C%22value%22%3A%22hashtags%3D%23WaterwayMapOrg%22%7D%5D%7D) (_older [`#RiverMapping` on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)_)
 
 ### OSM Tagging Discussions from this tool
 
