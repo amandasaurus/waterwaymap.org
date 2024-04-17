@@ -20,7 +20,7 @@
       property="og:description"
       content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
     />
-    <meta property="og:image" content="./screenshot.png" />
+    <meta property="og:image" content="./img/screenshot.png" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -38,22 +38,12 @@
       name="ahrefs-site-verification"
       content="c9513759ebdea3ec02e6720d40892389897fbb4cd1b944bfc60d65223d2d66b5"
     />
-    <script
-      data-goatcounter="https://waterwaymaporg.goatcounter.com/count"
-      async
-      src="//gc.zgo.at/count.js"
-    ></script>
-    <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="maplibre-gl-2.4.0.css" />
-    <script src="maplibre-gl-2.4.0.js"></script>
-    <script src="pmtiles-2.7.1.js"></script>
-    <script src="alpine-3.12.3.js" defer></script>
-    <script src="mapstyle.js"></script>
-    <script src="setup.js"></script>
-    <link href="/bootstrap-5.3.3.min.css" rel="stylesheet" />
-    <script src="/bootstrap-5.3.3.bundle.min.js"></script>
-    <link rel="stylesheet" href="/bootstrap-icons-1.11.3.min.css" />
+    
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/lib/bootstrap-5.3.3.min.css" />
+    <link rel="stylesheet" href="./css/lib/bootstrap-icons-1.11.3.min.css" />
+    <link rel="stylesheet" href="./css/lib/maplibre-gl-2.4.0.css" />
+
     <!-- RSS feed of data updates -->
     <link
       rel="alternative"
@@ -66,7 +56,7 @@
   <body>
     <nav class="navbar navbar-expand-md bg-body fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="./">
           <img
             src="img/osm.png"
             alt="Logo"
@@ -96,25 +86,10 @@
             <div class="btn-group" role="group" x-data>
               <button
                 class="btn btn-outline-primary"
-                @click="let b = map.getBounds();
-										 let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
-										 let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
-										 this.disabled = false;
-										 if (!res_ok) {
-										 show_josm_not_running = true;
-										 setTimeout(() => show_josm_not_running=false, 5000);
-										 }"
-              >
-                Edit (JOSM)
-              </button>
-              <button
-                class="btn btn-outline-primary"
                 @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
                   window.open(url);"
-                @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
-                  window.open(url);"
               >
-                Edit (iD)
+                Edit
               </button>
               <button
                 type="button"
@@ -138,6 +113,7 @@
                 </li>
                 <li id="open_in_josm" x-data="{show_josm_not_running: false}">
                   <button
+                    id="editRemoteButton"
                     class="dropdown-item"
                     @click="let b = map.getBounds();
                       let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
@@ -159,6 +135,7 @@
                   x-data="{show_josm_not_running: false}"
                 >
                   <button
+                    id="editRemoteNewLayerButton"
                     class="dropdown-item"
                     @click="let b = map.getBounds();
                       let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
@@ -211,8 +188,8 @@
                     >Default</a
                   >
                 </li>
-                <li><a class="dropdown-item" href="./loops">Loops</a></li>
-                <li><a class="dropdown-item" href="./ends">Ends</a></li>
+                <li><a class="dropdown-item" href="loops.html">Loops</a></li>
+                <li><a class="dropdown-item" href="ends.html">Ends</a></li>
               </ul>
             </div>
             <button
@@ -240,10 +217,10 @@
             class="navbar-nav flex-row flex-wrap ms-md-auto d-sm-flex d-md-none d-lg-flex"
           >
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/help">Help</a>
+              <a class="nav-link" href="help.html">Help</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/about">About</a>
+              <a class="nav-link" href="about.html">About</a>
             </li>
             <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
               <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
@@ -337,8 +314,8 @@
               More
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="./help">Help</a></li>
-              <li><a class="dropdown-item" href="./about">About</a></li>
+              <li><a class="dropdown-item" href="help.html">Help</a></li>
+              <li><a class="dropdown-item" href="about.html">About</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <a
@@ -413,7 +390,7 @@
       </div>
     </nav>
 
-    <main>
+    <main class="map">
       <div id="map"></div>
     </main>
 
@@ -656,13 +633,23 @@
               @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
               @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
             >
-              <code id="geo_url_text">geo:</code> URL (mobile)
+              <code id="geo_url_text">geo:</code>
               <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="./js/lib/bootstrap-5.3.3.bundle.min.js" async></script>
+    <script src="./js/lib/maplibre-gl-2.4.0.js"></script>
+    <script src="./js/lib/pmtiles-2.7.1.js"></script>
+    <script src="./js/lib/alpine-3.12.3.js" defer></script>
+    <script src="./js/mapstyle.js"></script>
+    <script src="./js/setup.js"></script>
+    <script src="./js/main.js" defer></script>
+    <script data-goatcounter="https://waterwaymaporg.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
     <!-- <a href="mailto:Amanda McCann <amanda@technomancy.org>?subject=waterwaymap.org%20contact">Report problem</a> -->
   </body>
 </html>

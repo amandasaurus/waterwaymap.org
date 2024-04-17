@@ -1,50 +1,50 @@
 <!doctype html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="auto">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover"
     />
-    <title>About WaterwayMap.org</title>
-    <meta name="description" content="About the WaterwayMap.org" />
+    <title>Help - WaterwayMap.org</title>
+    <meta name="description" content="Help for the WaterwayMap.org" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://waterwaymap.org/about" />
+    <meta property="og:url" content="https://waterwaymap.org/help" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="About WaterwayMap.org" />
-    <meta property="og:description" content="About the WaterwayMap.org" />
+    <meta property="og:title" content="Help | WaterwayMap.org" />
+    <meta property="og:description" content="Help for the WaterwayMap.org" />
     <meta property="og:image" content="/screenshot.png" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="WaterwayMap.org" />
-    <meta property="twitter:url" content="https://waterwaymap.org/about" />
-    <meta name="twitter:title" content="About | WaterwayMap.org" />
-    <meta name="twitter:description" content="About the WaterwayMap.org" />
+    <meta property="twitter:url" content="https://waterwaymap.org/help" />
+    <meta name="twitter:title" content="Help | WaterwayMap.org" />
+    <meta name="twitter:description" content="Help for the WaterwayMap.org" />
 
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/style.css" />
-    <script src="/alpine-3.12.3.js" defer></script>
-    <link href="/bootstrap-5.3.3.min.css" rel="stylesheet" />
-    <script src="/bootstrap-5.3.3.bundle.min.js"></script>
-    <link rel="stylesheet" href="/bootstrap-icons-1.11.3.min.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap-5.3.3.min.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap-icons-1.11.3.min.css" />
+    <script src="./js/theme.js"></script>
   </head>
 
   <body>
     <nav class="navbar navbar-expand-md bg-body fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href=".">
           <img
-            src="/img/osm.png"
+            src="img/osm.png"
             alt="Logo"
             width="30"
             height="30"
             class="d-inline-block align-text-top"
           />
-          About | WaterwayMap
+          Help | WaterwayMap
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <hr class="d-lg-none" />
@@ -52,13 +52,13 @@
             class="navbar-nav flex-row flex-wrap ms-md-auto d-sm-flex d-md-none d-lg-flex"
           >
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href=".">Home</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/help">Help</a>
+              <a class="active nav-link" href="#" aria-current="page">Help</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/about">About</a>
+              <a class="nav-link" href="about.html">About</a>
             </li>
             <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
               <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
@@ -152,8 +152,8 @@
               More
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="./help">Help</a></li>
-              <li><a class="dropdown-item" href="./about">About</a></li>
+              <li><a class="disabled dropdown-item" href="#">Help</a></li>
+              <li><a class="dropdown-item" href="about.html">About</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <a
@@ -228,9 +228,57 @@
       </div>
     </nav>
 
-    <main>
-      <h1>About</h1>
-      <p>About the WaterwayMap</p>
+    <main class="pt-5">
+      <div class="container py-4">
+        <h1>Help</h1>
+        <p>Help about WWM</p>
+
+        <h2>About WWM.org End points</h2>
+
+        <p>
+          Within OpenStreetMap, all ways are an ordered list of nodes, i.e. all
+          ways have a direction. Mostly this is ignored. Waterways (rivers,
+          streams, etc.) are mapped as a ways, with a `waterway` tag. The
+          direction of flow is the way direction. Looking at individual node
+          objects, rather than way objects, we can see other nodes that it is
+          connected to (with `waterway` way objects), and see waterways going into
+          this node (from other nodes), and going out of this node (to other
+          nodes).
+        </p>
+
+        <p>
+          When a node has no “incoming water”, the upstream is 0. The upstream
+          value is then shared equally to all the outgoing nodes (with the
+          addition of the length between this node and the outgoing nodes).
+        </p>
+        <p>
+          Each dot shows a node, where a <code>waterway</code> way ends, without
+          any outgoing node. The number is the total length of upstream waterways
+          which end at that point. The size of the dot is based on that. This is
+          an “end point”. Waterway end points should happen normally. There will
+          be a waterway end point where a river enters the sea.
+        </p>
+
+        <p>
+          When a waterway split, the upstream value is shared equally between all
+          nodes. If the waterway rejoins, the values will all be combined together
+          sensibly.
+        </p>
+
+        <p>
+          If a large waterway, has a tiny little way going off it, then half the
+          upstream value will go there. This could be a tagging mistake. This is
+          visible as a large end point.
+        </p>
+
+        <p>
+          Cycles (aka Loops) in waterways are simplified before upstreams are
+          calculated. WWM
+          <a href="https://waterwaymap.org/loops/">shows loops</a>. Theses should
+          probably be fixed in OSM.
+        </p>
+      </div>
     </main>
+    <script src="./js/lib/bootstrap-5.3.3.bundle.min.js" async></script>
   </body>
 </html>

@@ -1,50 +1,50 @@
 <!doctype html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="auto">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover"
     />
-    <title>Help - WaterwayMap.org</title>
-    <meta name="description" content="Help for the WaterwayMap.org" />
+    <title>About WaterwayMap.org</title>
+    <meta name="description" content="About the WaterwayMap.org" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://waterwaymap.org/help" />
+    <meta property="og:url" content="https://waterwaymap.org/about" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Help | WaterwayMap.org" />
-    <meta property="og:description" content="Help for the WaterwayMap.org" />
+    <meta property="og:title" content="About WaterwayMap.org" />
+    <meta property="og:description" content="About the WaterwayMap.org" />
     <meta property="og:image" content="/screenshot.png" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="WaterwayMap.org" />
-    <meta property="twitter:url" content="https://waterwaymap.org/help" />
-    <meta name="twitter:title" content="Help | WaterwayMap.org" />
-    <meta name="twitter:description" content="Help for the WaterwayMap.org" />
+    <meta property="twitter:url" content="https://waterwaymap.org/about" />
+    <meta name="twitter:title" content="About | WaterwayMap.org" />
+    <meta name="twitter:description" content="About the WaterwayMap.org" />
 
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/style.css" />
-    <script src="/alpine-3.12.3.js" defer></script>
-    <link href="/bootstrap-5.3.3.min.css" rel="stylesheet" />
-    <script src="/bootstrap-5.3.3.bundle.min.js"></script>
-    <link rel="stylesheet" href="/bootstrap-icons-1.11.3.min.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap-5.3.3.min.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap-icons-1.11.3.min.css" />
+    <script src="./js/theme.js"></script>
   </head>
 
   <body>
     <nav class="navbar navbar-expand-md bg-body fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href=".">
           <img
-            src="/img/osm.png"
+            src="./img/osm.png"
             alt="Logo"
             width="30"
             height="30"
             class="d-inline-block align-text-top"
           />
-          Help | WaterwayMap
+          About | WaterwayMap
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <hr class="d-lg-none" />
@@ -52,13 +52,13 @@
             class="navbar-nav flex-row flex-wrap ms-md-auto d-sm-flex d-md-none d-lg-flex"
           >
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href=".">Home</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/help">Help</a>
+              <a class="nav-link" href="help.html">Help</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="/about">About</a>
+              <a class="active nav-link" href="#" aria-current="page">About</a>
             </li>
             <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
               <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
@@ -152,8 +152,8 @@
               More
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="./help">Help</a></li>
-              <li><a class="dropdown-item" href="./about">About</a></li>
+              <li><a class="dropdown-item" href="help.html">Help</a></li>
+              <li><a class="disabled dropdown-item" href="#">About</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <a
@@ -228,9 +228,69 @@
       </div>
     </nav>
 
-    <main>
-      <h1>Help</h1>
-      <p>Help about WWM</p>
+    <main class="pt-5">
+      <div class="container py-4">
+        <h1>About</h1>
+        <p>About the WaterwayMap</p>
+        <h2>See also</h2>
+        <ul>
+          <li><a href="https://waterwaymap.org/">Main WaterwayMap.org</a></li>
+          <li>
+            <a href="https://waterwaymap.org/ends/">WaterwayMap.org End Points</a>
+          </li>
+          <li>
+            <a href="https://waterwaymap.org/loops/"
+              >WaterwayMap Loop detection</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/amandasaurus/waterwaymap.org"
+              >Source code on github <code>amandasaurus/waterwaymap.org</code></a
+            >. Feel free to report problems here too
+          </li>
+          <li>
+            <a href="https://github.com/amandasaurus/osm-lump-waps"
+              ><code>osm-lump-ways</code>: Software which creates this OSM way
+              connections</a
+            >. The data is created by this tool, but it can be used for other
+            things too
+          </li>
+          <li>
+            <a href="https://en.osm.town/@amapanda/tagged/WaterwayMapOrg"
+              >News &amp; Updates about WaterwayMapOrg</a
+            >
+            on Mastodon/Fediverse
+          </li>
+        </ul>
+        <span>
+          Map Data
+          <img src="./img/osm.png" alt="OpenStreetMap logo" style="height: 1em" />
+          <a href="https://www.openstreetmap.org"
+            >© OpenStreetMap contributors</a
+          >
+          (<a href="https://www.openstreetmap.org/copyright">open data licence</a
+          >).
+        </span>
+        <span>
+          📜 source
+          <a href="https://github.com/amandasaurus/waterwaymap.org"
+            ><code>amandasaurus/waterwaymap.org</code> on github</a
+          >
+        </span>
+        <span>
+          <a
+            href="mailto:Amanda%20McCann%20<amanda@technomancy.org>?subject=waterwaymap.org%20contact"
+            >📧 report problem</a
+          >
+        </span>
+        <span>
+          <a href="https://en.osm.town/@amapanda/tagged/WaterwayMapOrg"
+            >Updates on Social Media: <code>#WaterwayMapOrg</code> from
+            @amapanda@en.osm.town</a
+          >
+        </span>
+      </div>
     </main>
+    <script src="./js/lib/bootstrap-5.3.3.bundle.min.js" async></script>
   </body>
 </html>
