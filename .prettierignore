@@ -1,4 +1,2 @@
-/docs/alpine-3.12.3.js
-/docs/maplibre-gl-2.4.0.css
-/docs/maplibre-gl-2.4.0.js
-/docs/pmtiles-2.7.1.js
+/docs/css/lib/*
+/docs/js/lib/*
