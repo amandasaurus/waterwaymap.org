@@ -111,46 +111,15 @@
                     Edit with iD
                   </button>
                 </li>
-                <li id="open_in_josm" x-data="{show_josm_not_running: false}">
-                  <button
-                    id="editRemoteButton"
-                    class="dropdown-item"
-                    @click="let b = map.getBounds();
-                      let url = `http://127.0.0.1:8111/load_and_zoom?top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
-                      let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
-                      this.disabled = false;
-                      if (!res_ok) {
-                        show_josm_not_running = true;
-                        setTimeout(() => show_josm_not_running=false, 5000);
-                      }"
-                  >
+                <li>
+                  <button id="editRemoteButton" class="dropdown-item">
                     Edit with JOSM
                   </button>
-                  <span x-transition x-show="show_josm_not_running"
-                    >JOSM isn't running…</span
-                  >
                 </li>
-                <li
-                  id="open_in_josm_new_layer"
-                  x-data="{show_josm_not_running: false}"
-                >
-                  <button
-                    id="editRemoteNewLayerButton"
-                    class="dropdown-item"
-                    @click="let b = map.getBounds();
-                      let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
-                      let res_ok = await fetch(url).then(r => r.ok).catch(e => false);
-                      this.disabled = false;
-                      if (!res_ok) {
-                        show_josm_not_running = true;
-                        setTimeout(() => show_josm_not_running=false, 5000);
-                      }"
-                  >
+                <li>
+                  <button id="editRemoteNewLayerButton" class="dropdown-item">
                     Edit with JOSM (New layer)
                   </button>
-                  <span x-transition x-show="show_josm_not_running"
-                    >JOSM isn't running…</span
-                  >
                 </li>
               </ul>
             </div>
@@ -640,6 +609,21 @@
         </div>
       </div>
     </div>
+
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <template id="josmToastTemplate">
+      <div id="josmToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img src="img/josm.svg" class="rounded me-2" alt="JOSM icon" width="20" height="20">
+          <strong class="me-auto">JOSM Remote Control</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Connection error. JOSM may not be running.
+        </div>
+      </div>
+    </template>
 
     <script src="js/lib/bootstrap-5.3.3.bundle.min.js" async></script>
     <script src="js/lib/maplibre-gl-2.4.0.js"></script>
