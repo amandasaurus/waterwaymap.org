@@ -20,6 +20,20 @@ document.addEventListener("alpine:init", async () => {
   // this is so we share one instance across the JS code and the map renderer
   protocol.add(p);
 
+  tilesToLoad = new Set();
+  function loadingEffect(e) {
+    if (e.sourceId == "loops" && e?.tile) {
+      (e.type == "dataloading" ? tilesToLoad.add : tilesToLoad.delete)(
+        e.tile.uid,
+      );
+      map.setPaintProperty(
+        "loops",
+        "line-color",
+        tilesToLoad.size == 0 ? "black" : "red",
+      );
+    }
+  }
+
   Alpine.store("tilesets_loaded", true);
 
   map = new maplibregl.Map({
@@ -84,6 +98,10 @@ document.addEventListener("alpine:init", async () => {
       },
     },
   });
+  map.on("dataloading", loadingEffect);
+  map.on("data", loadingEffect);
+  map.on("dataabort", loadingEffect);
+
   // Add geolocate control to the map.
   map.addControl(
     new maplibregl.GeolocateControl({

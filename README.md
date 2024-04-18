@@ -6,18 +6,23 @@ See the [website](https://waterwaymap.org).
 
 [News & Updates on the OSM Town Mapstodon](https://en.osm.town/@amapanda/tagged/WaterwayMapOrg).
 
-## See also
+## News & Posts
 
 * [Fedi/Mastodon post](https://en.osm.town/@amapanda/110118513232919061)
 * [OSM Community Forum](https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655)
-* [OSM Changesets that have used this tool](https://resultmaps.neis-one.org/osm-changesets?comment=WaterwayMapOrg) (older [`#RiverMapping` tag](https://resultmaps.neis-one.org/osm-changesets?comment=RiverMapping)).
-* [Changesets on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)
 * Hacker News: [#1 (2023-08-30) (as “OSM River Basins”)](https://news.ycombinator.com/item?id=37321292), [#2 (2024-01-24)](https://news.ycombinator.com/item?id=39110434)
+
+## Who's using mapping with this?
+
+* [neis-one `#WaterwayMapOrg`](https://resultmaps.neis-one.org/osm-changesets?comment=WaterwayMapOrg) (older [`#RiverMapping` tag](https://resultmaps.neis-one.org/osm-changesets?comment=RiverMapping)).
+* [OSMCha `#WaterwayMapOrg`](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23WaterwayMapOrg%22%2C%22value%22%3A%22hashtags%3D%23WaterwayMapOrg%22%7D%5D%7D) (_older [`#RiverMapping` on OSMCha](https://osmcha.org/?filters=%7B%22metadata%22%3A%5B%7B%22label%22%3A%22hashtags%3D%23RiverMapping%22%2C%22value%22%3A%22hashtags%3D%23RiverMapping%22%7D%5D%7D)_)
 
 ### OSM Tagging Discussions from this tool
 
 * [Should river lines be mapped through lakes, estuaries, gulfs, and other large water bodies?](https://community.openstreetmap.org/t/should-river-lines-be-mapped-through-lakes-estuaries-gulfs-and-other-large-water-bodies/104438) _(Oct. 2023)_
 * [Properly mapping dry washes](https://community.openstreetmap.org/t/properly-mapping-dry-washes/108437) _(Jan. 2024)_
+* [Is there a common tag for underground infiltrated watercourses?](https://community.openstreetmap.org/t/is-there-a-common-tag-for-underground-infiltrated-watercourses/111558) _(Apr. 2024)_
+* All posts [tagged `#waterwaymaporg` on the OSM Community Forum](https://community.openstreetmap.org/tag/waterwaymaporg).
 
 ## Loops
 
