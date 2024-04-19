@@ -70,20 +70,16 @@
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02"
+          data-bs-target="#navbarToggler"
+          aria-controls="navbarToggler"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <div
-            class="btn-group my-2 my-md-0 me-2"
-            role="group"
-            aria-label="Button group with nested dropdown"
-          >
-            <div class="btn-group" role="group">
+        <div class="collapse navbar-collapse" id="navbarToggler">
+          <div class="btn-group my-2 my-md-0 me-2">
+            <div class="btn-group" role="group" aria-label="Edit options">
               <button id="editButton" class="btn btn-outline-primary">
                 Edit
               </button>
@@ -116,17 +112,11 @@
               class="inline_centre"
               target="_blank"
               @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
-              @auxclick.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
             >
               Open in OSM
             </a>
-            <!-- <button type="button" class="btn btn-outline-primary text-nowrap">Open in OSM</button> -->
           </div>
-          <div
-            class="btn-group my-2 my-md-0"
-            role="group"
-            aria-label="Basic outlined example"
-          >
+          <div class="btn-group my-2 my-md-0">
             <div class="btn-group" role="group">
               <button
                 type="button"
@@ -150,7 +140,7 @@
               type="button"
               class="btn btn-outline-secondary"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#settingsModal"
             >
               Settings
             </button>
@@ -163,9 +153,6 @@
               Share
             </button>
           </div>
-
-          <!-- <button class="dropdown-toggle nav-link btn btn-outline-secondary border-0 bg-white text-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">More</button> -->
-
           <hr class="d-lg-none" />
           <ul
             class="navbar-nav flex-row flex-wrap ms-md-auto d-sm-flex d-md-none d-lg-flex"
@@ -183,6 +170,7 @@
             <li class="nav-item col-6 col-lg-auto">
               <a
                 class="nav-link py-2 px-0 px-lg-2"
+                aria-label="GitHub"
                 href="https://github.com/amandasaurus/waterwaymap.org"
                 target="_blank"
                 rel="noopener"
@@ -208,6 +196,7 @@
             <li class="nav-item col-6 col-lg-auto">
               <a
                 class="nav-link py-2 px-0 px-lg-2"
+                aria-label="Mastodon"
                 href="https://en.osm.town/@amapanda/tagged/WaterwayMapOrg"
                 target="_blank"
                 rel="noopener"
@@ -232,6 +221,7 @@
             <li class="nav-item col-6 col-lg-auto">
               <a
                 class="nav-link py-2 px-0 px-lg-2"
+                aria-label="Data Updates RSS"
                 href="https://data.waterwaymap.org/data_updates.xml"
                 target="_blank"
                 rel="noopener"
@@ -350,15 +340,15 @@
 
     <div
       class="modal fade"
-      id="exampleModal"
+      id="settingsModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="settingsModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
+            <h1 class="modal-title fs-5" id="settingsModalLabel">Settings</h1>
             <button
               type="button"
               class="btn-close"
@@ -371,14 +361,16 @@
               <h2 class="fs-5">Filter data</h2>
               <p class="card-text">Show waterways by type.</p>
               <span id="layer_switchers" x-data>
-                <template x-if="!$store.tilesets_loaded"
-                  ><div class="d-flex align-items-center">
-                    <span>Loading map please wait…</span>
-                    <div
-                      class="spinner-border spinner-border-sm ms-auto"
-                      aria-hidden="true"
-                    ></div></div
-                ></template>
+                <template x-if="!$store.tilesets_loaded">
+                  <div class="form-control disabled d-flex justify-content-between">
+                    <span>Loading map data. Please wait…</span>
+                      <div
+                        class="spinner-border spinner-border-sm align-self-center"
+                        aria-hidden="true"
+                      >
+                    </div>
+                  </div>
+                </template>
                 <template x-if="$store.tilesets_loaded">
                   <select
                     id="selected_tileset"
@@ -407,7 +399,7 @@
                   $watch('len_filter', len_filter => filterParamsChanged(len_filter) );
                   "
               >
-                <label for="min_filter_enabled" class="form-label"
+                <label for="min_filter_enabled" class="form-label" id="minLengthLabel"
                   >Minimum length</label
                 >
                 <div class="input-group mb-3">
@@ -418,7 +410,7 @@
                       value=""
                       id="min_filter_enabled"
                       x-model="len_filter.min_filter_enabled"
-                      aria-label="Checkbox for following text input"
+                      aria-label="Toggle minimum length"
                     />
                   </div>
                   <input
@@ -430,12 +422,13 @@
                     placeholder="0"
                     :disabled="!len_filter.min_filter_enabled"
                     x-model.number.debounce="len_filter.min_filter"
-                    aria-label="Text input with checkbox"
+                    aria-labelledby="minLengthLabel"
+                    aria-describedby="minLengthPrefix"
                   />
-                  <span class="input-group-text">km</span>
+                  <span class="input-group-text" id="minLengthPrefix">km</span>
                 </div>
-                <label for="max_filter_enabled" class="form-label"
-                  >Minimum length</label
+                <label for="max_filter_enabled" class="form-label" id="maxLengthLabel"
+                  >Maxmimum length</label
                 >
                 <div class="input-group mb-3">
                   <div class="input-group-text">
@@ -445,7 +438,7 @@
                       value=""
                       id="max_filter_enabled"
                       x-model="len_filter.max_filter_enabled"
-                      aria-label="Checkbox for following text input"
+                      aria-label="Toggle maxmimum length"
                     />
                   </div>
                   <input
@@ -457,9 +450,10 @@
                     placeholder="∞"
                     :disabled="!len_filter.max_filter_enabled"
                     x-model.number.debounce="len_filter.max_filter"
-                    aria-label="Text input with checkbox"
+                    aria-labelledby="maxLengthLabel"
+                    aria-describedby="maxLengthPrefix"
                   />
-                  <span class="input-group-text">km</span>
+                  <span class="input-group-text" id="maxLengthPrefix">km</span>
                 </div>
               </div>
             </div>
@@ -576,18 +570,18 @@
               >
             </p>
             <hr />
-            <h2 class="fs-5">Geo URI</h2>
+            <h2 class="fs-5" id="geoURILabel">Geo URI</h2>
             <a
               id="open_geo"
+              aria-labelledby="geoURILabel"
               class="link-offset-1"
               x-data
               href="#"
               class="inline_centre"
               target="_blank"
               @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
-              @auxclick.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
             >
-              <code id="geo_url_text">geo:</code>
+              <code id="geo_url_text">geo:0,0?z=0</code>
               <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
             </a>
           </div>
@@ -611,9 +605,9 @@
     </template>
 
     <script src="js/lib/bootstrap-5.3.3.bundle.min.js" async></script>
+    <script src="js/lib/alpine-3.12.3.js" defer></script>
     <script src="js/lib/maplibre-gl-2.4.0.js"></script>
     <script src="js/lib/pmtiles-2.7.1.js"></script>
-    <script src="js/lib/alpine-3.12.3.js" defer></script>
     <script src="js/mapstyle.js"></script>
     <script src="js/setup.js"></script>
     <script src="js/main.js" defer></script>

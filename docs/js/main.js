@@ -65,7 +65,6 @@ async function remote() {
     toastContainer.appendChild(josmToastEl)
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(josmToastEl)
     toastBootstrap.show()
-    
   }
 }
 

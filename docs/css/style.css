@@ -15,6 +15,14 @@ main.map {
     padding-right: env(safe-area-inset-right) !important;
 }
 
+@supports ((-webkit-backdrop-filter: blur())) or ((backdrop-filter: blur())) {
+    .navbar.bg-body {
+        -webkit-backdrop-filter: saturate(180%) blur(15px);
+        backdrop-filter: saturate(180%) blur(15px);
+        --bs-bg-opacity: .9 !important;
+    }
+}
+
 .navbar .navbar-nav-svg {
 	vertical-align: -.125rem;
 }
@@ -24,6 +32,10 @@ main.map {
 }
 
 .mapboxgl-ctrl-top-right, .maplibregl-ctrl-top-right {
-	right: env(safe-area-inset-left, 0) !important;
+	right: env(safe-area-inset-right, 0) !important;
 	top: unset !important;
+}
+
+.mapboxgl-ctrl-bottom-right, .maplibregl-ctrl-bottom-right {
+	right: env(safe-area-inset-right, 0) !important;
 }
