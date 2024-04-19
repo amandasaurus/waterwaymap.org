@@ -83,31 +83,16 @@
             role="group"
             aria-label="Button group with nested dropdown"
           >
-            <div class="btn-group" role="group" x-data>
-              <button
-                class="btn btn-outline-primary"
-                @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
-                  window.open(url);"
-              >
+            <div class="btn-group" role="group">
+              <button id="editButton" class="btn btn-outline-primary">
                 Edit
               </button>
-              <button
-                type="button"
-                class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu">
-                <li id="open_in_id" x-data>
-                  <button
-                    class="dropdown-item"
-                    @click.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
-                  window.open(url);"
-                    @auxclick.prevent="let url = `https://www.openstreetmap.org/edit?editor=id#&source=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('#WaterwayMapOrg')}&map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`;
-                  window.open(url);"
-                  >
+                <li>
+                  <button id="editIDButton" class="dropdown-item">
                     Edit with iD
                   </button>
                 </li>
