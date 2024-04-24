@@ -11,7 +11,8 @@ if [ ! -s planet-waterway.osm.pbf ] ; then
 		aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
 		# TODO rename from planet-YYMMDD.osm.pbf to -latest
 	fi
-	osmium tags-filter --remove-tags --overwrite planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ -o planet-waterway.osm.pbf $TAG_FILTER
+  echo "planet-latest exists, but planet-waterway doesn't. Doing an osmium tags-filter"
+	osmium tags-filter --remove-tags planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --overwrite -o planet-waterway.osm.pbf $TAG_FILTER
 fi
 echo "planet-waterway.osm.pbf, size: $(ls -lh planet-waterway.osm.pbf | cut -d" " -f5)"
 # quick shortcut for when we run this a log
