@@ -44,17 +44,52 @@ planet-waterway.osm.pbf:
      -c "WaterwayMap.org data export. licensed under https://opendatacommons.org/licenses/odbl/ by OpenStreetMap contributors" \
      -o $@ > /dev/null
 
+
+#####################################################
+# Here are the default map views on WaterwayMap.org #
+#####################################################
+
+# Default view. “Waterways (inc. canals etc)”
+planet-waterway-water.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water
+	mv tmp.$@ $@
+
+# “Natural Waterways (excl. canals etc)”
+planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water→F; waterway∈ditch,drain,tidal_channel→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F"
+	mv tmp.$@ $@
+
+# The “Navigable by boat” view
+planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
+	mv tmp.$@ $@
+
+# The “Navigable by canoe” view
+planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "canoe∈yes,portage,permissive,designated,destination,customers,permit→T; portage∈yes,permissive,designated,destination,customers,permit→T; F"
+	mv tmp.$@ $@
+
+# The “Named Waterways” view
+planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
+	mv tmp.$@ $@
+
+# The “Rivers (etc.)” view
+planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
+	mv tmp.$@ $@
+
+###################################################
+# end of the default map views on WaterwayMap.org #
+###################################################
+
+
 planet-waterway-river.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i planet-waterway.osm.pbf -o tmp.$@ -f waterway=river --min-length-m 100  --save-as-linestrings
 	mv tmp.$@ $@
 
 planet-waterway-name-no-group.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?"
-	mv tmp.$@ $@
-
-# The “Named Waterways” view
-planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
 	mv tmp.$@ $@
 
 planet-waterway-noname.geojsons: planet-waterway.osm.pbf
@@ -75,11 +110,6 @@ planet-waterway-river-canal-stream.geojsons: planet-waterway.osm.pbf
 
 planet-waterway-river-or-named.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∈river,canal∨∃name
-	mv tmp.$@ $@
-
-# The “Navigable by boat” view
-planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
 	mv tmp.$@ $@
 
 planet-waterway-has-cemt.geojsons: planet-waterway.osm.pbf
@@ -116,11 +146,6 @@ planet-waterway-cemt-ge-VII.geojsons: planet-waterway.osm.pbf
 
 planet-waterway-cemt-all-geojsons: planet-waterway-has-cemt.geojsons planet-waterway-cemt-ge-I.geojsons planet-waterway-cemt-ge-II.geojsons planet-waterway-cemt-ge-III.geojsons planet-waterway-cemt-ge-IV.geojsons planet-waterway-cemt-ge-V.geojsons planet-waterway-cemt-ge-VI.geojsons planet-waterway-cemt-ge-VII.geojsons
 
-# The “Navigable by canoe” view
-planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "canoe∈yes,portage,permissive,designated,destination,customers,permit→T; portage∈yes,permissive,designated,destination,customers,permit→T; F"
-	mv tmp.$@ $@
-
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway
 	mv tmp.$@ $@
@@ -129,21 +154,6 @@ planet-waterway-or-naturalwater.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∨natural=water
 	mv tmp.$@ $@
 
-
-# Default view. “Waterways (inc. canals etc)”
-planet-waterway-water.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water
-	mv tmp.$@ $@
-
-# “Natural Waterways (excl. canals etc)”
-planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water→F; waterway∈ditch,drain,tidal_channel→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F"
-	mv tmp.$@ $@
-
-# The “Rivers (etc.)” view
-planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
-	mv tmp.$@ $@
 
 planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
