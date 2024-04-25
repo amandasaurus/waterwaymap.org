@@ -56,7 +56,7 @@ planet-waterway-water.geojsons: planet-waterway.osm.pbf
 
 # “Natural Waterways (excl. canals etc)”
 planet-waterway-nonartifical.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water→F; waterway∈ditch,drain,tidal_channel→F; waterway=canal∧lock∈yes,disused→T; waterway=spillway∧area=yes→F; waterway=canal∧usage=spillway→T; waterway=canal∧usage∈headrace,tailrace→T; waterway=canal→F; waterway→T; F"
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F @flowing_water.tagfilterfunc
 	mv tmp.$@ $@
 
 # The “Navigable by boat” view
