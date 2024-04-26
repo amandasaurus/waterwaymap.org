@@ -53,7 +53,7 @@ var mapstyle_layers = [
     },
   },
   {
-    id: "waterway-text",
+    id: "waterway-text-length",
     source: "waterway",
     "source-layer": "waterway",
     type: "symbol",
@@ -62,11 +62,7 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [
-        "concat",
-        ["round", ["/", ["get", "length_m"], 1000]],
-        " km",
-      ],
+      "text-field": [ "concat", ["round", ["/", ["get", "length_m"], 1000]], " km", ],
       "text-offset": [0, 1],
       "symbol-placement": "line",
     },
