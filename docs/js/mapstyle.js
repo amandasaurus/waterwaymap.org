@@ -67,4 +67,20 @@ var mapstyle_layers = [
       "symbol-placement": "line",
     },
   },
+  {
+    id: "waterway-text-wayid",
+    source: "waterway",
+    "source-layer": "waterway",
+    type: "symbol",
+    minzoom: 18,
+    paint: {
+      "text-color": "blueviolet",
+    },
+    layout: {
+      "text-font": ["Open Sans Semibold"],
+      "text-field": [ "concat", "id: ", ["coalesce", ["get", "root_wayid"], "N/A" ] ],
+      "text-offset": [0, -1],
+      "symbol-placement": "line",
+    },
+  },
 ];
