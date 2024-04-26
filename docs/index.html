@@ -506,6 +506,17 @@
                 >
                   11
                 </button>
+                <button
+                  class="btn btn-primary"
+                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 24],
+                          0, '#fd5500',    1, '#ffa700',   2, '#feec00',   3, '#b1ff00',   4, '#06fe59',   5, '#03ffef',
+                          6, '#0071ff',    7, '#2a00ff',   8, '#9501ff',   9, '#ff03ff',  10, '#ff026a',  11, '#ff0102',
+                          12, '#973401',  13, '#986500',  14, '#998d00',  15, '#6c9900',  16, '#019937',  17, '#009b8f',
+                          18, '#01439a',  19, '#180098',  20, '#590197',  21, '#99009a',  22, '#99003f',  23, '#970101',
+                         'black', ])"
+                >
+                  24
+                </button>
               </div>
             </div>
             <template id="data_age" x-data x-if="$store.tilesets_loaded">
