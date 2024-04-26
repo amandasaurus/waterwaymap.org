@@ -2,7 +2,7 @@
 
 See the [website](https://waterwaymap.org).
 
-![map of europe with all the river basins higlighted](https://waterwaymap.org/screenshot.png)
+![map of europe with all the river basins higlighted](https://waterwaymap.org/img/screenshot.png)
 
 [News & Updates on the OSM Town Mapstodon](https://en.osm.town/@amapanda/tagged/WaterwayMapOrg).
 
