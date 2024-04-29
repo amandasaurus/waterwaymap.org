@@ -24,7 +24,7 @@ planet-waterway.osm.pbf:
 	gzip -9 -k -f $<
 
 %.zst: %
-	zstd -9 -f $<
+	zstd -20 --ultra -f $<
 
 %-ge100km.gpkg: %.geojsons
 	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
