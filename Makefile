@@ -201,6 +201,7 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		-y from_upstream_m \
 		-l upstreams \
 		--gamma 2 \
+		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
