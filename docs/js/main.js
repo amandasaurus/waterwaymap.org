@@ -70,7 +70,7 @@ async function remote() {
 
 async function remoteNewLayer() {
   let b = map.getBounds();
-  let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&amp;bottom=${b.getSouth()}&amp;left=${b.getWest()}&amp;right=${b.getEast()}&amp;changeset_source=${encodeURIComponent(location.href)}&amp;changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}}`;
+  let url = `http://127.0.0.1:8111/load_and_zoom?new_layer=true&top=${b.getNorth()}&bottom=${b.getSouth()}&left=${b.getWest()}&right=${b.getEast()}&changeset_source=${encodeURIComponent(location.href)}&changeset_hashtags=${encodeURIComponent('#WaterwayMapOrg')}`;
   let res_ok = await fetch(url).then((r) => r.ok).catch(() => false);
   this.disabled = false;
   if (!res_ok) {
