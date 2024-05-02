@@ -41,7 +41,6 @@ fi
 echo "Downloading per-minute updates.."
 pyosmium-up-to-date -v --ignore-osmosis-headers --server https://planet.openstreetmap.org/replication/minute/ -s 10000 planet-waterway.osm.pbf
 osmium tags-filter --overwrite --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/  --remove-tags planet-waterway.osm.pbf -o "$TMP" $TAG_FILTER && mv "$TMP" planet-waterway.osm.pbf
-osmium check-refs planet-waterway.osm.pbf || true
 
 ./dl_missing_refs.sh planet-waterway.osm.pbf
 
