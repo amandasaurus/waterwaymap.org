@@ -16,6 +16,7 @@ planet-waterway.osm.pbf:
 		-y length_m -y root_wayid -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
+		--extend-zooms-if-still-dropping \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
