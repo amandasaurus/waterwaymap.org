@@ -51,16 +51,17 @@ planet-waterway.osm.pbf:
 #####################################################
 
 # Default view. “Waterways (inc. canals etc)”
-planet-waterway-water.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.planet-waterway-water.geojsons
-	osm-lump-ways -i $< -o tmp.planet-waterway-water.geojsons --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water -f waterway∉seaway
+planet-waterway-water.geojsons planet-waterway-water-frames.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.planet-waterway-water.geojsons --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water -f waterway∉seaway --output-frames tmp.planet-waterway-water-frames.geojsons --frames-group-min-length-m 1e6
 	mv tmp.planet-waterway-water.geojsons planet-waterway-water.geojsons
+	mv tmp.planet-waterway-water-frames.geojsons planet-waterway-water-frames.geojsons
 
 # “Natural Waterways (excl. canals etc)”
-planet-waterway-nonartificial.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.planet-waterway-nonartificial.geojsons
-	osm-lump-ways -i $< -o tmp.planet-waterway-nonartificial.geojsons --min-length-m 100 --save-as-linestrings -F @flowing_water.tagfilterfunc
+planet-waterway-nonartifical.geojsons planet-waterway-nonartifical-frames.geojsons: planet-waterway.osm.pbf
+	rm -f tmp.planet-waterway-nonartificial.geojsons tmp.planet-waterway-nonartificial-frames.geojsons
+	osm-lump-ways -i $< -o tmp.planet-waterway-nonartificial.geojsons --min-length-m 100 --save-as-linestrings -F @flowing_water.tagfilterfunc --output-frames tmp.planet-waterway-nonartificial-frames.geojsons --frames-group-min-length-m 1e6
 	mv tmp.planet-waterway-nonartificial.geojsons planet-waterway-nonartificial.geojsons
+	mv tmp.planet-waterway-nonartificial-frames.geojsons planet-waterway-nonartificial-frames.geojsons
 
 # The “Navigable by boat” view
 planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
