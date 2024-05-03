@@ -8,6 +8,10 @@ waterway=pressurised→F;
 
 waterway∈ditch,drain,tidal_channel→F;
 
+# Don't include seaways
+# https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655/205
+waterway=seaway→F;
+
 # Canoeists use this. This isn't water.
 waterway∈put_in,link→F;
 

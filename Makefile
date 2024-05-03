@@ -51,7 +51,7 @@ planet-waterway.osm.pbf:
 
 # Default view. “Waterways (inc. canals etc)”
 planet-waterway-water.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water -f waterway∉seaway
 	mv tmp.$@ $@
 
 # “Natural Waterways (excl. canals etc)”
