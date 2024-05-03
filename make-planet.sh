@@ -40,8 +40,8 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends
 echo "All data files generated"
 
 mv ./*pmtiles ./docs/data/ || true
-mv ./planet-loops.geojsons ./docs/data/
-mv ./planet-ends.geojsons.gz ./docs/data/
+mv ./planet-loops.geojsons ./docs/data/ || true
+mv ./planet-ends.geojsons.gz ./docs/data/ || true
 mv ./*zst* ./docs/data/ 2>/dev/null || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"' | sponge ./docs/data/tilesets.json
