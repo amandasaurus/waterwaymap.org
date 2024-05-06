@@ -83,4 +83,20 @@ var mapstyle_layers = [
       "symbol-placement": "line",
     },
   },
+  {
+    id: "waterway-frames-line",
+    source: "waterway",
+    "source-layer": "frames",
+    type: "line",
+    layout: {
+      "line-cap": "butt",
+      "line-join": "round",
+      "visibility": "none",
+    },
+    paint: {
+      "line-color": "black",
+      "line-width": 4,
+      "line-gap-width": 9,
+    },
+  },
 ];

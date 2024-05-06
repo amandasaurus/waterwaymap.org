@@ -519,6 +519,38 @@
                 </button>
               </div>
             </div>
+            <div class="shadow p-3 mb-3 bg-body-tertiary rounded"
+                x-data="{show_frames: false}"
+                x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
+                        show_frames = (hsh.get('frames') ?? 'no') == 'yes';
+                        $watch('show_frames', show_frames => {
+                          map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
+                          let params = new URLSearchParams((location.hash ?? '#').substr(1));
+                          if (show_frames) {
+                            params.set('frames', 'yes');
+                          } else {
+                            params.delete('frames');
+                          }
+                          location.hash = '#' + params.toString();
+                          map.redraw();
+                      })"
+              >
+              <h2 class="fs-5">Frames</h2>
+              <p class="card-text">explaination TBC</p>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <input
+                      class="form-check-input mt-0"
+                      type="checkbox"
+                      value=""
+                      id="frames"
+                      x-model="show_frames"
+                      aria-label="Toggle Frames visibility"
+                      />
+                </div>
+                <span class="input-group-text" id="show_frames">Show Frames</span>
+              </div>
+            </div>
             <template id="data_age" x-data x-if="$store.tilesets_loaded">
               <div class="d-flex">
                 <span class="text-center flex-fill"

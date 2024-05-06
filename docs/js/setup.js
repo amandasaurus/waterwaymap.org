@@ -22,12 +22,18 @@ document.addEventListener("alpine:init", async () => {
   for (let i in tilesets.tilesets) {
     let key = tilesets.tilesets[i].key;
     url = `${url_prefix}${key}.pmtiles`;
+    if (tilesets.tilesets[i].frames ?? false) {
+      url = `${url_prefix}${key}-w_frames.pmtiles`;
+    } else {
+      url = `${url_prefix}${key}.pmtiles`;
+    }
     tilesets.tilesets[i].url = url;
 
     var p = new pmtiles.PMTiles(url);
     // this is so we share one instance across the JS code and the map renderer
     protocol.add(p);
     tilesets.tilesets[i].pmtiles_obj = p;
+
   }
 
   let params = new URLSearchParams((location.hash ?? "#").substr(1));
@@ -101,6 +107,9 @@ document.addEventListener("alpine:init", async () => {
       location.hash = "#" + loc.toString();
       map.getSource("waterway").setUrl("pmtiles://" + selected_tileset.url);
     });
+    var parmas = new URLSearchParams((location.hash ?? "#").substr(1));
+    let show_frames = (params.get("frames") ?? "no") == "yes";
+    map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
   });
 });
 
@@ -191,12 +200,14 @@ function filterParamsChanged(len_filter) {
     map.setFilter("waterway-line", new_filter);
     map.setFilter("waterway-text-length", new_filter);
     map.setFilter("waterway-text-wayid", new_filter);
+    map.setFilter("waterway-frames-line", new_filter);
   } else {
     map.once("load", () => {
       map.setFilter("waterway-line-casing", new_filter);
       map.setFilter("waterway-line", new_filter);
       map.setFilter("waterway-text-length", new_filter);
       map.setFilter("waterway-text-wayid", new_filter);
+      map.setFilter("waterway-frames-line", new_filter);
     });
   }
   // need some way to signify the filtering is done...
