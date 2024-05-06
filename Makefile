@@ -6,8 +6,8 @@ planet-waterway.osm.pbf:
 %.pmtiles: %.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-n "OSM River Topologies" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-n "WaterwayMap.org" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--no-feature-limit \
@@ -167,15 +167,15 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
-	mv tmp.planet-loops.geojsons planet-loops.geojsons
+	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 
 planet-loops.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-n "OSM Waterway Loops" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-n "WaterwayMap.org Loops" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--simplification=8 \
@@ -194,8 +194,8 @@ planet-loops.pmtiles: planet-loops.geojsons
 planet-upstreams.pmtiles: planet-upstreams.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-n "OSM Waterway Upstream" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-n "WaterwayMap.org Upstream" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--simplification=8 \
@@ -213,8 +213,8 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 planet-ends.pmtiles: planet-ends.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-n "OSM Waterway Endpoints" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version) and argument" \
+		-n "WaterwayMap.org Endpoints" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-r1 \
 		-z 10 \
