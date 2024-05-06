@@ -57,7 +57,7 @@ planet-waterway-water.geojsons planet-waterway-water-frames.geojsons: planet-wat
 	mv tmp.planet-waterway-water-frames.geojsons planet-waterway-water-frames.geojsons
 
 # “Natural Waterways (excl. canals etc)”
-planet-waterway-nonartifical.geojsons planet-waterway-nonartifical-frames.geojsons: planet-waterway.osm.pbf
+planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons: planet-waterway.osm.pbf
 	rm -f tmp.planet-waterway-nonartificial.geojsons tmp.planet-waterway-nonartificial-frames.geojsons
 	osm-lump-ways -i $< -o tmp.planet-waterway-nonartificial.geojsons --min-length-m 100 --save-as-linestrings -F @flowing_water.tagfilterfunc --output-frames tmp.planet-waterway-nonartificial-frames.geojsons --frames-group-min-length-m 1e6
 	mv tmp.planet-waterway-nonartificial.geojsons planet-waterway-nonartificial.geojsons
