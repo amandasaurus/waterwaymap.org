@@ -50,7 +50,14 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends
 
 echo "All data files generated"
 
-mv ./*pmtiles ./docs/data/ || true
+for F in \
+  water-w_frames nonartificial-w_frames \
+  boatable canoeable \
+  name-group-name rivers-etc \
+  loops ends \
+  ; do
+  mv planet-waterway-${F}.pmtiles ./docs/data/ || true
+done
 mv ./planet-loops.geojsons ./docs/data/ || true
 mv ./planet-ends.geojsons.gz ./docs/data/ || true
 mv ./*zst* ./docs/data/ 2>/dev/null || true
