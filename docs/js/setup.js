@@ -189,12 +189,14 @@ function filterParamsChanged(len_filter) {
   if (map.loaded()) {
     map.setFilter("waterway-line-casing", new_filter);
     map.setFilter("waterway-line", new_filter);
-    map.setFilter("waterway-text", new_filter);
+    map.setFilter("waterway-text-length", new_filter);
+    map.setFilter("waterway-text-wayid", new_filter);
   } else {
     map.once("load", () => {
       map.setFilter("waterway-line-casing", new_filter);
       map.setFilter("waterway-line", new_filter);
-      map.setFilter("waterway-text", new_filter);
+      map.setFilter("waterway-text-length", new_filter);
+      map.setFilter("waterway-text-wayid", new_filter);
     });
   }
   // need some way to signify the filtering is done...
