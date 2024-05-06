@@ -21,6 +21,32 @@ planet-waterway.osm.pbf:
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
+%-frames.pmtiles: %-frames.geojsons %.pmtiles
+	# Ensure this has the same maxzoom as the other file, so when we merge them
+	# together they will always be shown
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-n "WaterwayMap.org Frames" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-z$(shell pmtiles show $*.pmtiles | grep -oP "(?<=^max zoom: )\d+$$") \
+		--no-feature-limit \
+		--simplification=8 \
+		--drop-densest-as-needed \
+		-y length_m -y root_wayid -y root_wayid_120 \
+		-l frames \
+		--gamma 2 \
+		--extend-zooms-if-still-dropping \
+		--no-progress-indicator \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
+%-w_frames.pmtiles: %.pmtiles %-frames.pmtiles
+	rm -fv tmp.$@
+	tile-join --no-tile-size-limit -o tmp.$@ $^
+	mv tmp.$@ $@
+
+
 %.gz: %
 	gzip -9 -k -f $<
 

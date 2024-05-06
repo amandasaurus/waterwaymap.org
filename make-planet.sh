@@ -39,6 +39,7 @@ make \
   planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
   planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
   planet-waterway-rivers-etc.pmtiles planet-waterway-cemt-all-pmtiles
+make planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 SECONDS=0
