@@ -2,6 +2,12 @@
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
+FORCE=false
+if [ "${1:-}" = "-f" ] ; then
+  FORCE=true
+  shift
+fi
+
 echo "Starting dl_updates_from_osm.sh"
 TAG_FILTER="w/waterway w/natural=coastline w/natural=water w/canoe w/portage"
 
@@ -17,7 +23,9 @@ fi
 echo "planet-waterway.osm.pbf, size: $(ls -lh planet-waterway.osm.pbf | cut -d" " -f5)"
 # quick shortcut for when we run this a log
 if [ $(( $(date +%s) - $(stat -c %Y planet-waterway.osm.pbf) )) -lt 600 ] ; then
-	exit 0
+  if ! $FORCE ; then
+    exit 0
+  fi
 fi
 
 SECONDS=0
