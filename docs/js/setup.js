@@ -38,6 +38,7 @@ document.addEventListener("alpine:init", async () => {
 
   let params = new URLSearchParams((location.hash ?? "#").substr(1));
   let len_filter = decodeFilterParams(params.get("len") ?? "");
+  let show_frames = (params.get("frames") ?? "no") == "yes";
   let selected_tileset_key = params.get("tiles") ?? tilesets.selected_tileset;
   if (!tilesets.tilesets.map(t => t.key).some(t => selected_tileset_key == t)) {
     console.error(
