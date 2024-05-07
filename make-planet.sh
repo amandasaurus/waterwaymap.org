@@ -51,7 +51,8 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends
 echo "All data files generated"
 
 for F in \
-  water-w_frames nonartificial-w_frames \
+  water-w_frames water-frames \
+  nonartificial-frames nonartificial-w_frames \
   boatable canoeable \
   name-group-name rivers-etc \
   loops ends \
