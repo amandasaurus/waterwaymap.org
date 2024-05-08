@@ -12,7 +12,7 @@ planet-waterway.osm.pbf:
 		-zg \
 		--no-feature-limit \
 		--simplification=8 \
-		--drop-densest-as-needed \
+		--drop-smallest-as-needed \
 		-y length_m -y root_wayid -y root_wayid_120 \
 		-l waterway \
 		--gamma 2 \
@@ -32,7 +32,7 @@ planet-waterway.osm.pbf:
 		-z$(shell pmtiles show $*.pmtiles | grep -oP "(?<=^max zoom: )\d+$$") \
 		--no-feature-limit \
 		--simplification=8 \
-		--drop-densest-as-needed \
+		--drop-smallest-as-needed \
 		-y length_m -y root_wayid -y root_wayid_120 \
 		-l frames \
 		--gamma 2 \
