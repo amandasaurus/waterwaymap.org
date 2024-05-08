@@ -108,7 +108,7 @@ document.addEventListener("alpine:init", async () => {
       location.hash = "#" + loc.toString();
       map.getSource("waterway").setUrl("pmtiles://" + selected_tileset.url);
     });
-    var parmas = new URLSearchParams((location.hash ?? "#").substr(1));
+    var params = new URLSearchParams((location.hash ?? "#").substr(1));
     let show_frames = (params.get("frames") ?? "no") == "yes";
     map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
   });
