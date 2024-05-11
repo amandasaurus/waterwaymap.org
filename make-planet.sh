@@ -44,8 +44,8 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons t
 
 SECONDS=0
 rm -fv tmp.planet-{loops,ends}.{geojsons,pmtiles}
-#make planet-loops.pmtiles planet-loops.geojsons planet-ends.pmtiles planet-ends.geojsons planet-ends.geojsons.gz
-#zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
+make planet-loops.pmtiles planet-loops.geojsons planet-ends.pmtiles planet-ends.geojsons planet-ends.geojsons.gz
+zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends"
 
 echo "All data files generated"
@@ -55,9 +55,13 @@ for F in \
   nonartificial-frames nonartificial-w_frames \
   boatable canoeable \
   name-group-name rivers-etc \
-  loops ends \
   ; do
   mv planet-waterway-${F}.pmtiles ./docs/data/ || true
+done
+for F in \
+  loops ends \
+  ; do
+  mv planet-${F}.pmtiles ./docs/data/ || true
 done
 mv ./planet-loops.geojsons ./docs/data/ || true
 mv ./planet-ends.geojsons.gz ./docs/data/ || true
