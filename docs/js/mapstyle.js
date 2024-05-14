@@ -96,7 +96,7 @@ var mapstyle_layers = [
     paint: {
       "line-color": "black",
       "line-width": 4,
-      "line-gap-width": 9,
+      "line-gap-width": ["interpolate", ["linear"], ["zoom"], 0, 0, 6, 0, 12, 9],
     },
   },
 ];
