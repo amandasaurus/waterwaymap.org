@@ -26,7 +26,7 @@ See the [website](https://waterwaymap.org).
 
 ## Loops
 
-Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https://waterwaymap.org/loops/).
+Loops in waterways are detected and shown on: [`WaterwayMap.org/loops`](https://waterwaymap.org/loops).
 
 * [Fedi/Masto post](https://en.osm.town/@amapanda/111658136395447174)
 * [OSM Ccommunity Forum announcement](https://community.openstreetmap.org/t/the-wonders-of-early-medieval-fore-abbey-and-osm-river-topology-today-i-e-waterwaymap-org-is-going-around-in-circles/107497)
@@ -37,7 +37,7 @@ Loops in waterways are detected and shown on: [`WaterwayMap.org/loops/`](https:/
 
 ## End Points
 
-Points at which waterways end are shown on: [`WaterwayMap.org/ends/`](https://waterwaymap.org/ends/).
+Points at which waterways end are shown on: [`WaterwayMap.org/ends`](https://waterwaymap.org/ends).
 
 * [Fedi/Masto post](https://en.osm.town/@amapanda/111844170704856219)
 * [OSM Ccommunity Forum announcement](https://community.openstreetmap.org/t/the-end-of-waterway-map/108632)
