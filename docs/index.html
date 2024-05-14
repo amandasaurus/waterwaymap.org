@@ -524,7 +524,6 @@
                 x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
                         show_frames = (hsh.get('frames') ?? 'no') == 'yes';
                         $watch('show_frames', show_frames => {
-                          map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
                           let params = new URLSearchParams((location.hash ?? '#').substr(1));
                           if (show_frames) {
                             params.set('frames', 'yes');
@@ -532,7 +531,15 @@
                             params.delete('frames');
                           }
                           location.hash = '#' + params.toString();
-                          map.redraw();
+                          if (map.loaded()) {
+                            map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
+                            map.redraw();
+                          } else {
+                            map.once('load', () => {
+                              map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
+                              map.redraw();
+                            });
+                          }
                       })"
               >
               <h2 class="fs-5">Frames</h2>
