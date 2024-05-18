@@ -236,13 +236,11 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--simplification=8 \
-		--cluster-densest-as-needed \
 		-r1 \
-		--cluster-distance 1 \
-		--accumulate-attribute from_upstream_m:max \
-		-y from_upstream_m \
+		-y from_upstream_m_100 -y biggest_end_nid \
+		--reorder --coalesce \
+		--drop-smallest-as-needed \
 		-l upstreams \
-		--gamma 2 \
 		--no-progress-indicator \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
