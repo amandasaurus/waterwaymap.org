@@ -12,8 +12,9 @@ planet-waterway.osm.pbf:
 		-zg \
 		--no-feature-limit \
 		--simplification=8 \
-		--drop-smallest-as-needed \
 		-y length_m -y root_wayid -y root_wayid_120 \
+		--reorder --coalesce \
+		--drop-smallest-as-needed \
 		-l waterway \
 		--gamma 2 \
 		--extend-zooms-if-still-dropping \
