@@ -232,7 +232,7 @@ planet-upstreams.pmtiles: planet-upstreams.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "WaterwayMap.org Upstream" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--simplification=8 \
