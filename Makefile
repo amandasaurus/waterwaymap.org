@@ -208,13 +208,12 @@ planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-wat
 	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 
-planet-loops.pmtiles: planet-loops.geojsons
+planet-loops-lines.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "WaterwayMap.org Loops" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
 		--simplification=8 \
 		-r1 \
 		--cluster-densest-as-needed \
@@ -223,9 +222,36 @@ planet-loops.pmtiles: planet-loops.geojsons
 		--accumulate-attribute num_nodes:sum \
 		--accumulate-attribute length_m:sum \
 		-y root_nid -y num_nodes -y length_m \
-		-l loops \
+		-l loop_lines \
 		--no-progress-indicator \
 		-o tmp.$@ $<
+	mv tmp.$@ $@
+
+%-firstpoint.geojsons: %.geojsons
+	jq <$< >$@ '{"type": "Feature", "properties": .properties, "geometry": {"type": "Point", "coordinates": .geometry.coordinates[0][0] }}'
+
+planet-loops-firstpoints.pmtiles: planet-loops-firstpoint.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-n "WaterwayMap.org Loops" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		--simplification=8 \
+		-r1 \
+		--cluster-densest-as-needed \
+		--no-feature-limit \
+		--no-tile-size-limit \
+		--accumulate-attribute num_nodes:sum \
+		--accumulate-attribute length_m:sum \
+		-y root_nid -y num_nodes -y length_m \
+		-l loop_points \
+		--no-progress-indicator \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
+planet-loops.pmtiles: planet-loops-firstpoints.pmtiles planet-loops-lines.pmtiles
+	rm -fv tmp.$@
+	tile-join --no-tile-size-limit -o tmp.$@ $^
 	mv tmp.$@ $@
 
 planet-upstreams.pmtiles: planet-upstreams.geojsons

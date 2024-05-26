@@ -50,29 +50,32 @@ document.addEventListener("alpine:init", async () => {
           source: "osmcarto",
         },
         {
-          id: "loops-halo",
+          id: "loops-points",
           source: "loops",
-          "source-layer": "loops",
-          type: "line",
-          filter: ["<", ["zoom"], 10],
+          "source-layer": "loop_points",
+          type: "circle",
           paint: {
-            "line-color": "black",
-            "line-opacity": 0.2,
-            "line-width": 15,
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 0, 2, 3, 3, 6, 4, 12, 3, 19, 5]
           },
-          layout: {
-            "line-cap": "round",
-            "line-join": "round",
+        },
+        {
+          id: "loops-points-halo",
+          source: "loops",
+          "source-layer": "loop_points",
+          type: "circle",
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 0, 10, 12, 10, 15, 0],
+            "circle-blur": 2,
           },
         },
         {
           id: "loops",
           source: "loops",
-          "source-layer": "loops",
+          "source-layer": "loop_lines",
           type: "line",
           paint: {
             "line-color": "black",
-            "line-width": 3,
+            "line-width": ["interpolate", ["linear"], ["zoom"], 0, 10, 15, 3],
           },
           layout: {
             "line-cap": "round",
