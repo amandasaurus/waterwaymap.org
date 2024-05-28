@@ -227,10 +227,10 @@ planet-loops-lines.pmtiles: planet-loops.geojsons
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
-%-firstpoint.geojsons: %.geojsons
+%-firstpoints.geojsons: %.geojsons
 	jq <$< >$@ '{"type": "Feature", "properties": .properties, "geometry": {"type": "Point", "coordinates": .geometry.coordinates[0][0] }}'
 
-planet-loops-firstpoints.pmtiles: planet-loops-firstpoint.geojsons
+planet-loops-firstpoints.pmtiles: planet-loops-firstpoints.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "WaterwayMap.org Loops" \
