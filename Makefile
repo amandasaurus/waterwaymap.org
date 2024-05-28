@@ -230,6 +230,9 @@ planet-loops-lines.pmtiles: planet-loops.geojsons
 %-firstpoints.geojsons: %.geojsons
 	jq <$< >$@ '{"type": "Feature", "properties": .properties, "geometry": {"type": "Point", "coordinates": .geometry.coordinates[0][0] }}'
 
+%.geojson: %.geojsons
+	ogr2ogr $@ $<
+
 planet-loops-firstpoints.pmtiles: planet-loops-firstpoints.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
