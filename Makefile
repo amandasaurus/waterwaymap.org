@@ -228,7 +228,7 @@ planet-loops-lines.pmtiles: planet-loops.geojsons
 	mv tmp.$@ $@
 
 %-firstpoints.geojsons: %.geojsons
-	jq <$< >$@ '{"type": "Feature", "properties": .properties, "geometry": {"type": "Point", "coordinates": .geometry.coordinates[0][0] }}'
+	jq --seq <$< >$@ '{"type": "Feature", "properties": .properties, "geometry": {"type": "Point", "coordinates": .geometry.coordinates[0][0] }}'
 
 %.geojson: %.geojsons
 	ogr2ogr $@ $<
