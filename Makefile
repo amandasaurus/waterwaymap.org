@@ -79,6 +79,7 @@ planet-waterway.osm.pbf:
 
 # Default view. “Waterways (inc. canals etc)”
 planet-waterway-water.geojsons planet-waterway-water-frames.geojsons: planet-waterway.osm.pbf
+	rm -f tmp.planet-waterway-water.geojsons tmp.planet-waterway-water-frames.geojsons
 	osm-lump-ways \
 		-i $< -o tmp.planet-waterway-water.geojsons \
 		--min-length-m 100 --save-as-linestrings \
