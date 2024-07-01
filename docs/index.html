@@ -466,54 +466,49 @@
               <div class="d-flex flex-wrap justify-content-center gap-2">
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 2], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(2)"
                 >
                   2
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 3], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(3)"
                 >
                   3
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 4], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(4)"
                 >
                   4
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 5], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(5)"
                 >
                   5
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 6], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(6)"
                 >
                   6
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], 7], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ])"
+                  @click="changeMapColours(7)"
                 >
                   7
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])"
+                  @click="changeMapColours(11)"
                 >
                   11
                 </button>
                 <button
                   class="btn btn-primary"
-                  @click="map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 24],
-                          0, '#fd5500',    1, '#ffa700',   2, '#feec00',   3, '#b1ff00',   4, '#06fe59',   5, '#03ffef',
-                          6, '#0071ff',    7, '#2a00ff',   8, '#9501ff',   9, '#ff03ff',  10, '#ff026a',  11, '#ff0102',
-                          12, '#973401',  13, '#986500',  14, '#998d00',  15, '#6c9900',  16, '#019937',  17, '#009b8f',
-                          18, '#01439a',  19, '#180098',  20, '#590197',  21, '#99009a',  22, '#99003f',  23, '#970101',
-                         'black', ])"
+                  @click="changeMapColours(24)"
                 >
                   24
                 </button>

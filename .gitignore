@@ -11,6 +11,7 @@
 *.pmtiles
 *.pmtiles2
 *.pmtiles-journal
+/planet-upstreams.pg_imported
 /add-incomplete-ways.osc
 /docs/data/*
 /incomplete_ways.txt

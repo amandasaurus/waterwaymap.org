@@ -202,12 +202,13 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-planet-loops.geojsons planet-upstreams.geojsons planet-ends.geojsons: planet-waterway.osm.pbf
+planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv
+	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-tag-biggest-end --min-upstream-m 100 --ends --loops --group-by-ends
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
-	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
+	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
+
 
 planet-loops-lines.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
@@ -258,22 +259,41 @@ planet-loops.pmtiles: planet-loops-firstpoints.pmtiles planet-loops-lines.pmtile
 	tile-join --no-tile-size-limit -o tmp.$@ $^
 	mv tmp.$@ $@
 
-planet-upstreams.pmtiles: planet-upstreams.geojsons
-	rm -fv tmp.$@
-	timeout 8h tippecanoe \
-		-n "WaterwayMap.org Upstream" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
-		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
-		--simplification=8 \
-		-r1 \
-		-y from_upstream_m_100 -y biggest_end_nid \
-		--reorder --coalesce \
-		--drop-smallest-as-needed \
-		-l upstreams \
-		--no-progress-indicator \
-		-o tmp.$@ $<
-	mv tmp.$@ $@
+#planet-upstreams.pmtiles: planet-upstreams.geojsons
+#	rm -fv tmp.$@
+#	timeout 8h tippecanoe \
+#		-n "WaterwayMap.org Upstream" \
+#		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
+#		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+#		-zg \
+#		--simplification=8 \
+#		-r1 \
+#		-y from_upstream_m_100 -y biggest_end_nid \
+#		-j '{ "*": [ "any", [ ">=", "$$zoom", 6 ], [ "from_upstream_m_100", "ge", 1000000 ] ] }' \
+#		--reorder --coalesce \
+#		--no-feature-limit \
+#		--drop-smallest-as-needed \
+#		-l upstreams \
+#		-o tmp.$@ $<
+#	mv tmp.$@ $@
+
+#planet-waterway-w-ends.pmtiles: planet-upstreams.geojsons
+#	rm -fv tmp.$@
+#	timeout 8h tippecanoe \
+#		-n "WaterwayMap.org Upstream" \
+#		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
+#		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+#		-zg \
+#		--simplification=8 \
+#		-r1 \
+#		-y biggest_end_nid \
+#		--reorder --coalesce \
+#		--no-feature-limit \
+#		--drop-smallest-as-needed \
+#		-l waterway_ends \
+#		-o tmp.$@ $<
+#	mv tmp.$@ $@
+
 
 planet-ends.pmtiles: planet-ends.geojsons
 	rm -fv tmp.$@
@@ -298,3 +318,48 @@ planet-ends.pmtiles: planet-ends.geojsons
 planet-ends.geojsons.gz: planet-ends.geojsons
 	rm -fv $@
 	gzip -k -9 $<
+
+# Attempt to generate geojsons which group related upstream values (for
+# different zoom levels) together
+#
+#planet-upstreams.pg_imported: planet-upstreams.csv planet-ends.geojsons
+#	time ogr2ogr -f PostgreSQL PG:"" planet-ends.geojsons -nln waterway_ends -select nid,upstream_m -lco SPATIAL_INDEX=none -lco GEOMETRY_NAME=geom -lco UNLOGGED=on -overwrite
+#	time ogr2ogr -f PostgreSQL PG:"" planet-upstreams.csv -nln waterway_upstreams -select biggest_end_nid,from_upstream_m -lco SPATIAL_INDEX=none -lco GEOMETRY_NAME=geom -lco UNLOGGED=on -overwrite -oo AUTODETECT_TYPE=yes -oo KEEP_GEOM_COLUMNS=no
+#	psql -c "create index on waterway_upstreams (biggest_end_nid);"
+#	psql -c "cluster waterway_upstreams on waterway_upstreams_biggest_end_nid_idx;"
+#	psql -c "create index on waterway_ends (nid);"
+#	psql -c "cluster waterway_ends on waterway_ends_nid_idx;"
+#	touch $@
+#
+#planet-waterway-upstream-100.geojsons: planet-upstreams.pg_imported
+#	rm -f tmp.$@
+#	ogr2ogr tmp.$@ PG:"" -sql "select biggest_end_nid, (select upstream_m from waterway_ends where nid = biggest_end_nid limit 1) as biggest_end_upstream_m, 100*round(from_upstream_m/100) as upstream_m, (St_dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by biggest_end_nid, upstream_m"
+#	mv tmp.$@ $@
+#
+#planet-waterway-upstream-1000.geojsons: planet-upstreams.pg_imported
+#	rm -f tmp.$@
+#	ogr2ogr tmp.$@ PG:"" -sql "select biggest_end_nid, (select upstream_m from waterway_ends where nid = biggest_end_nid limit 1) as biggest_end_upstream_m, 1000*round(from_upstream_m/1000) as upstream_m, (St_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by biggest_end_nid, upstream_m"
+#	mv tmp.$@ $@
+#
+#planet-waterway-upstream-10000.geojsons: planet-upstreams.pg_imported
+#	rm -f tmp.$@
+#		ogr2ogr tmp.$@ PG:"" -sql "select biggest_end_nid, (select upstream_m from waterway_ends where nid = biggest_end_nid limit 1) as biggest_end_upstream_m, 10000*round(from_upstream_m/10000) as upstream_m, (ST_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by biggest_end_nid, upstream_m"
+#	mv tmp.$@ $@
+
+planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-n "WaterwayMap.org Upstream" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-zg \
+		--simplification=8 \
+		-r1 \
+		-y biggest_end_nid -y biggest_end_upstream_m \
+		--reorder --coalesce \
+		--no-feature-limit \
+		--drop-smallest-as-needed \
+		-l upstreams \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
