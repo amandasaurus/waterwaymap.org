@@ -358,6 +358,7 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-y biggest_end_nid -y biggest_end_upstream_m \
 		--reorder --coalesce \
 		--no-feature-limit \
+		--extend-zooms-if-still-dropping \
 		--drop-smallest-as-needed \
 		-l upstreams \
 		-o tmp.$@ $<
