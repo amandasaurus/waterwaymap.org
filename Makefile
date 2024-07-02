@@ -357,7 +357,7 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-r1 \
 		-y biggest_end_nid -y biggest_end_upstream_m \
 		--reorder --coalesce \
-		--no-feature-limit \
+		--no-feature-limit --maximum-tile-bytes $(shell units -t 600KiB bytes) \
 		--extend-zooms-if-still-dropping \
 		--drop-smallest-as-needed \
 		-l upstreams \
