@@ -33,6 +33,12 @@
       "object_types": ["way"]
     },
     {
+      "key": "usage",
+      "value": "yes",
+      "description": "Used on waterway=canal to see if it's a spillway or head/tailrace",
+      "object_types": ["way"]
+    },
+    {
       "key": "canoe",
       "description": "Used to calculate canoe navigable waterways view",
       "object_types": ["way"]
