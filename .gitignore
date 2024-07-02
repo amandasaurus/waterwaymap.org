@@ -1,3 +1,4 @@
+*.csv
 *.geojson
 *.geojson.*z*
 *.geojson.br
