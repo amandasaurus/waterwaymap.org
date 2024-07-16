@@ -11,7 +11,7 @@ planet-waterway.osm.pbf:
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--no-feature-limit \
-		--simplification=8 \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-y length_m -y root_wayid -y root_wayid_120 \
 		--reorder --coalesce \
 		--drop-smallest-as-needed \
@@ -32,7 +32,7 @@ planet-waterway.osm.pbf:
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-z$(shell pmtiles show $*.pmtiles | grep -oP "(?<=^max zoom: )\d+$$") \
 		--no-feature-limit \
-		--simplification=8 \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		--drop-smallest-as-needed \
 		-y length_m -y root_wayid -y root_wayid_120 \
 		-l frames \
@@ -216,7 +216,7 @@ planet-loops-lines.pmtiles: planet-loops.geojsons
 		-n "WaterwayMap.org Loops" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		--simplification=8 \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		--cluster-densest-as-needed \
 		--no-feature-limit \
@@ -241,7 +241,7 @@ planet-loops-firstpoints.pmtiles: planet-loops-firstpoints.geojsons
 		-n "WaterwayMap.org Loops" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		--simplification=8 \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		--cluster-densest-as-needed \
 		--no-feature-limit \
@@ -266,7 +266,7 @@ planet-loops.pmtiles: planet-loops-firstpoints.pmtiles planet-loops-lines.pmtile
 #		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 #		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 #		-zg \
-#		--simplification=8 \
+#		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 #		-r1 \
 #		-y from_upstream_m_100 -y biggest_end_nid \
 #		-j '{ "*": [ "any", [ ">=", "$$zoom", 6 ], [ "from_upstream_m_100", "ge", 1000000 ] ] }' \
@@ -284,7 +284,7 @@ planet-loops.pmtiles: planet-loops-firstpoints.pmtiles planet-loops-lines.pmtile
 #		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 #		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 #		-zg \
-#		--simplification=8 \
+#		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 #		-r1 \
 #		-y biggest_end_nid \
 #		--reorder --coalesce \
@@ -353,7 +353,7 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
-		--simplification=8 \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		-y biggest_end_nid -y biggest_end_upstream_m \
 		--reorder --coalesce \
