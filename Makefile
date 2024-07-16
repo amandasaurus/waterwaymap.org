@@ -204,7 +204,7 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 
 planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
-	./osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-tag-biggest-end --min-upstream-m 100 --ends --loops --group-by-ends --upstreams planet-upstreams.csv
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-%s.geojsons -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-tag-biggest-end --min-upstream-m 100 --ends --loops --group-by-ends --upstreams planet-upstreams.csv
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
