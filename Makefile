@@ -209,6 +209,11 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
 
+planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-waterway-stream-%s-full.geojson -F @flowing_water_wo_streams.tagfilterfunc --ends --ends-membership waterway=stream
+	ogr2ogr planet-waterway-stream-ends.geojson tmp.planet-waterway-stream-ends-full.geojson -where '"is_in:waterway=stream"' -progress
+	rm tmp.planet-waterway-stream-ends-full.geojson
+
 
 planet-loops-lines.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@
