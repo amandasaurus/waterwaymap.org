@@ -351,11 +351,6 @@ planet-ends.geojsons.gz: planet-ends.geojsons
 #		ogr2ogr tmp.$@ PG:"" -sql "select biggest_end_nid, (select upstream_m from waterway_ends where nid = biggest_end_nid limit 1) as biggest_end_upstream_m, 10000*round(from_upstream_m/10000) as upstream_m, (ST_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by biggest_end_nid, upstream_m"
 #	mv tmp.$@ $@
 
-planet-grouped-ends.fgb: planet-grouped-ends.geojsons
-	rm -f tmp.$@
-	ogr2ogr tmp.$@  $< -simplify 0.0001
-	mv tmp.$@ $@
-
 planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \

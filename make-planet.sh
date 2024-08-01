@@ -25,22 +25,21 @@ fi
 
 # Tiles
 SECONDS=0
-make -j1 \
+make \
   planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons \
   planet-waterway-name-group-name.geojsons \
+  planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
   planet-waterway-rivers-etc.geojsons
-  #planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
 make \
   planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles \
   planet-waterway-name-group-name.pmtiles \
+  planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
   planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
   planet-waterway-rivers-etc.pmtiles
-  # planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles 
-#make planet-waterway-water-w_frames.pmtiles
-make planet-waterway-nonartificial-w_frames.pmtiles
+make planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 SECONDS=0
