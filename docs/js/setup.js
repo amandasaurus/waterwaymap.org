@@ -61,6 +61,7 @@ document.addEventListener("alpine:init", async () => {
     zoom: 2,
     hash: "map",
     center: [0, 0],
+    attributionControl: false,  // manually added later (w. date)
     style: {
       version: 8,
       layers: mapstyle_layers,
@@ -92,6 +93,7 @@ document.addEventListener("alpine:init", async () => {
     }),
   );
   map.addControl(new maplibregl.NavigationControl());
+  map.addControl(new maplibregl.AttributionControl({customAttribution: "Data as of "+tilesets.data_timestamp}));
   filterParamsChanged(len_filter);
 
   map.setPadding({ top: 57 });
