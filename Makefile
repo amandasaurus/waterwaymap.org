@@ -214,6 +214,10 @@ planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_st
 	ogr2ogr planet-waterway-stream-ends.geojson tmp.planet-waterway-stream-ends-full.geojson -where '"is_in:waterway=stream"' -progress
 	rm tmp.planet-waterway-stream-ends-full.geojson
 
+planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
+	rm -rf tmp.planet-ditch-loops.geojson
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --csv-stats-file ./docs/data/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
+	mv tmp.planet-ditch-loops.geojson planet-ditch-loops.geojson
 
 planet-loops-lines.pmtiles: planet-loops.geojsons
 	rm -fv tmp.$@

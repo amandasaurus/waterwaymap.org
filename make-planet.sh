@@ -49,6 +49,7 @@ make planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons
 make -j planet-loops.pmtiles planet-loops.geojson.gz planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz
 make planet-grouped-ends.pmtiles
 zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
+make planet-ditch-loops.geojson.gz
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends"
 
 echo "All data files generated"
@@ -67,6 +68,7 @@ for F in \
   mv planet-${F}.pmtiles ./docs/data/ || true
 done
 mv ./planet-loops.geojson.gz ./docs/data/ || true
+mv ./planet-ditch-loops.geojson.gz ./docs/data/ || true
 mv ./planet-loops-firstpoints.geojson.gz ./docs/data/ || true
 mv ./planet-ends.geojson.gz ./docs/data/ || true
 mv ./*zst ./docs/data/ 2>/dev/null || true
