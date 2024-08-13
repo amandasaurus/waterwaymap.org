@@ -21,6 +21,7 @@ See the [website](https://waterwaymap.org).
 ### OSM Tagging Discussions from this tool
 
 * [Should river lines be mapped through lakes, estuaries, gulfs, and other large water bodies?](https://community.openstreetmap.org/t/should-river-lines-be-mapped-through-lakes-estuaries-gulfs-and-other-large-water-bodies/104438) _(Oct. 2023)_
+  * [Flowlines](https://wiki.openstreetmap.org/wiki/Proposal:Flowlines) tagging proposal. [osm comm. forum](https://community.openstreetmap.org/t/rfc-feature-proposal-flowlines/117361) & [`tagging@`](https://lists.openstreetmap.org/pipermail/tagging/2024-August/067978.html).
 * [Properly mapping dry washes](https://community.openstreetmap.org/t/properly-mapping-dry-washes/108437) _(Jan. 2024)_
 * [Is there a common tag for underground infiltrated watercourses?](https://community.openstreetmap.org/t/is-there-a-common-tag-for-underground-infiltrated-watercourses/111558) _(Apr. 2024)_
 * [How to map a Lazy river in an amusement park](https://community.openstreetmap.org/t/how-to-map-a-lazy-river-in-an-amusement-park/113429) _(May 2024)_
