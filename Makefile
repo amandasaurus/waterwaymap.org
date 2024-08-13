@@ -369,6 +369,7 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
 		--extend-zooms-if-still-dropping \
 		--drop-smallest-as-needed \
+		--no-progress-indicator \
 		-l upstreams \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
