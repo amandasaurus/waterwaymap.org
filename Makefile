@@ -103,7 +103,7 @@ planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geoj
 
 # The “Navigable by boat” view
 planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f boat∈yes,motor∨waterway=fairway
 	mv tmp.$@ $@
 
 # The “Navigable by canoe” view
