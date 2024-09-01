@@ -30,27 +30,24 @@ make \
   planet-waterway-name-group-name.geojsons \
   planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
-  planet-waterway-rivers-etc.geojsons
+  planet-waterway-rivers-etc.geojsons \
+  planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons \
+  planet-ditch-loops.geojson.gz
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
-make \
+make -j2 \
   planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles \
   planet-waterway-name-group-name.pmtiles \
   planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
   planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
-  planet-waterway-rivers-etc.pmtiles
-make planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles
+  planet-waterway-rivers-etc.pmtiles \
+  planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles \
+  planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz \
+  planet-loops.geojson.gz \
+  planet-grouped-ends.pmtiles
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
-SECONDS=0
-rm -fv tmp.planet-{loops,ends}.{geojsons,pmtiles}
-make planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons
-# .geojson.gz (not geojsonS) for JOSM loading
-make -j planet-loops.pmtiles planet-loops.geojson.gz planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz
-make planet-grouped-ends.pmtiles
 zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
-make planet-ditch-loops.geojson.gz
-echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to calculate loops & ends"
 
 echo "All data files generated"
 
