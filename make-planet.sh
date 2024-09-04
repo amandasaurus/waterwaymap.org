@@ -32,6 +32,7 @@ make \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
   planet-waterway-rivers-etc.geojsons \
   planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons \
+  planet-waterway-stream-ends.geojson.gz \
   planet-ditch-loops.geojson.gz
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
@@ -68,6 +69,7 @@ mv ./planet-loops.geojson.gz ./docs/data/ || true
 mv ./planet-ditch-loops.geojson.gz ./docs/data/ || true
 mv ./planet-loops-firstpoints.geojson.gz ./docs/data/ || true
 mv ./planet-ends.geojson.gz ./docs/data/ || true
+mv ./planet-waterway-stream-ends.geojson.gz ./docs/data/ || true
 mv ./*zst ./docs/data/ 2>/dev/null || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"|.tilesets[0].frames = true' | sponge ./docs/data/tilesets.json
