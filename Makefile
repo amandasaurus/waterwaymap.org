@@ -210,9 +210,10 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
 
 planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -o tmp.planet-waterway-stream-%s-full.geojson -F @flowing_water_wo_streams.tagfilterfunc --ends --ends-membership waterway=stream
-	ogr2ogr planet-waterway-stream-ends.geojson tmp.planet-waterway-stream-ends-full.geojson -where '"is_in:waterway=stream"' -progress
-	rm tmp.planet-waterway-stream-ends-full.geojson
+	rm -f tmp.$@
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf --ends tmp.$@ -F @flowing_water_wo_streams.tagfilterfunc --ends-membership waterway=stream
+	rm -f $@
+	ogr2ogr $@ tmp.$@ -where '"is_in:waterway=stream"'
 
 planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
