@@ -48,7 +48,7 @@ Points at which waterways end are shown on: [`WaterwayMap.org/ends`](https://wat
 
 ### Where things turn into streams
 
-To detect places where waterways (e.g. rivers) flow into a stream, a GeoJSON file of those is generated: [`data.waterwaymap.org/planet-waterway-stream-ends.geojson.gz`)[https://data.waterwaymap.org/planet-waterway-stream-ends.geojson.gz] (~ 2 MiB compressed). It can be loaded into JOSM to find errors.
+To detect places where waterways (e.g. rivers) flow into a stream, a GeoJSON file of those is generated: [`data.waterwaymap.org/planet-waterway-stream-ends.geojson.gz`](https://data.waterwaymap.org/planet-waterway-stream-ends.geojson.gz) (~ 2 MiB compressed). It can be loaded into JOSM to find errors.
 
 It was asked for in [issue 52](https://github.com/amandasaurus/waterwaymap.org/issues/52), with the code in [commit `4730275`](https://github.com/amandasaurus/waterwaymap.org/commit/4730275509c1655e46a09c3994436403b3bd5ec1).
 
