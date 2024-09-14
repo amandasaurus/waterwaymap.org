@@ -30,14 +30,26 @@ See the [website](https://waterwaymap.org).
 
 ## Loops
 
-Loops in waterways are detected and shown on: [`WaterwayMap.org/loops`](https://waterwaymap.org/loops).
+Loops in waterways are detected and shown on:
+[`WaterwayMap.org/loops`](https://waterwaymap.org/loops).
+
 
 * [Fedi/Masto post](https://en.osm.town/@amapanda/111658136395447174)
 * [OSM Ccommunity Forum announcement](https://community.openstreetmap.org/t/the-wonders-of-early-medieval-fore-abbey-and-osm-river-topology-today-i-e-waterwaymap-org-is-going-around-in-circles/107497)
 
 ### Statistics
 
-[`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) has made a mastodon account summarizing stats: [`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats) [feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
+A CSV file of statistics of loops is generated and available for download at
+[`data.waterwaymap.org/waterwaymap.org_loops_stats.csv`](
+https://data.waterwaymap.org/waterwaymap.org_loops_stats.csv). See the
+[`osm-lump-ways` documentation on the CSV stats
+file](https://github.com/amandasaurus/osm-lump-ways?tab=readme-ov-file#loops-stats-csv)
+for documentation 
+
+It is used by [`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) for a
+mastodon account summarizing stats:
+[`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats)
+[feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
 
 ## End Points
 
