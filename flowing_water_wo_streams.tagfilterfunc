@@ -3,7 +3,7 @@ waterway=stream→F;
 # Used to detect “Flowing Water”, things like rivers, which should not have loops etc.
 
 # Exclude `waterway` values which are not water.
-waterway∈dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate,flow_control→F;
+waterway∈dam,weir,rapids,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water,derelict_canal,offshore_field,boat_lift,depth_line,floating_barrier,floodgate,flow_control→F;
 
 # Used for artificial pipes (cf https://github.com/amandasaurus/waterwaymap.org/issues/47)
 waterway=pressurised→F;
