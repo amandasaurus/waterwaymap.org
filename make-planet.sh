@@ -8,12 +8,12 @@ fi
 
 source functions.sh
 
-./dl_updates_from_osm.sh
-
 if [ "$(osm-lump-ways --version)" != "osm-lump-ways 1.3.0" ] ; then
   echo 1>&2 "Wrong version of osm-lump-ways installed: $(osm-lump-ways --version)"
   exit 1
 fi
+
+./dl_updates_from_osm.sh
 
 LAST_TIMESTAMP=$(osmium fileinfo -g header.option.timestamp planet-waterway.osm.pbf)
 if [ -z "$LAST_TIMESTAMP" ] ; then
