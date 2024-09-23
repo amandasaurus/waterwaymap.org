@@ -130,7 +130,7 @@ var mapstyle_layers = [
     "paint": {
       "line-color": [
         "match",
-        ["%", ["get", "biggest_end_nid"], 7],
+        ["%", ["get", "end_nid"], 7],
         0, "#a6cee3",
         1, "#1f78b4",
         2, "#33a02c",
@@ -158,7 +158,7 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", ["round", ["/", ["get", "biggest_end_upstream_m"], 1000]], " km", ],
+      "text-field": [ "concat", ["round", ["/", ["get", "end_upstream_m"], 1000]], " km", ],
       "text-offset": [0, 1],
       "symbol-placement": "line",
     },
@@ -174,7 +174,7 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", "id: ", ["coalesce", ["get", "biggest_end_nid"], "N/A" ] ],
+      "text-field": [ "concat", "id: ", ["coalesce", ["get", "end_nid"], "N/A" ] ],
       "text-offset": [0, -1],
       "symbol-placement": "line",
     },
