@@ -20,4 +20,5 @@
 /tmp.*.geojson
 /tmp.*.pmtiles.tmp
 /waterwaymap.org_loops_stats.csv.zst
+/waterwaymap.org_ends_stats.csv.zst
 /tilekiln/

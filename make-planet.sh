@@ -38,6 +38,7 @@ make \
   planet-waterway-rivers-etc.geojsons \
   planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons \
   planet-waterway-stream-ends.geojson.gz \
+  planet-unnamed-big-ends.geojson.gz \
   planet-ditch-loops.geojson.gz
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
@@ -50,7 +51,8 @@ make -j2 \
   planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles \
   planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz \
   planet-loops.geojson.gz \
-  planet-grouped-ends.pmtiles
+  planet-grouped-ends.pmtiles \
+  waterwaymap.org_ends_stats.csv
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
@@ -74,8 +76,10 @@ mv ./planet-loops.geojson.gz ./docs/data/ || true
 mv ./planet-ditch-loops.geojson.gz ./docs/data/ || true
 mv ./planet-loops-firstpoints.geojson.gz ./docs/data/ || true
 mv ./planet-ends.geojson.gz ./docs/data/ || true
+mv ./planet-unnamed-big-ends.geojson.gz ./docs/data || true
 mv ./planet-waterway-stream-ends.geojson.gz ./docs/data/ || true
 mv ./*zst ./docs/data/ 2>/dev/null || true
+cp ./waterwaymap.org_ends_stats.csv.zst ./docs/data/ 2>/dev/null || true
 
 jq <./docs/data/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"|.tilesets[0].frames = true' | sponge ./docs/data/tilesets.json
 jq <./docs/data/tilesets.json '.tilesets[1].key = "planet-waterway-nonartificial"|.tilesets[1].text = "Natural Waterways (excl. canals etc)"|.tilesets[1].frames = true' | sponge ./docs/data/tilesets.json

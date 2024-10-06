@@ -215,6 +215,18 @@ planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_st
 	rm -f $@
 	ogr2ogr $@ tmp.$@ -where '"is_in:waterway=stream"'
 
+planet-unnamed-big-ends.geojson: planet-ends.geojsons
+	rm -f tmp.$@
+	ogr2ogr tmp.$@ $< -where '"tag:name" is null and  upstream_m >= 1000000'
+	mv tmp.$@ $@
+
+waterwaymap.org_ends_stats.csv: planet-ends.geojsons
+	bash -c 'if [ ! -s $@ ] ; then echo "timestamp,iso_datetime,upstream_m,nid,lat,lng,wikidata,name,wikipedia" > $@ ; fi'
+	$(eval ISO_TIMESTAMP=$(shell jq -Mr <docs/data/tilesets.json ".data_timestamp"))
+	$(eval TIMESTAMP=$(shell date -d $(ISO_TIMESTAMP) +%s))
+	jq -Mr <planet-ends.geojsons ".|select( .properties.\"tag:name\" != null and .properties.upstream_m >= 500000)|[$(TIMESTAMP),\"$(ISO_TIMESTAMP)\",.properties.upstream_m,.properties.nid,.geometry.coordinates[0],.geometry.coordinates[1],.properties.\"tag:wikidata\",.properties.\"tag:name\",.properties.\"tag:wikipedia\"]|@csv" | xsv sort -s 3 -NR --no-headers | head -n 1000 >> $@
+	zstd --quiet --force -z -k -e -19 $@ -o $@.zst
+
 planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
 	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --csv-stats-file ./docs/data/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
