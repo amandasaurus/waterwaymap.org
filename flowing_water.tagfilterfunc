@@ -13,7 +13,7 @@ waterway∈ditch,drain,tidal_channel→F;
 waterway=seaway→F;
 
 # Canoeists use this. This isn't water.
-waterway∈put_in,link→F;
+waterway∈put_in,link,put_in;egress→F;
 
 # Often locks on big rivers are `waterway=canal` with `lock=yes`. Since the
 # rivers flow through them, they should be included.
