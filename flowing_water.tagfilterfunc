@@ -13,7 +13,8 @@ waterway∈ditch,drain,tidal_channel→F;
 waterway=seaway→F;
 
 # Canoeists use this. This isn't water.
-waterway∈put_in,link,put_in;egress,egress→F;
+waterway∈put_in,link,egress→F;
+waterway=put_in\u{3B}egress→F;     # semicolon in tag value messing things up
 
 # Often locks on big rivers are `waterway=canal` with `lock=yes`. Since the
 # rivers flow through them, they should be included.
