@@ -204,10 +204,11 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 
 planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-output-biggest-end --min-upstream-m 100 --ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia --loops tmp.planet-loops.geojsons --grouped-ends tmp.planet-grouped-ends.geojsons
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --loops-openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --loops-csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-assign-end-by-tag name --min-upstream-m 100 --ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia --loops tmp.planet-loops.geojsons --grouped-ends tmp.planet-grouped-ends.geojsons --ends-csv-file ./docs/data/waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
+	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./docs/data/waterwaymap.org_ends_stats.csv ./docs/data/waterwaymap.org_ends_stats.csv
 
 planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
 	rm -f tmp.$@
