@@ -125,6 +125,6 @@ document.addEventListener("alpine:init", async () => {
     const props = features[0].properties;
 
     document.getElementById("hover_results").innerHTML =
-      `<a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank">Node ${props.nid}</a> (<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>) has ${Math.round(props.upstream_m / 1000.0)} km of upstreams and ends here.`;
+      `<a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank">Node ${props.nid}</a> (<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>) has ${Math.round(props.upstream_m / 1000.0)} km of upstreams and ends here. Name tag: ${props['tag:name']}`;
   });
 });
