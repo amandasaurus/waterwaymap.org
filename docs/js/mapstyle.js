@@ -34,7 +34,7 @@ var mapstyle_layers = [
     paint: {
       "line-color": [
         "match",
-        ["%", ["get", "root_wayid_120"], 7],
+        ["%", ["get", "root_nodeid_120"], 7],
         0, "#a6cee3",
         1, "#1f78b4",
         2, "#33a02c",
@@ -78,7 +78,7 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", "id: ", ["coalesce", ["get", "root_wayid"], "N/A" ] ],
+      "text-field": [ "concat", "id: ", ["coalesce", ["get", "root_nodeid"], "N/A" ] ],
       "text-offset": [0, -1],
       "symbol-placement": "line",
     },

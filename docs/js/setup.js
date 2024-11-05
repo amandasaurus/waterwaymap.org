@@ -236,13 +236,13 @@ function filterParamsChanged(len_filter) {
 
 function changeMapColours(num) {
   if ([2, 3, 4, 5, 6, 7].includes(num)) {
-    map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_wayid_120'], num], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ]);
+    map.setPaintProperty('waterway-line', 'line-color', ['match', ['%', ['get', 'root_nodeid_120'], num], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ]);
     map.setPaintProperty('upstream-line', 'line-color', ['match', ['%', ['get', 'end_nid'], num], 0, '#a6cee3', 1, '#1f78b4', 2, '#33a02c', 3, '#fb9a99', 4, '#e31a1c', 5, '#fdbf6f', 6, '#ff7f00', 7, '#cab2d6', 'black' ]);
   } else if (num == 11) {
-    map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])
+    map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_nodeid_120'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])
     map.setPaintProperty('upstream-line', 'line-color', ['match',['%', ['get', 'end_nid'], 11],0, '#71f671',1, '#fafa76',2, '#5e5ef5',3, '#cb3d55',4, '#723acb',5, '#00ac84',6, '#b77231',7, '#80c4c4',8, '#f58c5e',9, '#9e1e9e',10, '#429c42','black',])
   } else if (num == 24) {
-    map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_wayid_120'], 24],
+    map.setPaintProperty('waterway-line', 'line-color', ['match',['%', ['get', 'root_nodeid_120'], 24],
       0, '#fd5500',    1, '#ffa700',   2, '#feec00',   3, '#b1ff00',   4, '#06fe59',   5, '#03ffef',
       6, '#0071ff',    7, '#2a00ff',   8, '#9501ff',   9, '#ff03ff',  10, '#ff026a',  11, '#ff0102',
       12, '#973401',  13, '#986500',  14, '#998d00',  15, '#6c9900',  16, '#019937',  17, '#009b8f',
