@@ -29,7 +29,7 @@ function process() {
 			--single-precision \
 			--simplification=8 \
 			--drop-densest-as-needed \
-			-y length_m -y root_wayid_120 \
+			-y length_m -y root_nodeid_120 \
 			-l waterway \
 			--coalesce --reorder \
 			--gamma 2 \

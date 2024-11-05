@@ -7,12 +7,12 @@ planet-waterway.osm.pbf:
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "WaterwayMap.org" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell ./osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--no-feature-limit \
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
-		-y length_m -y root_wayid -y root_wayid_120 \
+		-y length_m -y root_nodeid -y root_nodeid_120 \
 		--reorder --coalesce \
 		--drop-smallest-as-needed \
 		-l waterway \
@@ -34,7 +34,7 @@ planet-waterway.osm.pbf:
 		--no-feature-limit \
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		--drop-smallest-as-needed \
-		-y length_m -y root_wayid -y root_wayid_120 \
+		-y length_m -y root_nodeid -y root_nodeid_120 \
 		-l frames \
 		--gamma 2 \
 		--extend-zooms-if-still-dropping \
@@ -55,10 +55,10 @@ planet-waterway.osm.pbf:
 	zstd -20 --ultra -f $<
 
 %-ge100km.gpkg: %.geojsons
-	ogr2ogr -select root_wayid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
+	ogr2ogr -select root_nodeid,length_m_int -unsetFid -overwrite -where "length_km_int >= 100" $@ $<
 
 %-ge20km.geojsons: %.geojsons
-	ogr2ogr -sql "select root_wayid, length_m_int as length_m, tag_group_0 as name from \"$*\" where length_km >= 20" -unsetFid -overwrite $@ $<
+	ogr2ogr -sql "select root_nodeid, length_m_int as length_m, tag_group_0 as name from \"$*\" where length_km >= 20" -unsetFid -overwrite $@ $<
 
 %.torrent: %
 	rm -fv $@
