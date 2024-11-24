@@ -392,13 +392,13 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
-planet-upstreams.gpkg: planet-upstreams.geojson
-	ogr2ogr $@ $< -lco SPATIAL_INDEX=no -oo OGR_SQLITE_SYNCHRONOUS=off -oo           OGR_SQLITE_CACHE=512 -gt unlimited -select end_nid,from_upstream_m 
+planet-upstreams.gpkg: planet-upstreams.geojsons
+	ogr2ogr $@ $< -lco SPATIAL_INDEX=no -oo OGR_SQLITE_SYNCHRONOUS=off -oo OGR_SQLITE_CACHE=512 -gt unlimited -select end_nid,from_upstream_m 
 	sqlite3 $@ "create index if not exists \"planet-upstreams_end_nid\" on \"planet-upstreams\" (end_nid);"
 	sqlite3 $@ "create index if not exists \"planet-upstreams_from_upstream_m\" on \"planet-upstreams\" (from_upstream_m);"
 
 planet-upstreams-%.fgb: planet-upstreams.gpkg
 	ogr2ogr $@ $< -nlt LINESTRING -explodecollections -sql "select end_nid, from_upstream_m - mod(from_upstream_m, $*) as from_upstream_m_1, ST_linemerge(st_union(geom)) from \"planet-upstreams\" where from_upstream_m >= $* group by end_nid, from_upstream_m_1;"
 
-planet-upstreams.pmtiles: planet-upstreams-1000.fgb
-	tippecanoe --force --drop-fraction-as-needed -o $@ $<
+planet-upstreams.pmtiles: planet-upstreams-10000.fgb
+	tippecanoe -l wideupstreams -T end_nid:int --force --drop-fraction-as-needed  --no-feature-limit -zg -at -ae -o $@ $<
