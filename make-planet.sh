@@ -8,7 +8,7 @@ fi
 
 source functions.sh
 
-if [ "$(osm-lump-ways --version)" != "osm-lump-ways 2.0.0-rc1" ] ; then
+if [ "$(osm-lump-ways --version)" != "osm-lump-ways 2.0.0-rc2" ] ; then
   echo "Wrong version of osm-lump-ways installed: $(osm-lump-ways --version)"
   exit 1
 fi

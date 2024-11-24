@@ -202,7 +202,7 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons waterwaymap.org_ends_stats.csv: planet-waterway.osm.pbf
+planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-upstreams.geojsons waterwaymap.org_ends_stats.csv: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down \
 		-i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --min-upstream-m 100 \
@@ -210,17 +210,19 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons waterway
 		--upstream-assign-end-by-tag name \
 		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
 		--grouped-ends tmp.planet-grouped-ends.geojsons \
-		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3
+		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
+		--upstreams tmp.planet-upstreams.geojsons --upstreams-min-upstream-m 1000
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
+	mv tmp.planet-upstreams.geojsons planet-upstreams.geojsons || true
 	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
 	zstd --quiet --force -z -k -e -19 waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
 	mv waterwaymap.org_ends_stats.csv.zst ./docs/data/
 
 planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
 	rm -f tmp.$@
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf --ends tmp.$@ -F @flowing_water_wo_streams.tagfilterfunc --ends-membership waterway=stream
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf --ends tmp.$@ -F @flowing_water_wo_streams.tagfilterfunc --ends-membership waterway=stream --upstream-output-biggest-end
 	rm -f $@
 	ogr2ogr $@ tmp.$@ -where '"is_in:waterway=stream"'
 
@@ -390,3 +392,13 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
+planet-upstreams.gpkg: planet-upstreams.geojson
+	ogr2ogr $@ $< -lco SPATIAL_INDEX=no -oo OGR_SQLITE_SYNCHRONOUS=off -oo           OGR_SQLITE_CACHE=512 -gt unlimited -select end_nid,from_upstream_m 
+	sqlite3 $@ "create index if not exists \"planet-upstreams_end_nid\" on \"planet-upstreams\" (end_nid);"
+	sqlite3 $@ "create index if not exists \"planet-upstreams_from_upstream_m\" on \"planet-upstreams\" (from_upstream_m);"
+
+planet-upstreams-%.fgb: planet-upstreams.gpkg
+	ogr2ogr $@ $< -nlt LINESTRING -explodecollections -sql "select end_nid, from_upstream_m - mod(from_upstream_m, $*) as from_upstream_m_1, ST_linemerge(st_union(geom)) from \"planet-upstreams\" where from_upstream_m >= $* group by end_nid, from_upstream_m_1;"
+
+planet-upstreams.pmtiles: planet-upstreams-1000.fgb
+	tippecanoe --force --drop-fraction-as-needed -o $@ $<
