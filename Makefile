@@ -7,7 +7,7 @@ planet-waterway.osm.pbf:
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
 		-n "WaterwayMap.org" \
-		-N "Generated on $(shell date -I) from OSM data with $(shell ./osm-lump-ways --version)" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
 		-zg \
 		--no-feature-limit \
@@ -202,13 +202,21 @@ planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 	mv tmp.$@ $@
 
-planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons: planet-waterway.osm.pbf
+planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons waterwaymap.org_ends_stats.csv: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --loops-openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --loops-csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv --upstream-assign-end-by-tag name --min-upstream-m 100 --ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia --loops tmp.planet-loops.geojsons --grouped-ends tmp.planet-grouped-ends.geojsons --ends-csv-file ./docs/data/waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3
+	osm-lump-ways-down \
+		-i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --min-upstream-m 100 \
+		--loops tmp.planet-loops.geojsons --loops-openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --loops-csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv \
+		--upstream-assign-end-by-tag name \
+		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
+		--grouped-ends tmp.planet-grouped-ends.geojsons \
+		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
-	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./docs/data/waterwaymap.org_ends_stats.csv ./docs/data/waterwaymap.org_ends_stats.csv
+	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
+	zstd --quiet --force -z -k -e -19 waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
+	mv waterwaymap.org_ends_stats.csv.zst ./docs/data/
 
 planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
 	rm -f tmp.$@
@@ -221,16 +229,10 @@ planet-unnamed-big-ends.geojson: planet-ends.geojsons
 	ogr2ogr tmp.$@ $< -where '"tag:name" is null and  upstream_m >= 1000000'
 	mv tmp.$@ $@
 
-waterwaymap.org_ends_stats.csv: planet-ends.geojsons
-	bash -c 'if [ ! -s $@ ] ; then echo "timestamp,iso_datetime,upstream_m,nid,lat,lng,wikidata,name,wikipedia" > $@ ; fi'
-	$(eval ISO_TIMESTAMP=$(shell jq -Mr <docs/data/tilesets.json ".data_timestamp"))
-	$(eval TIMESTAMP=$(shell date -d $(ISO_TIMESTAMP) +%s))
-	jq -Mr <planet-ends.geojsons ".|select( .properties.\"tag:name\" != null and .properties.upstream_m >= 500000)|[$(TIMESTAMP),\"$(ISO_TIMESTAMP)\",.properties.upstream_m,.properties.nid,.geometry.coordinates[0],.geometry.coordinates[1],.properties.\"tag:wikidata\",.properties.\"tag:name\",.properties.\"tag:wikipedia\"]|@csv" | xsv sort -s 3 -NR --no-headers | head -n 1000 >> $@
-	zstd --quiet --force -z -k -e -19 $@ -o $@.zst
 
 planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --csv-stats-file ./docs/data/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --loops-csv-stats-file ./docs/data/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
 	mv tmp.planet-ditch-loops.geojson planet-ditch-loops.geojson
 
 planet-loops-lines.pmtiles: planet-loops.geojsons
