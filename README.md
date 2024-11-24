@@ -37,19 +37,6 @@ Loops in waterways are detected and shown on:
 * [Fedi/Masto post](https://en.osm.town/@amapanda/111658136395447174)
 * [OSM Ccommunity Forum announcement](https://community.openstreetmap.org/t/the-wonders-of-early-medieval-fore-abbey-and-osm-river-topology-today-i-e-waterwaymap-org-is-going-around-in-circles/107497)
 
-### Statistics
-
-A CSV file of statistics of loops is generated and available for download at
-[`data.waterwaymap.org/waterwaymap.org_loops_stats.csv`](
-https://data.waterwaymap.org/waterwaymap.org_loops_stats.csv). See the
-[`osm-lump-ways` documentation on the CSV stats
-file](https://github.com/amandasaurus/osm-lump-ways?tab=readme-ov-file#loops-stats-csv)
-for documentation 
-
-It is used by [`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) for a
-mastodon account summarizing stats:
-[`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats)
-[feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
 
 ## End Points
 
@@ -64,6 +51,30 @@ To detect places where waterways (e.g. rivers) flow into a stream, a GeoJSON fil
 
 It was asked for in [issue 52](https://github.com/amandasaurus/waterwaymap.org/issues/52), with the code in [commit `4730275`](https://github.com/amandasaurus/waterwaymap.org/commit/4730275509c1655e46a09c3994436403b3bd5ec1).
 
+## Statistics
+
+### Loops
+
+A CSV file of statistics of loops is generated and available for download at
+[`data.waterwaymap.org/waterwaymap.org_loops_stats.csv`](
+https://data.waterwaymap.org/waterwaymap.org_loops_stats.csv). See the
+[`osm-lump-ways` documentation on the CSV stats
+file](https://github.com/amandasaurus/osm-lump-ways?tab=readme-ov-file#ends-stats-csv---ends-csv-file-filenamecsv)
+for documentation.
+
+It is used by [`@watmildon@en.osm.town`](https://en.osm.town/@watmildon) for a
+mastodon account summarizing stats:
+[`@OSMWaterwayLoopStats@en.osm.town`](https://en.osm.town/@OSMWaterwayLoopStats)
+[feed](https://en.osm.town/@OSMWaterwayLoopStats.rss)
+
+### End Points
+
+A CSV statistics file of end points, is also generated dails and downloadable at
+[`data.waterwaymap.org/waterwaymap.org_ends_stats.csv.zst`](https://data.waterwaymap.org/waterwaymap.org_ends_stats.csv.zst).
+
+See the [`osm-lump-ways`
+documentation](https://github.com/amandasaurus/osm-lump-ways?tab=readme-ov-file#ends-stats-csv---ends-csv-file-filenamecsv)
+for file format.
 
 ## Related Projects
 
