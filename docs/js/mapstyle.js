@@ -180,4 +180,35 @@ var mapstyle_layers = [
     },
   },
 
+
+  {
+    "id": "wideupstreams",
+    "type": "line",
+    "source": "waterway",
+    "source-layer": "wideupstreams",
+    "layout": {
+      "line-cap": "round",
+      "line-join": "round",
+    },
+    "paint": {
+      "line-color": [
+        "match",
+        ["%", ["get", "end_nid"], 7],
+        0, "#a6cee3",
+        1, "#1f78b4",
+        2, "#33a02c",
+        3, "#fb9a99",
+        4, "#e31a1c",
+        5, "#fdbf6f",
+        6, "#ff7f00",
+        7, "#cab2d6",
+        "black",
+      ],
+      "line-width": [
+        "interpolate", ["linear"],
+        ["get", "from_upstream_m_1"],
+        0, 0, 200000000, 20,
+      ],
+    }
+  },
 ];

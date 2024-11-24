@@ -8,7 +8,7 @@ fi
 
 source functions.sh
 
-if [ "$(osm-lump-ways --version)" != "osm-lump-ways 2.0.0-rc2" ] ; then
+if [ "$(osm-lump-ways --version)" != "osm-lump-ways 2.0.0" ] ; then
   echo "Wrong version of osm-lump-ways installed: $(osm-lump-ways --version)"
   exit 1
 fi
@@ -56,7 +56,7 @@ make -j2 \
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
-zstd --quiet --force -z -k -e -19 ./docs/data/waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
+zstd --quiet --force -z -k -e -19 ./waterwaymap.org_ends_stats.csv -o ./waterwaymap.org_ends_stats.csv.zst
 
 echo "All data files generated"
 
