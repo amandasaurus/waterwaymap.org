@@ -10,6 +10,7 @@
 *.gpkg.zst
 *.gpkg.zst.torrent
 *.osm.pbf
+*.mbtiles
 *.pmtiles
 *.pmtiles-journal
 *.pmtiles2
