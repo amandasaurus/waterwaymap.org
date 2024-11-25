@@ -336,7 +336,7 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-r1 \
 		--cluster-distance 5 \
 		--accumulate-attribute upstream_m:sum \
-		-y upstream_m -y nid \
+		-y upstream_m -y nid -y tag:name \
 		-l ends \
 		--no-progress-indicator \
 		-o tmp.$@ $<

@@ -72,8 +72,10 @@ document.addEventListener("alpine:init", async () => {
               "concat",
               ["round", ["/", ["get", "upstream_m"], 1000]],
               " km",
+              "\n",
+              ["case", ["has", "clustered"], "", ["get", "tag:name"]]
             ],
-            "text-offset": [0, 1],
+            "text-offset": ["case", ["has", "clustered"], ["literal", [0, 1]], ["literal", [0, 2]]],
             "text-size": [
               "interpolate",
               ["linear"],
@@ -123,8 +125,9 @@ document.addEventListener("alpine:init", async () => {
       return;
     }
     const props = features[0].properties;
+    console.log(props);
 
-    document.getElementById("hover_results").innerHTML =
-      `<a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank">Node ${props.nid}</a> (<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>) has ${Math.round(props.upstream_m / 1000.0)} km of upstreams and ends here. Name tag: ${props['tag:name']}`;
+    document.getElementById("hover_results").innerHTML = 
+      `<td><a href="https://www.openstreetmap.org/node/${props.nid}/" target="_blank"><code>n${props.nid}</code></a></td><td>(<a href="http://localhost:8111/load_object?objects=n${props.nid}&referrers=true" target=_blank>josm</a>)</td><td>${Math.round(props.upstream_m / 1000.0)} km</td><td>${(props['tag:name'] == undefined && props['clustered']) ? "(>1 points, zoom in for name(s))" : (props['tag:name'] ?? "(no name tag)")}</td>`;
   });
 });
