@@ -1,4 +1,4 @@
-# `osm-river-basins` - [`waterwaymap.org`](https://waterwaymap.org)
+# [WaterwayMap.org](https://waterwaymap.org)
 
 See the [website](https://waterwaymap.org).
 
@@ -83,4 +83,6 @@ for file format.
 ## Copyright
 
 Copyright MIT or Apache-2.0, 2017→2024 Amanda McCann <amanda@technomancy.org>
+
+Initially this project was called `osm-river-basins`.
 
