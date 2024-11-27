@@ -373,24 +373,48 @@ planet-ends.geojsons.gz: planet-ends.geojsons
 #		ogr2ogr tmp.$@ PG:"" -sql "select end_nid, (select upstream_m from waterway_ends where nid = end_nid limit 1) as end_upstream_m, 10000*round(from_upstream_m/10000) as upstream_m, (ST_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by end_nid, upstream_m"
 #	mv tmp.$@ $@
 
-planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
+planet-grouped-ends.pmtiles: planet-grouped-ends-z0-6.mbtiles planet-grouped-ends-z7-.mbtiles
+	rm -f tmp.$@
+	tile-join -o tmp.$@ $^
+	mv tmp.$@ $@
+
+planet-grouped-ends-z7-.mbtiles: planet-grouped-ends.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
+		-Z7 -zg \
 		-n "WaterwayMap.org Upstream" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-		-zg \
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		-y end_nid -y end_upstream_m -y avg_upstream_m \
 		--reorder --coalesce \
 		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
 		--extend-zooms-if-still-dropping \
-		--drop-smallest-as-needed \
+		--drop-fraction-as-needed \
 		--no-progress-indicator \
 		-l upstreams \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
+
+planet-grouped-ends-z0-6.mbtiles: planet-grouped-ends.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-Z0 -z6 \
+		-j '{"upstreams": [ ">=", "avg_upstream_m", 100000 ] }' \
+		-n "WaterwayMap.org Upstream" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
+		-r1 \
+		-y end_nid -y end_upstream_m -y avg_upstream_m \
+		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
+		--drop-fraction-as-needed \
+		--no-progress-indicator \
+		-l upstreams \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
 
 planet-upstreams.gpkg: planet-upstreams.csv
 	ogr2ogr $@ $< -lco SPATIAL_INDEX=no -gt unlimited -select end_nid,from_upstream_m  -oo GEOM_POSSIBLE_NAMES=geom
