@@ -109,7 +109,7 @@ var mapstyle_layers = [
       "line-color": "black",
       "line-width": [
         "interpolate",
-        ["linear"], ["get", "avg_upstream_m"], 0, 0, 5000000, 22,
+        ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75, 1e6,21,  2e6,25,
       ],
     },
     layout: {
@@ -141,8 +141,7 @@ var mapstyle_layers = [
         "black",
       ],
       "line-width": [
-        "interpolate",
-        ["linear"], ["get", "avg_upstream_m"], 0, 0, 2000000, 20,
+        "interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75, 1e6,15, 2e6,20,
       ],
     }
   },
@@ -156,7 +155,7 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", ["round", ["/", ["get", "end_upstream_m"], 1000]], " km", ],
+      "text-field": [ "concat", ["round", ["/", ["get", "avg_upstream_m"], 1000]], " km", ],
       "text-offset": [0, 2],
       "symbol-placement": "line",
     },
@@ -172,8 +171,8 @@ var mapstyle_layers = [
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", "here :", ["round", ["/", ["get", "avg_upstream_m"], 1000]], " km" ],
-      "text-offset": [0, -1],
+      "text-field": [ "concat", "end total :", ["round", ["/", ["get", "end_upstream_m"], 1000]], " km" ],
+      "text-offset": [0, -2],
       "symbol-placement": "line",
     },
   },
