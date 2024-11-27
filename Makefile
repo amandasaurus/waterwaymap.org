@@ -382,7 +382,7 @@ planet-grouped-ends.pmtiles: planet-grouped-ends.geojsons
 		-zg \
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
-		-y end_nid -y end_upstream_m \
+		-y end_nid -y end_upstream_m -y avg_upstream_m \
 		--reorder --coalesce \
 		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
 		--extend-zooms-if-still-dropping \
