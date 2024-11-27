@@ -209,7 +209,7 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--loops tmp.planet-loops.geojsons --loops-openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --loops-csv-stats-file ./docs/data/waterwaymap.org_loops_stats.csv \
 		--flow-follows-tag name \
 		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
-		--grouped-ends tmp.planet-grouped-ends.geojsons \
+		--grouped-ends tmp.planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
 		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
 		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
