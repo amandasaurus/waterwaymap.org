@@ -109,8 +109,7 @@ var mapstyle_layers = [
       "line-color": "black",
       "line-width": [
         "interpolate",
-        ["linear"], ["zoom"],
-        0, 1.1, 4, 1.1, 6, 2.2, 7, 5,
+        ["linear"], ["get", "avg_upstream_m"], 0, 0, 5000000, 22,
       ],
     },
     layout: {
@@ -143,8 +142,7 @@ var mapstyle_layers = [
       ],
       "line-width": [
         "interpolate",
-        ["linear"], ["zoom"],
-        0, 1,  4, 1,  6, 2,  7, 3,  15, 3,  20, 5,
+        ["linear"], ["get", "avg_upstream_m"], 0, 0, 2000000, 20,
       ],
     }
   },
@@ -159,7 +157,7 @@ var mapstyle_layers = [
     layout: {
       "text-font": ["Open Sans Semibold"],
       "text-field": [ "concat", ["round", ["/", ["get", "end_upstream_m"], 1000]], " km", ],
-      "text-offset": [0, 1],
+      "text-offset": [0, 2],
       "symbol-placement": "line",
     },
   },
@@ -168,47 +166,15 @@ var mapstyle_layers = [
     source: "waterway",
     "source-layer": "upstreams",
     type: "symbol",
-    minzoom: 18,
+    minzoom: 17,
     paint: {
       "text-color": "blueviolet",
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
-      "text-field": [ "concat", "id: ", ["coalesce", ["get", "end_nid"], "N/A" ] ],
+      "text-field": [ "concat", "here :", ["round", ["/", ["get", "avg_upstream_m"], 1000]], " km" ],
       "text-offset": [0, -1],
       "symbol-placement": "line",
     },
-  },
-
-
-  {
-    "id": "wideupstreams",
-    "type": "line",
-    "source": "waterway",
-    "source-layer": "wideupstreams",
-    "layout": {
-      "line-cap": "round",
-      "line-join": "round",
-    },
-    "paint": {
-      "line-color": [
-        "match",
-        ["%", ["get", "end_nid"], 7],
-        0, "#a6cee3",
-        1, "#1f78b4",
-        2, "#33a02c",
-        3, "#fb9a99",
-        4, "#e31a1c",
-        5, "#fdbf6f",
-        6, "#ff7f00",
-        7, "#cab2d6",
-        "black",
-      ],
-      "line-width": [
-        "interpolate", ["linear"],
-        ["get", "from_upstream_m_1"],
-        0, 0, 200000000, 20,
-      ],
-    }
   },
 ];
