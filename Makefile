@@ -389,7 +389,7 @@ planet-grouped-ends-z7-.mbtiles: planet-grouped-ends.geojsons
 		-r1 \
 		-y end_nid -y end_upstream_m -y avg_upstream_m \
 		--reorder --coalesce \
-		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
+		--no-feature-limit --maximum-tile-bytes $(shell units -t 2MiB bytes) \
 		--extend-zooms-if-still-dropping \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
