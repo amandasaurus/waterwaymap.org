@@ -101,24 +101,40 @@ var mapstyle_layers = [
   },
 
   {
-    id: "upstream-line-casing",
-    type: "line",
-    source: "waterway",
+    "id": "upstream-line-lt4-casing",
+    "minzoom": 0,
+    "maxzoom": 4,
+    "type": "line",
+    "source": "waterway",
     "source-layer": "upstreams",
-    paint: {
-      "line-color": "black",
-      "line-width": [
-        "interpolate",
-        ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75, 1e6,21,  2e6,25,
-      ],
-    },
-    layout: {
+    "layout": {
       "line-cap": "round",
       "line-join": "round",
     },
+    "paint": {
+      "line-color": "black",
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,6],
+    }
   },
   {
-    "id": "upstream-line",
+    "id": "upstream-line-ge4-casing",
+    "minzoom": 4,
+    "type": "line",
+    "source": "waterway",
+    "source-layer": "upstreams",
+    "layout": {
+      "line-cap": "round",
+      "line-join": "round",
+    },
+    "paint": {
+      "line-color": "black",
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1.5,  6e6,23],
+    }
+  },
+  {
+    "id": "upstream-line-lt4",
+    "minzoom": 0,
+    "maxzoom": 4,
     "type": "line",
     "source": "waterway",
     "source-layer": "upstreams",
@@ -140,11 +156,37 @@ var mapstyle_layers = [
         7, "#cab2d6",
         "black",
       ],
-      "line-width": [
-        "interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75, 1e6,15, 2e6,20,
-      ],
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,5],
     }
   },
+  {
+    "id": "upstream-line-ge4",
+    "minzoom": 4,
+    "type": "line",
+    "source": "waterway",
+    "source-layer": "upstreams",
+    "layout": {
+      "line-cap": "round",
+      "line-join": "round",
+    },
+    "paint": {
+      "line-color": [
+        "match",
+        ["%", ["get", "end_nid"], 7],
+        0, "#a6cee3",
+        1, "#1f78b4",
+        2, "#33a02c",
+        3, "#fb9a99",
+        4, "#e31a1c",
+        5, "#fdbf6f",
+        6, "#ff7f00",
+        7, "#cab2d6",
+        "black",
+      ],
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75,  6e6,20],
+    }
+  },
+  
   {
     id: "upstream-text-length",
     source: "waterway",
