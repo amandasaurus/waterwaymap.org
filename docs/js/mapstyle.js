@@ -101,9 +101,7 @@ var mapstyle_layers = [
   },
 
   {
-    "id": "upstream-line-lt4-casing",
-    "minzoom": 0,
-    "maxzoom": 4,
+    "id": "upstream-line-casing",
     "type": "line",
     "source": "waterway",
     "source-layer": "upstreams",
@@ -113,28 +111,16 @@ var mapstyle_layers = [
     },
     "paint": {
       "line-color": "black",
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,9],
+      "line-width": ["interpolate", ["linear"], ["zoom"],
+        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,7],
+        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,7],
+        6, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,11],
+        12, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1.5, 50e3,8, 6e6,18],
+      ]
     }
   },
   {
-    "id": "upstream-line-ge4-casing",
-    "minzoom": 4,
-    "type": "line",
-    "source": "waterway",
-    "source-layer": "upstreams",
-    "layout": {
-      "line-cap": "round",
-      "line-join": "round",
-    },
-    "paint": {
-      "line-color": "black",
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1.5,  6e6,23],
-    }
-  },
-  {
-    "id": "upstream-line-lt4",
-    "minzoom": 0,
-    "maxzoom": 4,
+    "id": "upstream-line",
     "type": "line",
     "source": "waterway",
     "source-layer": "upstreams",
@@ -156,34 +142,13 @@ var mapstyle_layers = [
         7, "#cab2d6",
         "black",
       ],
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,7],
-    }
-  },
-  {
-    "id": "upstream-line-ge4",
-    "minzoom": 4,
-    "type": "line",
-    "source": "waterway",
-    "source-layer": "upstreams",
-    "layout": {
-      "line-cap": "round",
-      "line-join": "round",
-    },
-    "paint": {
-      "line-color": [
-        "match",
-        ["%", ["get", "end_nid"], 7],
-        0, "#a6cee3",
-        1, "#1f78b4",
-        2, "#33a02c",
-        3, "#fb9a99",
-        4, "#e31a1c",
-        5, "#fdbf6f",
-        6, "#ff7f00",
-        7, "#cab2d6",
-        "black",
-      ],
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,0.75,  6e6,20],
+      "line-width": ["interpolate", ["linear"], ["zoom"],
+        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,4],
+        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,4],
+        6, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,9],
+        12, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1, 50e3,5, 6e6,10],
+        //16, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 50e3,8, 6e6,20],
+      ]
     }
   },
   
@@ -200,6 +165,7 @@ var mapstyle_layers = [
       "text-field": [ "concat", ["round", ["/", ["get", "avg_upstream_m"], 1000]], " km", ],
       "text-offset": [0, 2],
       "symbol-placement": "line",
+      "text-max-angle": 20,
     },
   },
   {
@@ -210,6 +176,7 @@ var mapstyle_layers = [
     minzoom: 17,
     paint: {
       "text-color": "blueviolet",
+      "text-opacity": 0.,
     },
     layout: {
       "text-font": ["Open Sans Semibold"],
