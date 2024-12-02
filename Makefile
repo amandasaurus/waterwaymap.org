@@ -375,7 +375,7 @@ planet-ends.geojsons.gz: planet-ends.geojsons
 
 planet-grouped-ends.pmtiles: planet-grouped-ends-z0-6.mbtiles planet-grouped-ends-z7-.mbtiles
 	rm -f tmp.$@
-	tile-join -o tmp.$@ $^
+	tile-join --no-tile-size-limit -o tmp.$@ $^
 	mv tmp.$@ $@
 
 planet-grouped-ends-z7-.mbtiles: planet-grouped-ends.geojsons
