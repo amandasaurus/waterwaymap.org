@@ -408,7 +408,7 @@ planet-grouped-ends-z0-6.mbtiles: planet-grouped-ends.geojsons
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		-y end_nid -y end_upstream_m -y avg_upstream_m \
-		--no-feature-limit --maximum-tile-bytes $(shell units -t 1MiB bytes) \
+		--no-feature-limit --maximum-tile-bytes $(shell units -t 2MiB bytes) \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
 		-l upstreams \
