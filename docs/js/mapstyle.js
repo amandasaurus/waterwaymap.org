@@ -113,7 +113,7 @@ var mapstyle_layers = [
     },
     "paint": {
       "line-color": "black",
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,6],
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,9],
     }
   },
   {
@@ -156,7 +156,7 @@ var mapstyle_layers = [
         7, "#cab2d6",
         "black",
       ],
-      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,5],
+      "line-width": ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6000e3,7],
     }
   },
   {
