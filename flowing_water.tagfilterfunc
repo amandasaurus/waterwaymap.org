@@ -26,6 +26,7 @@ waterway=spillway∧area=yes→F;
 # These type of “canals” have flowing water.
 waterway=canal∧usage=spillway→T;
 waterway=canal∧usage∈headrace,tailrace→T;
+waterway=canal∧usage=derivation→T;    # req. from @pierzen@en.osm.town on 19.12.24
 
 # Exclude all remaining canals.
 waterway=canal→F;
