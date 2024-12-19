@@ -23,7 +23,7 @@ waterway=canal∧lock∈yes,disused→T;
 # Some spillways are mapped as areas. They will obv. have a loop. Exclude.
 waterway=spillway∧area=yes→F;
 
-# These type of “canals” have flowing water, because they're spillways.
+# These type of “canals” have flowing water.
 waterway=canal∧usage=spillway→T;
 waterway=canal∧usage∈headrace,tailrace→T;
 
