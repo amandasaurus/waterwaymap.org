@@ -52,6 +52,7 @@ make -j2 \
   planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz \
   planet-loops.geojson.gz \
   planet-grouped-ends.pmtiles \
+  planet-upstreams.csv.zst \
   waterwaymap.org_ends_stats.csv.zst
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
