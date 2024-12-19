@@ -231,6 +231,13 @@ planet-unnamed-big-ends.geojson: planet-ends.geojsons
 	ogr2ogr tmp.$@ $< -where '"tag:name" is null and  upstream_m >= 1000000'
 	mv tmp.$@ $@
 
+planet-upstreams.csv.zst: planet-upstreams.csv
+	rm -f tmp.$@
+	# Yes zstd compression level 1 appears to be very effective, with better
+	# compression ratio
+	cat $< | xsv select end_nid,from_upstream_m,geom | zstd --threads=0 -1 > tmp.$@
+	mv tmp.$@ $@
+
 
 planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
