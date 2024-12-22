@@ -239,6 +239,11 @@ planet-upstreams.csv.zst: planet-upstreams.csv
 	cat $< | xsv select end_nid,from_upstream_m,geom | zstd --threads=0 -1 > tmp.$@
 	mv tmp.$@ $@
 
+planet-grouped-ends.geojsons.zst: planet-grouped-ends.geojsons
+	rm -f tmp.$@
+	zstd -T0 -k -f -8 -o tmp.$@ planet-grouped-ends.geojsons
+	mv tmp.$@ $@
+
 
 planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
