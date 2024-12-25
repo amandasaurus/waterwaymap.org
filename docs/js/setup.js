@@ -98,6 +98,15 @@ document.addEventListener("alpine:init", async () => {
 
   map.setPadding({ top: 57 });
 
+  var scale = new maplibregl.ScaleControl({
+    maxWidth: 200,
+    unit: "metric",
+  });
+  map.addControl(scale);
+  
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+  
   map.on("load", () => {
     let select = document.querySelector("#selected_tileset");
     select.addEventListener("change", (e) => {
