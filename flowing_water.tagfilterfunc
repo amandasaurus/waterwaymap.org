@@ -23,10 +23,14 @@ waterway=canal∧lock∈yes,disused→T;
 # Some spillways are mapped as areas. They will obv. have a loop. Exclude.
 waterway=spillway∧area=yes→F;
 
+# The OSM community hasn't fully standardized on how to map the pipes around
+# hydroelectric power stations.
 # These type of “canals” have flowing water.
 waterway=canal∧usage=spillway→T;
 waterway=canal∧usage∈headrace,tailrace→T;
 waterway=canal∧usage=derivation→T;    # req. from @pierzen@en.osm.town on 19.12.24
+# https://github.com/amandasaurus/waterwaymap.org/issues/75#issuecomment-2562550892
+waterway=canal∧man_made=pipeline→T;
 
 # Exclude all remaining canals.
 waterway=canal→F;
