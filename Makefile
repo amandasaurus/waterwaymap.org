@@ -386,15 +386,15 @@ planet-ends.geojsons.gz: planet-ends.geojsons
 #		ogr2ogr tmp.$@ PG:"" -sql "select end_nid, (select upstream_m from waterway_ends where nid = end_nid limit 1) as end_upstream_m, 10000*round(from_upstream_m/10000) as upstream_m, (ST_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by end_nid, upstream_m"
 #	mv tmp.$@ $@
 
-planet-grouped-ends.pmtiles: planet-grouped-ends-z0-6.mbtiles planet-grouped-ends-z7-.mbtiles
+planet-grouped-ends.pmtiles: planet-grouped-ends-z0-3.mbtiles planet-grouped-ends-z4-7.mbtiles planet-grouped-ends-z8-.mbtiles
 	rm -f tmp.$@
 	tile-join --no-tile-size-limit -o tmp.$@ $^
 	mv tmp.$@ $@
 
-planet-grouped-ends-z7-.mbtiles: planet-grouped-ends.geojsons
+planet-grouped-ends-z8-.mbtiles: planet-grouped-ends.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-Z7 -zg \
+		-Z8 -zg \
 		-n "WaterwayMap.org Upstream" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
 		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
@@ -410,10 +410,26 @@ planet-grouped-ends-z7-.mbtiles: planet-grouped-ends.geojsons
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
-planet-grouped-ends-z0-6.mbtiles: planet-grouped-ends.geojsons
+planet-grouped-ends-z0-3.mbtiles: planet-grouped-ends.geojsons
 	rm -fv tmp.$@
 	timeout 8h tippecanoe \
-		-Z0 -z6 \
+		-Z0 -z3 \
+		-j '{"upstreams": [ ">=", "avg_upstream_m", 2000000 ] }' \
+		-n "WaterwayMap.org Upstream" \
+		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
+		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
+		-r1 \
+		-y end_nid -y end_upstream_m -y avg_upstream_m \
+		--drop-fraction-as-needed \
+		--no-progress-indicator \
+		-l upstreams \
+		-o tmp.$@ $<
+	mv tmp.$@ $@
+
+planet-grouped-ends-z4-7.mbtiles: planet-grouped-ends.geojsons
+	rm -fv tmp.$@
+	timeout 8h tippecanoe \
+		-Z4 -z7 \
 		-j '{"upstreams": [ ">=", "avg_upstream_m", 100000 ] }' \
 		-n "WaterwayMap.org Upstream" \
 		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
@@ -421,7 +437,7 @@ planet-grouped-ends-z0-6.mbtiles: planet-grouped-ends.geojsons
 		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
 		-r1 \
 		-y end_nid -y end_upstream_m -y avg_upstream_m \
-		--no-feature-limit --maximum-tile-bytes $(shell units -t 2MiB bytes) \
+		--no-feature-limit --maximum-tile-bytes $(shell units -t 1.5MiB bytes) \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
 		-l upstreams \
