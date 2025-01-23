@@ -12,6 +12,7 @@ See the [website](https://waterwaymap.org).
 * [OSM Community Forum](https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655)
 * Hacker News: [#1 (2023-08-30) (as “OSM River Basins”)](https://news.ycombinator.com/item?id=37321292), [#2 (2024-01-24)](https://news.ycombinator.com/item?id=39110434)
 * *“Flowing Connections: Mapping rivers & streams with WaterwayMap.org”* Presentation at [State of the Map Europe 2024](https://stateofthemap.eu/) in Łódź, Poland on Sun. 21st July 2024. [slides](https://waterwaymap.org/static/2024-07-21-sotmeu-waterway-presentation.pdf). [programme entry](https://cfp.openstreetmap.org.pl/state-of-the-map-europe-2024/talk/K8LF7U/)
+* [Interview about WaterwayMap.org on The OpenCage Blog](https://blog.opencagedata.com/post/openstreetmap-interview-waterwaymap) _(Jan. 2025)_
 
 ## Who's using mapping with this?
 
