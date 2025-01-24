@@ -81,6 +81,13 @@ for file format.
 
 * [JOSM Waterway Style](https://josm.openstreetmap.de/wiki/Styles/Waterways)
 
+### Other websites
+
+If you like WaterwayMap.org, you might like the following other websites:
+
+* [Global Watersheds](https://mghydro.com/watersheds/) ([mheberger/delineator](https://github.com/mheberger/delineator) on github)
+* [RiverMap.online](https://rivermap.online/)
+
 ## Copyright
 
 Copyright MIT or Apache-2.0, 2017→2024 Amanda McCann <amanda@technomancy.org>
