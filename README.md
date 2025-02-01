@@ -11,7 +11,8 @@ See the [website](https://waterwaymap.org).
 * [Fedi/Mastodon post](https://en.osm.town/@amapanda/110118513232919061)
 * [OSM Community Forum](https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655)
 * Hacker News: [#1 (2023-08-30) (as “OSM River Basins”)](https://news.ycombinator.com/item?id=37321292), [#2 (2024-01-24)](https://news.ycombinator.com/item?id=39110434), [#3 (2024-08-19)](https://news.ycombinator.com/item?id=41293757)
-* *“Flowing Connections: Mapping rivers & streams with WaterwayMap.org”* Presentation at [State of the Map Europe 2024](https://stateofthemap.eu/) in Łódź, Poland on Sun. 21st July 2024. [slides](https://waterwaymap.org/static/2024-07-21-sotmeu-waterway-presentation.pdf). [programme entry](https://cfp.openstreetmap.org.pl/state-of-the-map-europe-2024/talk/K8LF7U/)
+* I gave a lightening talk at [State of the Map Europe 2023](https://2023.stateofthemap.eu/) in Antwerp, Belgium in Nov. 2023. [slides](https://waterwaymap.org/static/2023-11-sotmeu23-waterway-presentation-lightening-talk.pdf.zst).
+* *“Flowing Connections: Mapping rivers & streams with WaterwayMap.org”* Presentation at [State of the Map Europe 2024](https://stateofthemap.eu/) in Łódź, Poland on Sun. 21st July 2024. [slides](https://waterwaymap.org/static/2024-07-21-sotmeu24-waterway-presentation.pdf.zst). [programme entry](https://cfp.openstreetmap.org.pl/state-of-the-map-europe-2024/talk/K8LF7U/). As of Jan. 2025, there are no recordings available.
 * [Interview about WaterwayMap.org on The OpenCage Blog](https://blog.opencagedata.com/post/openstreetmap-interview-waterwaymap) _(Jan. 2025)_
 
 ## Who's using mapping with this?
