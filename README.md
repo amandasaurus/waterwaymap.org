@@ -89,6 +89,28 @@ If you like WaterwayMap.org, you might like the following other websites:
 * [Global Watersheds](https://mghydro.com/watersheds/) ([mheberger/delineator](https://github.com/mheberger/delineator) on github)
 * [RiverMap.online](https://rivermap.online/)
 
+## FAQ
+
+### If a natural waterway runs through a lake, is it possible to show all the branches as connected waterways?
+
+Currently, the only way to do this is map a waterway _though_ the water body.
+There is currently no other way to do it. The OSM community is a little
+uncertain if this is always a good idea. There is a [community
+discussion](https://community.openstreetmap.org/t/should-river-lines-be-mapped-through-lakes-estuaries-gulfs-and-other-large-water-bodies/104438).
+There is a new tag
+[`waterway=flowline`](https://wiki.openstreetmap.org/wiki/Tag:waterway%3Dflowline)
+as possible tag to use for these ways through waterbodies.
+
+I did try to add a map view which would include the edges of waterbodies,
+[e.g.](https://community.openstreetmap.org/t/osm-river-basins-website-to-show-how-are-rivers-in-osm-connected/102655/118)
+but that didn't work as well, because it only uses `ways` not `relations`, so
+many water bodies weren't included.
+
+However, the latest new feature, the [River Directory](https://waterwaymap.org/river/), could benefit from relation
+support. So I might add that.
+[cf.](https://community.openstreetmap.org/t/waterwaymap-org-is-not-a-map/127608#:~:text=like%20the%20rest%20of%20wwm%2C%20osm%20waterway%20relations%20are%20completely%20ignored.%20however%2C%20they%E2%80%99re%20probably%20the%20solution%20to%20%E2%80%9Criver%20name%20changes%E2%80%9D%2C%20so%20watch%20this%20space).
+
+
 ## Copyright
 
 Copyright MIT or Apache-2.0, 2017→2024 Amanda McCann <amanda@technomancy.org>
