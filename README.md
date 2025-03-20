@@ -91,6 +91,24 @@ If you like WaterwayMap.org, you might like the following other websites:
 
 ## FAQ
 
+### What do the colours mean?
+
+The colours are randomly assigned, and based on the final destination of the
+river. Everything that flows into the same point, gets the same colour. If you
+click the settings, you can change the number of colours. This can be useful to
+try to differentiate 2 different river networks.
+
+### Does thickness represent flow rate?
+
+The thickness of the lines is based on how many kilometres of river are
+upstream of that segment. The flow rate of a river is based on many things,
+such as the width of a river, and obviously changes a lot based on rainfall! I
+only use OpenStreetMap data, which rarely has width, and wouldn't have
+real-time data about the amount of water flowing through a point! What it does
+show (“how many waterways in total are upstream of here?”) will probably
+correlate with the flow rate, and is probably good enough for making a map, but
+you shouldn't use to see if your house is going to flood!
+
 ### If a natural waterway runs through a lake, is it possible to show all the branches as connected waterways?
 
 Currently, the only way to do this is map a waterway _though_ the water body.
