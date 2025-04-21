@@ -33,21 +33,39 @@ cd "$(dirname "$0")"
 echo "Starting $0, this is the current status of referrential integreity"
 osmium check-refs "$FILENAME" || true
 
+rm -f incomplete_ways.txt
 osmium check-refs --no-progress --show-ids "$FILENAME" |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
 NUM_MISSING=$(wc -l incomplete_ways.txt | cut -f1 -d" ")
 if [ "$NUM_MISSING" -gt 0 ] ; then
 	rm -rf way_*.osm.xml
 	echo "There are $NUM_MISSING incomplete ways, which we need to download"
 	cat incomplete_ways.txt | while read -r WID ; do
-		curl -A "waterwaymap.org / dl_missing_refs"  -s -o "way_${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
+    if [ ! -s "way_wid${WID}.osm.xml" ] ; then
+      curl -A "waterwaymap.org / dl_missing_refs"  -s -o "way_wid${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
+    fi
     echo "Done w${WID}"
 	done | pv -l -s "$NUM_MISSING" -c -N "Downloading incomplete ways" > /dev/null
+
+  # clean up, just in case
 	find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -empty -print -delete
+
+  # Merge files together
+  # bash/linux has a limit on the total length of a command. With too many files, this update will fail.
+  while [ "$(find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -print | wc -l)" -gt 100 ] ; do
+    echo "There are $(find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -print | wc -l) XML files. Merging together"
+    DEST=$(mktemp -p . way_combo_XXXXXX.osm.xml)
+    FILES=$(find . -maxdepth 1 -mindepth 1 -type f -name 'way_wid*.osm.xml' -printf "%s %p\n" | sort -n | cut -d" " -f2 | head -n 100 | tr "\n" " ")
+    osmium cat --no-progress --overwrite -o "$DEST" $FILES
+    rm $FILES
+    sleep 2
+  done
 	osmium cat --no-progress --overwrite -o incomplete_ways.osm.pbf way_*.osm.xml
+
 	rm way_*.osm.xml
 	rm -rf incomplete_ways2.osm.pbf
 	osmium sort --no-progress -o incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
 	mv incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
+  echo "Size of the ways to merge in: $(ls -lh incomplete_ways.osm.pbf | cut -d" " -f5)"
 	echo "" > empty.opl
 	rm -rf add-incomplete-ways.osc
 	osmium derive-changes --no-progress empty.opl incomplete_ways.osm.pbf -o add-incomplete-ways.osc
