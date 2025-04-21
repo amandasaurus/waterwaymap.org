@@ -2,9 +2,12 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://waterwaymap.org/</loc></url>
+    <url><loc>https://waterwaymap.org/about/</loc></url>
     <url><loc>https://waterwaymap.org/ends/</loc></url>
+    <url><loc>https://waterwaymap.org/help/</loc></url>
     <url><loc>https://waterwaymap.org/loops/</loc></url>
-    <url><loc>https://waterwaymap.org/help.html</loc></url>
-    <url><loc>https://waterwaymap.org/about.html</loc></url>
+    <url><loc>https://waterwaymap.org/river/</loc></url>
+    <url><loc>https://waterwaymap.org/river/name-index/</loc></url>
 </urlset>
 

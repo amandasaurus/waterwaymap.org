@@ -121,7 +121,7 @@ planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
 	mv tmp.$@ $@
 
-planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-upstreams.csv waterwaymap.org_ends_stats.csv: planet-waterway.osm.pbf
+planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-upstreams.csv planet-grouped-waterways.geojson waterwaymap.org_ends_stats.csv: planet-waterway.osm.pbf
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down \
 		-i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --min-upstream-m 100 \
@@ -130,11 +130,13 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
 		--grouped-ends tmp.planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
 		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
-		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000
+		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000 \
+		--grouped-waterways tmp.planet-grouped-waterways.geojson
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
 	mv tmp.planet-upstreams.csv planet-upstreams.csv || true
+	mv tmp.planet-grouped-waterways.geojson planet-grouped-waterways.geojson || true
 	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
 	zstd --quiet --force -z -k -e -19 waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
 	mv waterwaymap.org_ends_stats.csv.zst ./docs/data/
@@ -459,3 +461,38 @@ planet-upstreams-%.pmtiles: planet-upstreams-%.fgb
 
 planet-upstreams.pmtiles: planet-upstreams-10000.fgb
 	tippecanoe -l wideupstreams -T end_nid:int --force --drop-fraction-as-needed  --no-feature-limit -zg -at -ae -o $@ $<
+
+planet-grouped-waterways.gpkg: planet-grouped-waterways.geojson
+	rm -f tmp.$@
+	ogr2ogr tmp.$@ $< -oo ARRAY_AS_STRING=YES
+	sqlite3 tmp.$@ 'create index name on "planet-grouped-waterways" (tag_group_value);'
+	sqlite3 tmp.$@ 'create index length on "planet-grouped-waterways" (length_m);'
+	mv tmp.$@ $@
+
+
+admins.osm.pbf: planet-waterway.osm.pbf
+	rm -f tmp.$@
+	osmium tags-filter $< -o tmp.$@ admin_level=0 admin_level=1 admin_level=2 admin_level=3 admin_level=4 admin_level=5 admin_level=6
+	mv tmp.$@ $@
+
+admins.geojsonseq: admins.osm.pbf
+	rm -f tmp.$@
+	osmium export $< -o tmp.$@
+	mv tmp.$@ $@
+
+admins.gpkg: admins.geojsonseq
+	rm -f tmp.$@
+	ogr2ogr tmp.$@ $< -select name,admin_level -where "name IS NOT NULL"
+	mv tmp.$@ $@
+
+riversite_input_data.gpkg: planet-grouped-waterways.gpkg admins.geojsonseq
+	rm -f tmp.$@
+	cp planet-grouped-waterways.gpkg tmp.$@
+	ogr2ogr tmp.$@ admins.geojsonseq -select name,admin_level -where "name IS NOT NULL" -update -nln admins
+	sqlite3 tmp.$@ 'create index admins__admin_level on admins (admin_level);'
+	mv tmp.$@ $@
+
+rivers_html.db: riversite_input_data.gpkg wwm-river
+	rm -rf tmp.$@
+	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -i riversite_input_data.gpkg -o tmp.$@
+	mv tmp.$@ $@

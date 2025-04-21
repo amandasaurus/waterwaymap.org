@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-sitemap: https://waterwaymap.org/sitemap.xml
+sitemap: https://waterwaymap.org/river/sitemap_index.xml
