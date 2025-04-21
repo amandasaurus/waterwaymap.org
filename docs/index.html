@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="data:," />
+    <link rel="canonical" href="https://waterwaymap.org/" />
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover"
@@ -22,16 +23,6 @@
       content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
     />
     <meta property="og:image" content="img/screenshot.png" />
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="WaterwayMap.org" />
-    <meta property="twitter:url" content="https://waterwaymap.org/" />
-    <meta name="twitter:title" content="WaterwayMap.org | OSM River Basins" />
-    <meta
-      name="twitter:description"
-      content="A unique, topological, view on rivers & waterways in OpenStreetMap, showing how they are connected. Find mistakes and make better maps."
-    />
 
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
@@ -159,10 +150,10 @@
             class="navbar-nav flex-row flex-wrap ms-md-auto d-sm-flex d-md-none d-lg-flex"
           >
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="help.html">Help</a>
+              <a class="nav-link" href="/help/">Help</a>
             </li>
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="/about/">About</a>
             </li>
             <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
               <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
@@ -259,8 +250,8 @@
               More
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="help.html">Help</a></li>
-              <li><a class="dropdown-item" href="about.html">About</a></li>
+              <li><a class="dropdown-item" href="/help/">Help</a></li>
+              <li><a class="dropdown-item" href="/about/">About</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <a
@@ -434,22 +425,16 @@
                 <div class="input-group mb-3">
                   <div class="input-group-text">
                     <input
-                      class="form-check-input mt-0"
-                      type="checkbox"
-                      value=""
-                      id="max_filter_enabled"
+                      class="form-check-input mt-0" type="checkbox"
+                      value="" id="max_filter_enabled"
                       x-model="len_filter.max_filter_enabled"
                       aria-label="Toggle maxmimum length"
                     />
                   </div>
                   <input
-                    type="number"
-                    class="form-control"
-                    step="1"
-                    min="0"
-                    pattern="\d*"
-                    placeholder="∞"
-                    :disabled="!len_filter.max_filter_enabled"
+                    type="number" class="form-control"
+                    step="1" min="0"
+                    pattern="\d*" placeholder="∞" :disabled="!len_filter.max_filter_enabled"
                     x-model.number.debounce="len_filter.max_filter"
                     aria-labelledby="maxLengthLabel"
                     aria-describedby="maxLengthPrefix"
@@ -464,54 +449,14 @@
                 Grouped waterway colours are randomly assigned.
               </p>
               <div class="d-flex flex-wrap justify-content-center gap-2">
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(2)"
-                >
-                  2
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(3)"
-                >
-                  3
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(4)"
-                >
-                  4
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(5)"
-                >
-                  5
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(6)"
-                >
-                  6
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(7)"
-                >
-                  7
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(11)"
-                >
-                  11
-                </button>
-                <button
-                  class="btn btn-primary"
-                  @click="changeMapColours(24)"
-                >
-                  24
-                </button>
+                <button class="btn btn-primary" @click="changeMapColours(2)" > 2 </button>
+                <button class="btn btn-primary" @click="changeMapColours(3)" > 3 </button>
+                <button class="btn btn-primary" @click="changeMapColours(4)" > 4 </button>
+                <button class="btn btn-primary" @click="changeMapColours(5)" > 5 </button>
+                <button class="btn btn-primary" @click="changeMapColours(6)" > 6 </button>
+                <button class="btn btn-primary" @click="changeMapColours(7)" > 7 </button>
+                <button class="btn btn-primary" @click="changeMapColours(11)" > 11 </button>
+                <button class="btn btn-primary" @click="changeMapColours(24)" > 24 </button>
               </div>
             </div>
             <div class="shadow p-3 mb-3 bg-body-tertiary rounded"
@@ -542,12 +487,8 @@
               <div class="input-group mb-3">
                 <div class="input-group-text">
                   <input
-                      class="form-check-input mt-0"
-                      type="checkbox"
-                      value=""
-                      id="frames"
-                      x-model="show_frames"
-                      aria-label="Toggle Frames visibility"
+                      class="form-check-input mt-0" type="checkbox" value="" id="frames"
+                      x-model="show_frames" aria-label="Toggle Frames visibility"
                       />
                 </div>
                 <span class="input-group-text" id="show_frames">Show Frames</span>
@@ -594,37 +535,21 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="shareModalLabel">Share Options</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
           </div>
           <div class="modal-body">
             <h2 class="fs-5">Link</h2>
             <p>
-              <button
-                type="button"
-                class="btn btn-primary me-2"
-                id="shareButton"
-              >
+              <button type="button" class="btn btn-primary me-2" id="shareButton" >
                 <i class="bi bi-share-fill" aria-hidden="true"></i> Share
               </button>
-              <span id="shareDialog" class="align-middle d-none"
-                >Link copied!</span
-              >
+              <span id="shareDialog" class="align-middle d-none" >Link copied!</span >
             </p>
             <hr />
             <h2 class="fs-5" id="geoURILabel">Geo URI</h2>
             <a
               id="open_geo"
-              aria-labelledby="geoURILabel"
-              class="link-offset-1"
-              x-data
-              href="#"
-              class="inline_centre"
-              target="_blank"
+              aria-labelledby="geoURILabel" class="link-offset-1" x-data href="#" class="inline_centre" target="_blank"
               @click.prevent="let url = `geo:${map.getBounds().getCenter().lat.toFixed(5)},${map.getBounds().getCenter().lng.toFixed(5)}?z=${Math.round(map.getZoom())}`; window.open(url);"
             >
               <code id="geo_url_text">geo:0,0?z=0</code>
