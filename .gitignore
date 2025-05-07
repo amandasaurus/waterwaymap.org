@@ -16,6 +16,7 @@
 *.pmtiles
 *.pmtiles-journal
 *.pmtiles2
+*.spatialite
 /add-incomplete-ways.osc
 /docs/data/*
 /docs/sqlitesite.cgi
