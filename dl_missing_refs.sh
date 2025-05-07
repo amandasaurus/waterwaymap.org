@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Makes an OSM PBF file referntially complete, by downloading nodes from
 # OSM.org API that are referenced from ways in the input file.
 #
@@ -30,53 +30,66 @@ set -o errexit -o nounset
 FILENAME=$(realpath "${1:?Arg 1 must be filename}")
 cd "$(dirname "$0")"
 
-echo "Starting $0, this is the current status of referrential integreity"
+echo "Starting $0, this is the current status of referential integreity"
+osmium check-refs --check-relations "$FILENAME" || true
+
+for OSM_TYPE in relation way ; do
+  T=${OSM_TYPE:0:1}
+  rm -f incomplete_objs.txt
+  osmium check-refs --check-relations --no-progress --show-ids "$FILENAME" |& grep -Po "(?<= in $T)\d+$" | uniq | sort -n | uniq > incomplete_objs.txt
+
+  NUM_MISSING=$(wc -l incomplete_objs.txt | cut -f1 -d" ")
+  if [ "$NUM_MISSING" -gt 0 ] ; then
+    rm -rf obj_*.osm.xml
+    echo "There are $NUM_MISSING incomplete ${OSM_TYPE}s, which we need to download"
+    cat incomplete_objs.txt | while read -r ID ; do
+      while [ ! -s "obj_${T}${ID}.osm.xml" ] ; do
+        curl --fail -A "waterwaymap.org / dl_missing_refs"  -s -o "obj_${T}${ID}.osm.xml" "https://api.openstreetmap.org/api/0.6/${OSM_TYPE}/${ID}/full"
+        if grep -q "You have downloaded too much data." "obj_${T}${ID}.osm.xml" ; then
+          # oops 
+          rm "obj_${T}${ID}.osm.xml"
+          sleep 5
+          continue
+        fi
+      done
+      echo "Done ${T}${ID}"
+    done | pv -l -s "$NUM_MISSING" -c -N "Downloading incomplete ${OSM_TYPE}s" > /dev/null
+
+    # clean up, just in case
+    find . -maxdepth 1 -mindepth 1 -type f -name 'obj_*.osm.xml' -empty -print -delete
+
+    # Merge files together
+    # bash/linux has a limit on the total length of a command. With too many files, this update will fail.
+    while [ "$(find . -maxdepth 1 -mindepth 1 -type f -name 'obj_*.osm.xml' -print | wc -l)" -gt 100 ] ; do
+      echo "There are $(find . -maxdepth 1 -mindepth 1 -type f -name 'obj_*.osm.xml' -print | wc -l) XML files. Merging together"
+      DEST=$(mktemp -p . obj_combo_XXXXXX.osm.xml)
+      FILES=$(find . -maxdepth 1 -mindepth 1 -type f -name "obj_${T}*.osm.xml" -printf "%s %p\n" | sort -n | cut -d" " -f2 | head -n 100 | tr "\n" " ")
+      osmium cat --no-progress --overwrite -o "$DEST" $FILES
+      rm $FILES
+    done
+
+    # now join them all together
+    osmium cat --no-progress --overwrite -o incomplete.osm.pbf obj_*.osm.xml
+    rm obj_*.osm.xml
+
+    rm -rf new.osm.pbf
+    osmium sort --no-progress -o new.osm.pbf incomplete.osm.pbf
+    mv new.osm.pbf incomplete.osm.pbf
+
+    echo "Size of the objects to merge in: $(ls -lh incomplete.osm.pbf | cut -d" " -f5)"
+    echo "" > empty.opl
+    rm -rf add-incomplete-obj.osc
+    osmium derive-changes --no-progress empty.opl incomplete.osm.pbf -o add-incomplete-obj.osc
+    rm -f empty.opl incomplete.osm.pbf
+
+    rm -rf new.osm.pbf
+    osmium apply-changes -o new.osm.pbf "$FILENAME" add-incomplete-obj.osc
+    mv -v new.osm.pbf "$FILENAME"
+    rm -fv add-incomplete-obj.osc
+
+  fi
+done
+
+echo "Finished. Final check-ref output:"
 osmium check-refs "$FILENAME" || true
-
-rm -f incomplete_ways.txt
-osmium check-refs --no-progress --show-ids "$FILENAME" |& grep -Po "(?<= in w)\d+$" | uniq | sort -n | uniq > incomplete_ways.txt
-NUM_MISSING=$(wc -l incomplete_ways.txt | cut -f1 -d" ")
-if [ "$NUM_MISSING" -gt 0 ] ; then
-	rm -rf way_*.osm.xml
-	echo "There are $NUM_MISSING incomplete ways, which we need to download"
-	cat incomplete_ways.txt | while read -r WID ; do
-    if [ ! -s "way_wid${WID}.osm.xml" ] ; then
-      curl -A "waterwaymap.org / dl_missing_refs"  -s -o "way_wid${WID}.osm.xml" "https://api.openstreetmap.org/api/0.6/way/${WID}/full"
-    fi
-    echo "Done w${WID}"
-	done | pv -l -s "$NUM_MISSING" -c -N "Downloading incomplete ways" > /dev/null
-
-  # clean up, just in case
-	find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -empty -print -delete
-
-  # Merge files together
-  # bash/linux has a limit on the total length of a command. With too many files, this update will fail.
-  while [ "$(find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -print | wc -l)" -gt 100 ] ; do
-    echo "There are $(find . -maxdepth 1 -mindepth 1 -type f -name 'way_*.osm.xml' -print | wc -l) XML files. Merging together"
-    DEST=$(mktemp -p . way_combo_XXXXXX.osm.xml)
-    FILES=$(find . -maxdepth 1 -mindepth 1 -type f -name 'way_wid*.osm.xml' -printf "%s %p\n" | sort -n | cut -d" " -f2 | head -n 100 | tr "\n" " ")
-    osmium cat --no-progress --overwrite -o "$DEST" $FILES
-    rm $FILES
-    sleep 2
-  done
-	osmium cat --no-progress --overwrite -o incomplete_ways.osm.pbf way_*.osm.xml
-
-	rm way_*.osm.xml
-	rm -rf incomplete_ways2.osm.pbf
-	osmium sort --no-progress -o incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
-	mv incomplete_ways2.osm.pbf incomplete_ways.osm.pbf
-  echo "Size of the ways to merge in: $(ls -lh incomplete_ways.osm.pbf | cut -d" " -f5)"
-	echo "" > empty.opl
-	rm -rf add-incomplete-ways.osc
-	osmium derive-changes --no-progress empty.opl incomplete_ways.osm.pbf -o add-incomplete-ways.osc
-	rm -f empty.opl incomplete_ways.osm.pbf
-
-	rm -rf new.osm.pbf
-	osmium apply-changes -o new.osm.pbf "$FILENAME" add-incomplete-ways.osc
-	mv -v new.osm.pbf "$FILENAME"
-
-  echo "Finished. Final check-ref output:"
-	rm -fv add-incomplete-ways.osc
-	osmium check-refs "$FILENAME" || true
-fi
-rm -f incomplete_ways.txt
+rm -f incomplete_objs.txt
