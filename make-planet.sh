@@ -106,7 +106,7 @@ rclone sync --transfers 1 --order-by size,descending --bwlimit 3M ./upload_to_cl
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to upload pmtiles to cloudflare"
 SECONDS=0
 ./upload_rivers_db.sh
-echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to /river/ page db to hetzner"
+echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to upload /river/ page db to hetzner"
 echo "Upload finished"
 
 wait
