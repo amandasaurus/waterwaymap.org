@@ -111,6 +111,13 @@ planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -F "canoe∈yes,portage,permissive,designated,destination,customers,permit→T; portage∈yes,permissive,designated,destination,customers,permit→T; F"
 	mv tmp.$@ $@
 
+planet-waterway-maxwidth.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth
+	mv tmp.$@ $@
+planet-waterway-maxwidthphysical.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth:physical
+	mv tmp.$@ $@
+
 # The “Named Waterways” view
 planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
