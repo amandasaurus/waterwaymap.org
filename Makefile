@@ -472,7 +472,7 @@ planet-grouped-waterways.gpkg: planet-grouped-waterways.geojson
 
 admins.osm.pbf: planet-waterway.osm.pbf
 	rm -f tmp.$@
-	osmium tags-filter $< -o tmp.$@ admin_level=0 admin_level=1 admin_level=2 admin_level=3 admin_level=4 admin_level=5 admin_level=6
+	osmium tags-filter $< -o tmp.$@ admin_level=1,2,3,4,5,6
 	mv tmp.$@ $@
 
 admins.geojsonseq: admins.osm.pbf
