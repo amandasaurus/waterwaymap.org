@@ -5,8 +5,8 @@
 *.geojson.*z*
 *.geojson.br
 *.geojsons
-*.geojsonseq
 *.geojsons.*z*
+*.geojsonseq
 *.gpkg
 *.gpkg-journal
 *.gpkg.zst
