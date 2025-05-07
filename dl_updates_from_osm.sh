@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 set -o errexit -o nounset
 cd "$(dirname "$0")"
 
@@ -9,16 +9,16 @@ if [ "${1:-}" = "-f" ] ; then
 fi
 
 echo "Starting dl_updates_from_osm.sh"
-TAG_FILTER="w/waterway w/natural=coastline w/natural=water w/canoe w/portage wr/admin_level=1,2,3,4,5,6"
+TAG_FILTER="w/waterway w/natural=coastline w/natural=water w/canoe w/portage admin_level=1,2,3,4,5,6"
 
-if [ ! -s planet-waterway.osm.pbf ] ; then
+if [ ! -s planet-waterway.osm.pbf ] || [ planet-latest.osm.pbf -nt planet-waterway.osm.pbf ] ; then
 	if [ ! -e planet-latest.osm.pbf ] ; then
 		echo "No planet-waterway.osm.pbf, downloading.."
 		aria2c --seed-time=0 https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent
 		# TODO rename from planet-YYMMDD.osm.pbf to -latest
 	fi
   echo "planet-latest exists, but planet-waterway doesn't. Doing an osmium tags-filter"
-	osmium tags-filter --remove-tags planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --overwrite -o planet-waterway.osm.pbf $TAG_FILTER
+	osmium tags-filter planet-latest.osm.pbf --output-header osmosis_replication_base_url=https://planet.openstreetmap.org/replication/minute/ --overwrite -o planet-waterway.osm.pbf $TAG_FILTER
 fi
 echo "planet-waterway.osm.pbf, size: $(ls -lh planet-waterway.osm.pbf | cut -d" " -f5)"
 # quick shortcut for when we run this a log
