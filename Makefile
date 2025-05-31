@@ -112,9 +112,12 @@ planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
 	mv tmp.$@ $@
 
 planet-waterway-maxwidth.geojsons: planet-waterway.osm.pbf
+	rm -f tmp.$@
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth
 	mv tmp.$@ $@
+
 planet-waterway-maxwidthphysical.geojsons: planet-waterway.osm.pbf
+	rm -f tmp.$@
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth:physical
 	mv tmp.$@ $@
 
