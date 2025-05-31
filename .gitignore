@@ -30,3 +30,4 @@
 /upload_to_cloudflare/*
 /waterwaymap.org_ends_stats.csv.zst
 /waterwaymap.org_loops_stats.csv.zst
+/ne_10m_*
