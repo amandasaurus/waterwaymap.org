@@ -21,8 +21,7 @@
 /docs/data/*
 /docs/sqlitesite.cgi
 /incomplete_ways.txt
-/planet-upstreams.pg_imported
-/rivers_html.db
+/*rivers_html.db*
 /wwm-river
 /tilekiln/
 /tmp.*.geojson
@@ -31,3 +30,4 @@
 /waterwaymap.org_ends_stats.csv.zst
 /waterwaymap.org_loops_stats.csv.zst
 /ne_10m_*
+/*.pgimported
