@@ -458,10 +458,11 @@ planet-grouped-waterways.spatialite: planet-grouped-waterways.geojson
 
 planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
 	rm -f tmp.$@
+	psql -Xe -c "drop table if exists planet_grouped_waterways;"
 	ogr2ogr -f PostgreSQL PG: $< -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom
-	psql -c 'create index name on planet_grouped_waterways (tag_group_value);'
-	psql -c 'create index length on planet_grouped_waterways (length_m);'
-	mv tmp.$@ $@
+	psql -Xe -c 'create index name on planet_grouped_waterways (tag_group_value);'
+	psql -Xe -c 'create index length on planet_grouped_waterways (length_m);'
+	touch $@
 
 admins.osm.pbf: planet-waterway.osm.pbf
 	rm -f tmp.$@
