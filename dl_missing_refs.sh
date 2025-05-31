@@ -30,10 +30,11 @@ set -o errexit -o nounset
 FILENAME=$(realpath "${1:?Arg 1 must be filename}")
 cd "$(dirname "$0")"
 
-echo "Starting $0, this is the current status of referential integreity"
+echo "Starting $0, calculating the current state of referrential integrity..."
 osmium check-refs --check-relations "$FILENAME" || true
 
 for OSM_TYPE in relation way ; do
+  echo "Checking ${OSM_TYPE}s..."
   T=${OSM_TYPE:0:1}
   rm -f incomplete_objs.txt
   osmium check-refs --check-relations --no-progress --show-ids "$FILENAME" |& grep -Po "(?<= in $T)\d+$" | uniq | sort -n | uniq > incomplete_objs.txt
