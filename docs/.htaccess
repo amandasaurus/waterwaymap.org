@@ -15,4 +15,4 @@ RewriteRule "^/?(help|about).html$" "/\1/" [last,redirect=permanent]
 
 
 # This is the big one which uses the CGI for /river/
-RewriteRule "^(/?river.*)$" "/sqlitesite.cgi?$1" [last]
+RewriteRule "^(/?river.*)$" "/sqlitesite.cgi?$1" [B,last]
