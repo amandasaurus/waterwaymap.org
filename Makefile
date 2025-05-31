@@ -144,7 +144,9 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--grouped-ends tmp.planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
 		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
 		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000 \
-		--grouped-waterways tmp.planet-grouped-waterways.geojson
+		--grouped-waterways tmp.planet-grouped-waterways.geojson \
+		--relation-tags-overwrite --relation-tags-role main_stream
+	  
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
