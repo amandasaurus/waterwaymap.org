@@ -116,6 +116,9 @@ planet-waterway-maxwidth.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth
 	mv tmp.$@ $@
 
+# maxwidth:physical
+# Currently not called because there are no geometries that match it, and
+# various tools fail if there's no data.
 planet-waterway-maxwidthphysical.geojsons: planet-waterway.osm.pbf
 	rm -f tmp.$@
 	osm-lump-ways -i $< -o tmp.$@ --min-length-m 100 --save-as-linestrings -f waterway -f maxwidth:physical
