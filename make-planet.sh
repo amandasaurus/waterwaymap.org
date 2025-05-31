@@ -32,7 +32,7 @@ fi
 SECONDS=0
 make \
   planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons \
-  planet-waterway-maxwidth.geojsons planet-waterway-maxwidthphysical.geojsons \
+  planet-waterway-maxwidth.geojsons \
   planet-waterway-name-group-name.geojsons \
   planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
@@ -45,7 +45,7 @@ echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons 
 SECONDS=0
 make -j2 \
   planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles \
-  planet-waterway-maxwidth.pmtiles planet-waterway-maxwidthphysical.pmtiles \
+  planet-waterway-maxwidth.pmtiles \
   planet-waterway-name-group-name.pmtiles \
   planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
   planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
@@ -68,7 +68,7 @@ for F in \
   water-w_frames water-frames \
   nonartificial-frames nonartificial-w_frames \
   boatable canoeable \
-  maxwidth maxwidthphysical \
+  maxwidth \
   name-group-name rivers-etc \
   ; do
   mv planet-waterway-${F}.pmtiles ./upload_to_cloudflare/ || true
@@ -95,7 +95,6 @@ jq <./upload_to_cloudflare/tilesets.json '.tilesets[4].key = "planet-waterway-na
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[5].key = "planet-waterway-rivers-etc"|.tilesets[5].text = "Rivers (etc.)"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[6].key = "planet-grouped-ends"|.tilesets[6].text = "Natural Waterway (downhills)"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[7].key = "planet-waterway-maxwidth"|.tilesets[7].text = "With <code>maxswidth</code> tag"' | sponge ./upload_to_cloudflare/tilesets.json
-jq <./upload_to_cloudflare/tilesets.json '.tilesets[8].key = "planet-waterway-maxwidthphysical"|.tilesets[8].text = "With <code>maxwidth:physical</code> tag"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.selected_tileset = "planet-grouped-ends"' | sponge ./upload_to_cloudflare/tilesets.json
 
 jq <./upload_to_cloudflare/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./upload_to_cloudflare/tilesets.json
