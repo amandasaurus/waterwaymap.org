@@ -9,7 +9,7 @@ if [ "${1:-}" = "-f" ] ; then
 fi
 
 echo "Starting dl_updates_from_osm.sh"
-TAG_FILTER="waterway natural=coastline natural=water canoe portage admin_level=1,2,3,4,5,6"
+TAG_FILTER="waterway natural=coastline natural=water canoe portage"
 
 if [ ! -s planet-waterway.osm.pbf ] || [ planet-latest.osm.pbf -nt planet-waterway.osm.pbf ] ; then
 	if [ ! -e planet-latest.osm.pbf ] ; then
