@@ -31,33 +31,10 @@ jq <./upload_to_cloudflare/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\
 
 # Tiles
 SECONDS=0
-make \
-  planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons \
-  planet-waterway-maxwidth.geojsons \
-  planet-waterway-name-group-name.geojsons \
-  planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
-  planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
-  planet-waterway-rivers-etc.geojsons \
-  planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson \
-  planet-waterway-stream-ends.geojson.gz \
-  planet-unnamed-big-ends.geojson.gz \
-  planet-ditch-loops.geojson.gz
+make geojson_files
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
-make -j2 \
-  planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles \
-  planet-waterway-maxwidth.pmtiles \
-  planet-waterway-name-group-name.pmtiles \
-  planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
-  planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
-  planet-waterway-rivers-etc.pmtiles \
-  planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles \
-  planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-ends.pmtiles planet-ends.geojson.gz \
-  planet-loops.geojson.gz \
-  planet-grouped-ends.pmtiles \
-  planet-upstreams.csv.zst planet-grouped-ends.geojsons.zst \
-  rivers_html.db \
-  waterwaymap.org_ends_stats.csv.zst
+make -j2 output_files
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 zstd --quiet --force -z -k -e -19 ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst

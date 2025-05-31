@@ -1,5 +1,33 @@
 .PRECIOUS: planet-waterway.osm.pbf
 
+geojson_files: planet-waterway-boatable.geojsons planet-waterway-canoeable.geojsons \
+  planet-waterway-maxwidth.geojsons \
+  planet-waterway-name-group-name.geojsons \
+  planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
+  planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
+  planet-waterway-rivers-etc.geojsons \
+  planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson \
+  planet-waterway-stream-ends.geojson.gz \
+  planet-unnamed-big-ends.geojson.gz \
+  planet-ditch-loops.geojson.gz
+
+output_files: output_pmtiles_files output_loops output_ends output_dl_stats output_riverdb
+
+output_pmtiles_files: planet-waterway-boatable.pmtiles planet-waterway-canoeable.pmtiles \
+  planet-waterway-maxwidth.pmtiles \
+  planet-waterway-name-group-name.pmtiles \
+  planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
+  planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
+  planet-waterway-rivers-etc.pmtiles \
+  planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles \
+  planet-grouped-ends.pmtiles
+
+output_loops: planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-loops.geojson.gz \
+	planet-loops.pmtiles planet-loops-firstpoints.geojson.gz planet-loops.geojson.gz
+output_ends: planet-ends.pmtiles planet-ends.geojson.gz waterwaymap.org_ends_stats.csv.zst
+output_dl_stats: planet-upstreams.csv.zst planet-grouped-ends.geojsons.zst
+output_riverdb: rivers_html.db
+
 planet-waterway.osm.pbf:
 	./dl_updates_from_osm.sh
 
@@ -517,7 +545,7 @@ riversite_input_data.pgimported: ne_10m_admin_0_countries_iso.pgimported ne_10m_
 
 rivers_html.db: riversite_input_data.pgimported wwm-river
 	rm -rf tmp.$@
-	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -o tmp.$@
+	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -e "data_timestamp=$(shell jq -Mr <upload_to_cloudflare/tilesets.json .data_timestamp)" -o tmp.$@
 	mv tmp.$@ $@
 
 ne_10m_admin_0_countries_iso.zip:
