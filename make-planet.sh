@@ -27,6 +27,7 @@ if [ ! -s ./upload_to_cloudflare/tilesets.json ] || [ -z "$(jq <./upload_to_clou
 	echo "./upload_to_cloudflare/tilesets.json is empty somehow, so add a base"
 	jo tilesets=[] > ./upload_to_cloudflare/tilesets.json
 fi
+jq <./upload_to_cloudflare/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./upload_to_cloudflare/tilesets.json
 
 # Tiles
 SECONDS=0
@@ -96,8 +97,6 @@ jq <./upload_to_cloudflare/tilesets.json '.tilesets[5].key = "planet-waterway-ri
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[6].key = "planet-grouped-ends"|.tilesets[6].text = "Natural Waterway (downhills)"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[7].key = "planet-waterway-maxwidth"|.tilesets[7].text = "With <code>maxswidth</code> tag"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.selected_tileset = "planet-grouped-ends"' | sponge ./upload_to_cloudflare/tilesets.json
-
-jq <./upload_to_cloudflare/tilesets.json ".data_timestamp = \"${LAST_TIMESTAMP}\"" | sponge ./upload_to_cloudflare/tilesets.json
 
 ./rss_update.sh ./upload_to_cloudflare/data_updates.xml "WaterwayMap.org Data update" "WaterwayMap.org has been updated with OSM data up until $LAST_TIMESTAMP"
 echo "RSS feed updated, last data timestamp is $LAST_TIMESTAMP"
