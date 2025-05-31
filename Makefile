@@ -535,8 +535,8 @@ ne_10m_admin_1_states_provinces.pgimported: ne_10m_admin_1_states_provinces/ne_1
 	touch $@
 
 ne_10m_admin_delete:
-	psql -X -c "DROP TABLE IF EXISTS admins0;"
-	psql -X -c "DROP TABLE IF EXISTS admins1;"
-	psql -X -c "DROP TABLE IF EXISTS admins;"
+	psql -X -c "DROP TABLE IF EXISTS admins0 CASCADE;"
+	psql -X -c "DROP TABLE IF EXISTS admins1 CASCADE;"
+	psql -X -c "DROP TABLE IF EXISTS admins CASCADE;"
 	rm -f ne_10m_admin_0_countries_iso.pgimported
 	rm -f ne_10m_admin_1_states_provinces.pgimported
