@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # Makes an OSM PBF file referntially complete, by downloading nodes from
 # OSM.org API that are referenced from ways in the input file.
 #
