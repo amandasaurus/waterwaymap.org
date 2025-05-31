@@ -476,6 +476,12 @@ planet-grouped-waterways.gpkg: planet-grouped-waterways.geojson
 	sqlite3 tmp.$@ 'create index length on "planet-grouped-waterways" (length_m);'
 	mv tmp.$@ $@
 
+planet-grouped-waterways.spatialite: planet-grouped-waterways.geojson
+	rm -f tmp.$@
+	ogr2ogr -f SQLite -dsco SPATIALITE=yes tmp.$@ $< -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -lco SRID=4326
+	sqlite3 tmp.$@ 'create index name on planet_grouped_waterways (tag_group_value);'
+	sqlite3 tmp.$@ 'create index length on planet_grouped_waterways (length_m);'
+	mv tmp.$@ $@
 
 admins.osm.pbf: planet-waterway.osm.pbf
 	rm -f tmp.$@
@@ -490,12 +496,16 @@ admins.geojsonseq: admins.osm.pbf
 admins.gpkg: admins.geojsonseq
 	rm -f tmp.$@
 	ogr2ogr tmp.$@ $< -select name,admin_level -where "name IS NOT NULL"
+
+admins.spatialite: admins.geojsonseq
+	rm -f tmp.$@
+	ogr2ogr -f SQLite -dsco SPATIALITE=yes tmp.$@ $< -select name,"name:en",admin_level -where "name IS NOT NULL AND OGR_GEOMETRY IN ('Polygon','MultiPolygon')" -nlt MULTIPOLYGON -unsetFid -lco SRID=4326
 	mv tmp.$@ $@
 
 riversite_input_data.gpkg: planet-grouped-waterways.gpkg admins.geojsonseq
 	rm -f tmp.$@
 	cp planet-grouped-waterways.gpkg tmp.$@
-	ogr2ogr tmp.$@ admins.geojsonseq -select name,admin_level -where "name IS NOT NULL" -update -nln admins
+	ogr2ogr tmp.$@ admins.geojsonseq -select name,"name:en",admin_level -where "name IS NOT NULL AND OGR_GEOMETRY IN ('Polygon','MultiPolygon')" -nlt MULTIPOLYGON  -nln admins -update -unsetFid
 	sqlite3 tmp.$@ 'create index admins__admin_level on admins (admin_level);'
 	mv tmp.$@ $@
 
