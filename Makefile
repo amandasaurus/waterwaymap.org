@@ -527,7 +527,7 @@ ne_10m_admin_1_states_provinces/ne_10m_admin_1_states_provinces.shp: ne_10m_admi
 	touch $@
 
 ne_10m_admin_0_countries_iso.pgimported: ne_10m_admin_0_countries_iso/ne_10m_admin_0_countries_iso.shp
-	ogr2ogr -f PostgreSQL PG: $< -sql "select NAME,iso_a2 as iso, null as parent_iso, 0 as level from ne_10m_admin_0_countries_iso" -nlt MULTIPOLYGON -unsetFid -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom -nln admins
+	ogr2ogr -f PostgreSQL PG: $< -sql "select NAME,iso_a2_eh as iso, null as parent_iso, 0 as level from ne_10m_admin_0_countries_iso" -nlt MULTIPOLYGON -unsetFid -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom -nln admins
 	touch $@
 
 ne_10m_admin_1_states_provinces.pgimported: ne_10m_admin_1_states_provinces/ne_10m_admin_1_states_provinces.shp ne_10m_admin_0_countries_iso.pgimported
