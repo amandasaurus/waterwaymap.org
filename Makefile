@@ -457,11 +457,6 @@ planet-grouped-waterways.spatialite: planet-grouped-waterways.geojson
 	mv tmp.$@ $@
 
 planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
-	rm $@
-	ogr2ogr PG: planet-grouped-waterways.geojson -overwrite -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -lco SRID=4326 -lco GEOMETRY_NAME=geom
-	touch $@
-
-planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
 	rm -f tmp.$@
 	ogr2ogr -f PostgreSQL PG: $< -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom
 	psql -c 'create index name on planet_grouped_waterways (tag_group_value);'
@@ -510,9 +505,9 @@ riversite_input_data.pgimported: ne_10m_admin_0_countries_iso.pgimported ne_10m_
 	psql -X -f riversite_input_data_setup.sql
 	touch $@
 
-rivers_html.db: riversite_input_data.gpkg wwm-river
+rivers_html.db: riversite_input_data.pgimported wwm-river
 	rm -rf tmp.$@
-	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -i riversite_input_data.gpkg -o tmp.$@
+	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -o tmp.$@
 	mv tmp.$@ $@
 
 ne_10m_admin_0_countries_iso.zip:
