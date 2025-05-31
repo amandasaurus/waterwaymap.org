@@ -368,33 +368,6 @@ planet-ends.geojsons.gz: planet-ends.geojsons
 	rm -fv $@
 	gzip -k -9 $<
 
-# Attempt to generate geojsons which group related upstream values (for
-# different zoom levels) together
-#
-#planet-upstreams.pg_imported: planet-upstreams.csv planet-ends.geojsons
-#	time ogr2ogr -f PostgreSQL PG:"" planet-ends.geojsons -nln waterway_ends -select nid,upstream_m -lco SPATIAL_INDEX=none -lco GEOMETRY_NAME=geom -lco UNLOGGED=on -overwrite
-#	time ogr2ogr -f PostgreSQL PG:"" planet-upstreams.csv -nln waterway_upstreams -select end_nid,from_upstream_m -lco SPATIAL_INDEX=none -lco GEOMETRY_NAME=geom -lco UNLOGGED=on -overwrite -oo AUTODETECT_TYPE=yes -oo KEEP_GEOM_COLUMNS=no
-#	psql -c "create index on waterway_upstreams (end_nid);"
-#	psql -c "cluster waterway_upstreams on waterway_upstreams_end_nid_idx;"
-#	psql -c "create index on waterway_ends (nid);"
-#	psql -c "cluster waterway_ends on waterway_ends_nid_idx;"
-#	touch $@
-#
-#planet-waterway-upstream-100.geojsons: planet-upstreams.pg_imported
-#	rm -f tmp.$@
-#	ogr2ogr tmp.$@ PG:"" -sql "select end_nid, (select upstream_m from waterway_ends where nid = end_nid limit 1) as end_upstream_m, 100*round(from_upstream_m/100) as upstream_m, (St_dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by end_nid, upstream_m"
-#	mv tmp.$@ $@
-#
-#planet-waterway-upstream-1000.geojsons: planet-upstreams.pg_imported
-#	rm -f tmp.$@
-#	ogr2ogr tmp.$@ PG:"" -sql "select end_nid, (select upstream_m from waterway_ends where nid = end_nid limit 1) as end_upstream_m, 1000*round(from_upstream_m/1000) as upstream_m, (St_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by end_nid, upstream_m"
-#	mv tmp.$@ $@
-#
-#planet-waterway-upstream-10000.geojsons: planet-upstreams.pg_imported
-#	rm -f tmp.$@
-#		ogr2ogr tmp.$@ PG:"" -sql "select end_nid, (select upstream_m from waterway_ends where nid = end_nid limit 1) as end_upstream_m, 10000*round(from_upstream_m/10000) as upstream_m, (ST_Dump(st_linemerge(st_union(geom), true))).geom as geom from waterway_upstreams group by end_nid, upstream_m"
-#	mv tmp.$@ $@
-
 planet-grouped-ends.pmtiles: planet-grouped-ends-z0-3.mbtiles planet-grouped-ends-z4-7.mbtiles planet-grouped-ends-z8-.mbtiles
 	rm -f tmp.$@
 	tile-join --no-tile-size-limit -o tmp.$@ $^
@@ -484,6 +457,11 @@ planet-grouped-waterways.spatialite: planet-grouped-waterways.geojson
 	mv tmp.$@ $@
 
 planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
+	rm $@
+	ogr2ogr PG: planet-grouped-waterways.geojson -overwrite -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -lco SRID=4326 -lco GEOMETRY_NAME=geom
+	touch $@
+
+planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
 	rm -f tmp.$@
 	ogr2ogr -f PostgreSQL PG: $< -nlt MULTILINESTRING -unsetFid -oo ARRAY_AS_STRING=YES -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom
 	psql -c 'create index name on planet_grouped_waterways (tag_group_value);'
@@ -528,7 +506,37 @@ riversite_input_data.spatialite: planet-grouped-waterways.spatialite admins.geoj
 	spatialite tmp.$@ '.read riversite_input_data_setup.sql'
 	mv tmp.$@ $@
 
+riversite_input_data.pgimported: ne_10m_admin_0_countries_iso.pgimported ne_10m_admin_1_states_provinces.pgimported planet-grouped-waterways.pgimported
+	psql -X -f riversite_input_data_setup.sql
+	touch $@
+
 rivers_html.db: riversite_input_data.gpkg wwm-river
 	rm -rf tmp.$@
 	./wwm-river --templates /home/amanda/personal/waterwaymap.org-river/templates/ --static /home/amanda/personal/waterwaymap.org-river/static/ --prefix /river/ -i riversite_input_data.gpkg -o tmp.$@
 	mv tmp.$@ $@
+
+ne_10m_admin_0_countries_iso.zip:
+	curl -A "waterwaymap.org" -LO https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries_iso.zip
+ne_10m_admin_1_states_provinces.zip:
+	curl -A "waterwaymap.org" -LO https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces.zip
+ne_10m_admin_0_countries_iso/ne_10m_admin_0_countries_iso.shp: ne_10m_admin_1_states_provinces.zip
+	aunpack $<
+	touch $@
+ne_10m_admin_1_states_provinces/ne_10m_admin_1_states_provinces.shp: ne_10m_admin_1_states_provinces.zip
+	aunpack $<
+	touch $@
+
+ne_10m_admin_0_countries_iso.pgimported: ne_10m_admin_0_countries_iso/ne_10m_admin_0_countries_iso.shp
+	ogr2ogr -f PostgreSQL PG: $< -sql "select NAME,iso_a2 as iso, null as parent_iso, 0 as level from ne_10m_admin_0_countries_iso" -nlt MULTIPOLYGON -unsetFid -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom -nln admins
+	touch $@
+
+ne_10m_admin_1_states_provinces.pgimported: ne_10m_admin_1_states_provinces/ne_10m_admin_1_states_provinces.shp ne_10m_admin_0_countries_iso.pgimported
+	ogr2ogr -f PostgreSQL PG: $< -sql "select NAME,iso_3166_2 as iso, iso_a2 as parent_iso, 1 as level from ne_10m_admin_1_states_provinces" -nlt MULTIPOLYGON -unsetFid -t_srs EPSG:4326 -nln admins -append
+	touch $@
+
+ne_10m_admin_delete:
+	psql -X -c "DROP TABLE IF EXISTS admins0;"
+	psql -X -c "DROP TABLE IF EXISTS admins1;"
+	psql -X -c "DROP TABLE IF EXISTS admins;"
+	rm -f ne_10m_admin_0_countries_iso.pgimported
+	rm -f ne_10m_admin_1_states_provinces.pgimported
