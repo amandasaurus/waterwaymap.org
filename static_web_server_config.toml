@@ -1,0 +1,17 @@
+[general]
+root = "./docs/"
+port = 8000
+log-level = "info"
+compression = true
+cache-control-headers = true
+
+[advanced]
+
+# Fetch files outside the docroot
+# https://static-web-server.net/features/url-rewrites/#different-roots-within-the-same-virtual-host
+[[advanced.rewrites]]
+source = "/data/{**}"
+destination = "http://data.local/$1"
+[[advanced.virtual-hosts]]
+host = "data.local"
+root = "./upload_to_cloudflare/"
