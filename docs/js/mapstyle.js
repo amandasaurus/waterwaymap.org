@@ -112,8 +112,8 @@ var mapstyle_layers = [
     "paint": {
       "line-color": "black",
       "line-width": ["interpolate", ["linear"], ["zoom"],
-        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,7],
-        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,7],
+        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 300e6,25],
+        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 100e6,20],
         6, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,11],
         12, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1.5, 50e3,8, 6e6,18],
       ]
@@ -143,11 +143,11 @@ var mapstyle_layers = [
         "black",
       ],
       "line-width": ["interpolate", ["linear"], ["zoom"],
-        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,4],
-        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,4],
+        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 300e6,20],
+        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 100e6,20],
         6, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,9],
         12, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1, 50e3,5, 6e6,10],
-        //16, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 50e3,8, 6e6,20],
+        16, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 50e3,8, 6e6,20],
       ]
     }
   },
