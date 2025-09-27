@@ -291,9 +291,9 @@ planet-grouped-ends.geojsons.zst: planet-grouped-ends.geojsons
 	mv tmp.$@ $@
 
 
-planet-ditch-loops.geojson ./docs/data/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
+planet-ditch-loops.geojson ./upload_to_cloudflare/waterwaymap.org_ditch_loops_stats.csv: planet-waterway.osm.pbf
 	rm -rf tmp.planet-ditch-loops.geojson
-	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --loops-csv-stats-file ./docs/data/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
+	osm-lump-ways-down -i ./planet-waterway.osm.pbf -f waterway=ditch --loops-csv-stats-file ./upload_to_cloudflare/waterwaymap.org_ditch_loops_stats.csv --loops tmp.planet-ditch-loops.geojson
 	mv tmp.planet-ditch-loops.geojson planet-ditch-loops.geojson
 
 planet-loops-lines.pmtiles: planet-loops.geojsons
