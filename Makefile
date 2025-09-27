@@ -166,7 +166,7 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down \
 		-i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --min-upstream-m 100 \
-		--loops tmp.planet-loops.geojsons --loops-openmetrics ./docs/data/waterwaymap.org_loops_metrics.prom --loops-csv-stats-file ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv \
+		--loops tmp.planet-loops.geojsons  --loops-csv-stats-file ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv \
 		--flow-follows-tag name \
 		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
 		--grouped-ends tmp.planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
