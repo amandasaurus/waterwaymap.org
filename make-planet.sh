@@ -6,7 +6,7 @@ if [ "${1:-}" = "-v" ]; then
 	set -x
 fi
 
-source functions.sh
+source "$HOME/.cargo/env"
 
 if [ "$(osm-lump-ways --version)" != "osm-lump-ways 3.4.0" ] ; then
   echo "Wrong version of osm-lump-ways installed: $(osm-lump-ways --version)"
