@@ -34,7 +34,7 @@ SECONDS=0
 make geojson_files
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to generate all geojsons files"
 SECONDS=0
-make -j2 output_files
+make output_files
 echo "Took $(units ${SECONDS}sec time) (${SECONDS}sec) to convert all geojsons to pmtiles"
 
 zstd --quiet --force -z -k -e -19 ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv -o waterwaymap.org_loops_stats.csv.zst
