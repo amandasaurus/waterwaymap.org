@@ -47,6 +47,7 @@ planet-waterway.osm.pbf:
 		--gamma 2 \
 		--extend-zooms-if-still-dropping \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -67,6 +68,7 @@ planet-waterway.osm.pbf:
 		--gamma 2 \
 		--extend-zooms-if-still-dropping \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -312,6 +314,7 @@ planet-loops-lines.pmtiles: planet-loops.geojsons
 		-y root_nid -y num_nodes -y length_m \
 		-l loop_lines \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -337,6 +340,7 @@ planet-loops-firstpoints.pmtiles: planet-loops-firstpoints.geojsons
 		-y root_nid -y num_nodes -y length_m \
 		-l loop_points \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -398,6 +402,7 @@ planet-ends.pmtiles: planet-ends.geojsons
 		-y upstream_m -y nid -y tag:name \
 		-l ends \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
 
@@ -425,6 +430,7 @@ planet-grouped-ends-z8-.mbtiles: planet-grouped-ends.geojsons
 		--extend-zooms-if-still-dropping \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-l upstreams \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
@@ -441,6 +447,7 @@ planet-grouped-ends-z0-3.mbtiles: planet-grouped-ends.geojsons
 		-y end_nid -y end_upstream_m -y avg_upstream_m \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-l upstreams \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
@@ -459,6 +466,7 @@ planet-grouped-ends-z4-7.mbtiles: planet-grouped-ends.geojsons
 		--no-feature-limit --maximum-tile-bytes $(shell units -t 1.5MiB bytes) \
 		--drop-fraction-as-needed \
 		--no-progress-indicator \
+		--temporary-directory=$(PWD) \
 		-l upstreams \
 		-o tmp.$@ $<
 	mv tmp.$@ $@
