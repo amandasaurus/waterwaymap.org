@@ -61,6 +61,7 @@ mv ./planet-loops-firstpoints.geojson.gz ./upload_to_cloudflare/ || true
 mv ./planet-ends.geojson.gz ./upload_to_cloudflare/ || true
 mv ./planet-unnamed-big-ends.geojson.gz ./upload_to_cloudflare || true
 mv ./planet-waterway-stream-ends.geojson.gz ./upload_to_cloudflare/ || true
+mv ./planet-longest-source-mouth.fgb ./upload_to_cloudflare/ || true
 mv ./*zst ./upload_to_cloudflare/ 2>/dev/null || true
 cp ./waterwaymap.org_ends_stats.csv.zst ./upload_to_cloudflare/ 2>/dev/null || true
 
