@@ -8,7 +8,7 @@ fi
 
 source "$HOME/.cargo/env"
 
-if [ "$(osm-lump-ways --version)" != "osm-lump-ways 3.5.0" ] ; then
+if [ "$(osm-lump-ways --version)" != "osm-lump-ways 3.5.1" ] ; then
   echo "Wrong version of osm-lump-ways installed: $(osm-lump-ways --version)"
   exit 1
 fi
