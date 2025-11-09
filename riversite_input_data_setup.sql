@@ -4,7 +4,7 @@ create index if not exists admins__name on admins (name);
 delete from admins where level IS NULL OR name IS NULL;
 
 -- merge things with same name & iso
-create temp table new_admins as select min(ogc_fid) as ogc_fid, name, iso, min(parent_iso) as parent_iso, min(level) as level, ST_Union(geom) as geom from admins group by (name, iso);
+create temp table new_admins as select min(ogc_fid) as ogc_fid, name, iso, min(parent_iso) as parent_iso, min(level) as level, ST_Multi(ST_Union(geom)) as geom from admins group by (name, iso);
 truncate table admins cascade;
 insert into admins select * from new_admins;
 drop table new_admins;
