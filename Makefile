@@ -475,7 +475,7 @@ planet-grouped-ends-z4-7.mbtiles: planet-grouped-ends.geojsons
 
 
 planet-upstreams.gpkg: planet-upstreams.csv
-	ogr2ogr $@ $< -lco SPATIAL_INDEX=no -gt unlimited -select end_nid,from_upstream_m  -oo GEOM_POSSIBLE_NAMES=geom
+	ogr2ogr $@ $< -lco SPATIAL_INDEX=yes -gt unlimited -select end_nid,from_upstream_m  -oo GEOM_POSSIBLE_NAMES=geom
 	#ogr2ogr $@ $< -lco SPATIAL_INDEX=no -condif OGR_SQLITE_SYNCHRONOUS=off -oo OGR_SQLITE_CACHE=512 -gt unlimited -select end_nid,from_upstream_m 
 	sqlite3 $@ "create index if not exists \"planet-upstreams_end_nid\" on \"planet-upstreams\" (end_nid);"
 	sqlite3 $@ "create index if not exists \"planet-upstreams_from_upstream_m\" on \"planet-upstreams\" (from_upstream_m);"
