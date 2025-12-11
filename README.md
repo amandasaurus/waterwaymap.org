@@ -14,6 +14,7 @@ See the [website](https://waterwaymap.org).
 * I gave a lightening talk at [State of the Map Europe 2023](https://2023.stateofthemap.eu/) in Antwerp, Belgium in Nov. 2023. [slides](https://waterwaymap.org/static/2023-11-sotmeu23-waterway-presentation-lightening-talk.pdf.zst).
 * *“Flowing Connections: Mapping rivers & streams with WaterwayMap.org”* Presentation at [State of the Map Europe 2024](https://stateofthemap.eu/) in Łódź, Poland on Sun. 21st July 2024. [slides](https://waterwaymap.org/static/2024-07-21-sotmeu24-waterway-presentation.pdf.zst). [programme entry](https://cfp.openstreetmap.org.pl/state-of-the-map-europe-2024/talk/K8LF7U/). As of Jan. 2025, there are no recordings available.
 * [Interview about WaterwayMap.org on The OpenCage Blog](https://blog.opencagedata.com/post/openstreetmap-interview-waterwaymap) _(Jan. 2025)_
+* I gave a talk in German at [FOSSGIS 2025](https://pretalx.com/fossgis2025/talk/DPNHSU/), watch [the video here](https://media.ccc.de/v/fossgis2025-58272-nicht-von-neuen-algorithmen-uberflutet-osm-daten-fur-waterwaymap-verarbeiten).
 
 ## Who's using mapping with this?
 
