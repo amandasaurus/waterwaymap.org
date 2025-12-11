@@ -6,7 +6,7 @@ geojson_files: planet-waterway-boatable.geojsons planet-waterway-canoeable.geojs
   planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
   planet-waterway-rivers-etc.geojsons \
-  planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson planet-longest-source-mouth.fgb \
+  planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson planet-longest-source-mouth.geojsons \
   planet-waterway-stream-ends.geojson.gz \
   planet-unnamed-big-ends.geojson.gz \
   planet-ditch-loops.geojson.gz
@@ -176,14 +176,14 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000 \
 		--grouped-waterways tmp.planet-grouped-waterways.geojson \
 		--relation-tags-overwrite --relation-tags-role main_stream \
-		--longest-source-mouth tmp.longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
+		--longest-source-mouth tmp.planet-longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
 	  
 	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
 	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
 	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
 	mv tmp.planet-upstreams.csv planet-upstreams.csv || true
 	mv tmp.planet-grouped-waterways.geojson planet-grouped-waterways.geojson || true
-	mv tmp.planet-longest-source-mouth.geojsons longest-source-mouth.geojsons || true
+	mv tmp.planet-longest-source-mouth.geojsons planet-longest-source-mouth.geojsons || true
 
 waterwaymap.org_ends_stats.csv.zstd: waterwaymap.org_ends_stats.csv
 	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
