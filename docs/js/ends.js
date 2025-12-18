@@ -24,11 +24,12 @@ document.addEventListener("alpine:init", async () => {
 
   map = new maplibregl.Map({
     container: "map",
-    zoom: 2,
+    zoom: 3,
     hash: "map",
     center: [0, 0],
     style: {
       version: 8,
+      projection: {"type": "globe"},
       layers: [
         {
           id: "osmcarto",
@@ -118,6 +119,7 @@ document.addEventListener("alpine:init", async () => {
     }),
   );
   map.addControl(new maplibregl.NavigationControl());
+  map.addControl(new maplibregl.GlobeControl());
 
   map.on("mousemove", (e) => {
     const features = map.queryRenderedFeatures(e.point);

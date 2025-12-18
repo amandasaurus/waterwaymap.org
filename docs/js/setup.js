@@ -58,12 +58,13 @@ document.addEventListener("alpine:init", async () => {
 
   map = new maplibregl.Map({
     container: "map",
-    zoom: 2,
+    zoom: 2.5,
     hash: "map",
-    center: [0, 0],
+    center: [15, 40],
     attributionControl: false,  // manually added later (w. date)
     style: {
       version: 8,
+      projection: {"type": "globe"},
       layers: mapstyle_layers,
       glyphs: "./font/{fontstack}/{range}.pbf",
       sources: {
@@ -95,6 +96,7 @@ document.addEventListener("alpine:init", async () => {
   map.addControl(new maplibregl.NavigationControl());
   map.addControl(new maplibregl.AttributionControl({customAttribution: "Data as of "+tilesets.data_timestamp}));
   filterParamsChanged(len_filter);
+  map.addControl(new maplibregl.GlobeControl());
 
   map.setPadding({ top: 57 });
 
