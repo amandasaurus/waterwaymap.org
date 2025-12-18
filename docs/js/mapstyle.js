@@ -112,8 +112,8 @@ var mapstyle_layers = [
     "paint": {
       "line-color": "black",
       "line-width": ["interpolate", ["linear"], ["zoom"],
-        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 300e6,25],
-        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 100e6,20],
+        0, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 300e6,23],
+        4, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 100e6,24],
         6, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 6e6,11],
         12, ["interpolate", ["linear"], ["get", "avg_upstream_m"], 0,0, 1e3,1.5, 50e3,8, 6e6,18],
       ]
