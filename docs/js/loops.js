@@ -21,28 +21,17 @@ document.addEventListener("alpine:init", async () => {
   protocol.add(p);
 
   tilesToLoad = new Set();
-  function loadingEffect(e) {
-    if (e.sourceId == "loops" && e?.tile) {
-      (e.type == "dataloading" ? tilesToLoad.add : tilesToLoad.delete)(
-        e.tile.uid,
-      );
-      map.setPaintProperty(
-        "loops",
-        "line-color",
-        tilesToLoad.size == 0 ? "black" : "red",
-      );
-    }
-  }
 
   Alpine.store("tilesets_loaded", true);
 
   map = new maplibregl.Map({
     container: "map",
-    zoom: 2,
+    zoom: 3,
     hash: "map",
     center: [0, 0],
     style: {
       version: 8,
+      projection: {"type": "globe"},
       layers: [
         {
           id: "osmcarto",
@@ -101,9 +90,6 @@ document.addEventListener("alpine:init", async () => {
       },
     },
   });
-  map.on("dataloading", loadingEffect);
-  map.on("data", loadingEffect);
-  map.on("dataabort", loadingEffect);
 
   // Add geolocate control to the map.
   map.addControl(
@@ -115,4 +101,5 @@ document.addEventListener("alpine:init", async () => {
     }),
   );
   map.addControl(new maplibregl.NavigationControl());
+  map.addControl(new maplibregl.GlobeControl());
 });
