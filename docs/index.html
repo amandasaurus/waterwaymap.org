@@ -49,23 +49,13 @@
     <nav class="navbar navbar-expand-md bg-body fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="./">
-          <img
-            src="img/osm.png"
-            alt="Logo"
-            width="30"
-            height="30"
-            class="d-inline-block align-text-top"
-          />
+          <img src="img/osm.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top" />
           WaterwayMap
         </a>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarToggler"
-          aria-controls="navbarToggler"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          class="navbar-toggler" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+          aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -80,29 +70,20 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <button id="editIDButton" class="dropdown-item">
-                    Edit with iD
-                  </button>
+                  <button id="editIDButton" class="dropdown-item"> Edit with iD </button>
                 </li>
                 <li>
-                  <button id="editRemoteButton" class="dropdown-item">
-                    Edit with JOSM
-                  </button>
+                  <button id="editRemoteButton" class="dropdown-item"> Edit with JOSM </button>
                 </li>
                 <li>
-                  <button id="editRemoteNewLayerButton" class="dropdown-item">
-                    Edit with JOSM (New layer)
-                  </button>
+                  <button id="editRemoteNewLayerButton" class="dropdown-item"> Edit with JOSM (New layer) </button>
                 </li>
               </ul>
             </div>
             <a
-              id="open_on_osm"
-              class="btn btn-outline-primary text-nowrap"
-              x-data
-              href="#"
-              class="inline_centre"
-              target="_blank"
+              id="open_on_osm" href="#"
+              class="btn btn-outline-primary text-nowrap" x-data
+              class="inline_centre" target="_blank"
               @click.prevent="let url = `https://www.openstreetmap.org/#map=${Math.round(map.getZoom())}/${map.getBounds().getCenter().lat}/${map.getBounds().getCenter().lng}`; window.open(url);"
             >
               Open in OSM
@@ -110,12 +91,7 @@
           </div>
           <div class="btn-group my-2 my-md-0">
             <div class="btn-group" role="group">
-              <button
-                type="button"
-                class="btn btn-outline-secondary dropdown-toggle"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" >
                 Overlays
               </button>
               <ul class="dropdown-menu">
@@ -129,18 +105,14 @@
               </ul>
             </div>
             <button
-              type="button"
-              class="btn btn-outline-secondary"
-              data-bs-toggle="modal"
+              type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
               data-bs-target="#settingsModal"
             >
               Settings
             </button>
             <button
-              type="button"
-              class="btn btn-outline-secondary"
-              data-bs-toggle="modal"
-              data-bs-target="#shareModal"
+              type="button" class="btn btn-outline-secondary"
+              data-bs-toggle="modal" data-bs-target="#shareModal"
             >
               Share
             </button>
@@ -495,6 +467,42 @@
                       />
                 </div>
                 <span class="input-group-text" id="show_frames">Show Frames</span>
+              </div>
+            </div>
+            <div class="shadow p-3 mb-3 bg-body-tertiary rounded"
+                x-data="{show_names: true}"
+                x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
+                        show_names = (hsh.get('names') ?? 'yes') == 'yes';
+                        console.log(show_names);
+                        $watch('show_names', show_names => {
+                          let params = new URLSearchParams((location.hash ?? '#').substr(1));
+                          if (!show_names) {
+                            params.set('names', 'no');
+                          } else {
+                            params.delete('names');
+                          }
+                          location.hash = '#' + params.toString();
+                          if (map.loaded()) {
+                            map.getLayer('water_lines_labels').setLayoutProperty('visibility', (show_names?'visible':'none'));
+                            map.redraw();
+                          } else {
+                            map.once('load', () => {
+                              map.getLayer('water_lines_labels').setLayoutProperty('visibility', (show_names?'visible':'none'));
+                              map.redraw();
+                            });
+                          }
+                      })"
+              >
+              <h2 class="fs-5">Names</h2>
+              <p class="card-text">Display the name of rivers/streams. Uses the <code>name</code> name tag from OSM</p>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <input
+                      class="form-check-input mt-0" type="checkbox" value="" id="names"
+                      x-model="show_names" aria-label="Toggle Name visibility"
+                      />
+                </div>
+                <span class="input-group-text" id="show_names">Show Names</span>
               </div>
             </div>
             <template id="data_age" x-data x-if="$store.tilesets_loaded">

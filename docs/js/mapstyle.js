@@ -187,7 +187,7 @@ var mapstyle_layers = [
   },
 
   {
-    id: "water_lines_labels-text",
+    id: "water_lines_labels",
     source: "water_lines_labels",
     "source-layer": "water_lines_labels",
     type: "symbol",

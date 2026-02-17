@@ -76,6 +76,7 @@ document.addEventListener("alpine:init", async () => {
         },
         water_lines_labels : {
           type: "vector",
+          promoteId: "id",
           url: `pmtiles://${url_prefix}planet-water_lines_labels.pmtiles`,
           attribution:
             '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',
@@ -130,7 +131,12 @@ document.addEventListener("alpine:init", async () => {
     var params = new URLSearchParams((location.hash ?? "#").substr(1));
     let show_frames = (params.get("frames") ?? "no") == "yes";
     map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
+
+    let show_names = (params.get("names") ?? "yes") == "yes";
+    map.getLayer('water_lines_labels').setLayoutProperty('visibility', (show_names?'visible':'none'));
+
   });
+
 });
 
 function decodeFilterParams(s) {
