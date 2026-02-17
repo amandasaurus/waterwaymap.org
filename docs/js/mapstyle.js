@@ -185,4 +185,31 @@ var mapstyle_layers = [
       "symbol-placement": "line",
     },
   },
+
+  {
+    id: "water_lines_labels-text",
+    source: "water_lines_labels",
+    "source-layer": "water_lines_labels",
+    type: "symbol",
+    paint: {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 3,
+      "text-halo-blur": 1,
+    },
+    layout: {
+      "text-font": ["Noto Sans Regular"],
+      "text-field": ["get", "name"],
+
+      "text-size": ["step", ["zoom"],
+        ["interpolate", ["linear"], ["get", "max_upstream_m"], 0,0, 5e6, 14, 10e6, 17, 200e6,20],
+        6, ["interpolate", ["linear"], ["get", "max_upstream_m"], 0,0, 1e6, 20],
+        14, ["step", ["get", "max_upstream_m"], 0, 1e3, 15],
+      ],
+      "text-padding": 10,
+      "symbol-placement": ["step", ["zoom"], "point", 10, "line"],
+      "symbol-spacing": ["step", ["zoom"], 50, 5, 50, 12, 200],
+      "symbol-sort-key": ["*", -1, ["get", "max_upstream_m"]],
+    },
+  }
 ];

@@ -52,7 +52,7 @@ for F in \
   mv planet-waterway-${F}.pmtiles ./upload_to_cloudflare/ || true
 done
 for F in \
-  loops ends grouped-ends  \
+  loops ends grouped-ends water_lines_labels  \
   ; do
   mv planet-${F}.pmtiles ./upload_to_cloudflare/ || true
 done

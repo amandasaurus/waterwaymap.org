@@ -74,6 +74,12 @@ document.addEventListener("alpine:init", async () => {
           attribution:
             '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',
         },
+        water_lines_labels : {
+          type: "vector",
+          url: `pmtiles://${url_prefix}planet-water_lines_labels.pmtiles`,
+          attribution:
+            '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',
+        },
         osmcarto: {
           type: "raster",
           tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
