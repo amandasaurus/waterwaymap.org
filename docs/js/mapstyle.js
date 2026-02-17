@@ -61,7 +61,7 @@ var mapstyle_layers = [
       "text-color": "blue",
     },
     layout: {
-      "text-font": ["Open Sans Semibold"],
+      "text-font": ["Noto Sans Regular"],
       "text-field": [ "concat", ["round", ["/", ["get", "length_m"], 1000]], " km", ],
       "text-offset": [0, 1],
       "symbol-placement": "line",
@@ -77,7 +77,7 @@ var mapstyle_layers = [
       "text-color": "blueviolet",
     },
     layout: {
-      "text-font": ["Open Sans Semibold"],
+      "text-font": ["Noto Sans Regular"],
       "text-field": [ "concat", "id: ", ["coalesce", ["get", "root_nodeid"], "N/A" ] ],
       "text-offset": [0, -1],
       "symbol-placement": "line",
@@ -161,7 +161,7 @@ var mapstyle_layers = [
       "text-color": "blue",
     },
     layout: {
-      "text-font": ["Open Sans Semibold"],
+      "text-font": ["Noto Sans Regular"],
       "text-field": [ "concat", ["round", ["/", ["get", "avg_upstream_m"], 1000]], " km", ],
       "text-offset": [0, 2],
       "symbol-placement": "line",
@@ -179,7 +179,7 @@ var mapstyle_layers = [
       "text-opacity": 0.,
     },
     layout: {
-      "text-font": ["Open Sans Semibold"],
+      "text-font": ["Noto Sans Regular"],
       "text-field": [ "concat", "end total :", ["round", ["/", ["get", "end_upstream_m"], 1000]], " km" ],
       "text-offset": [0, -2],
       "symbol-placement": "line",
