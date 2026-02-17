@@ -587,3 +587,15 @@ ne_10m_admin_delete:
 	psql -X -c "DROP TABLE IF EXISTS admins CASCADE;"
 	rm -f ne_10m_admin_0_countries_iso.pgimported
 	rm -f ne_10m_admin_1_states_provinces.pgimported
+
+
+martin-functions.pgimported: martin-functions.sql planet-grouped-waterways.pgimported
+	psql -e -f martin-functions.sql
+	touch $@
+
+planet-water_lines_labels.pmtiles: martin-functions.pgimported planet-grouped-waterways.pgimported
+	rm -f tmp.$@ tmp.$@.mbtiles
+	RUST_LOG=info martin-cp postgres://postgres@localhost/amanda --auto-bounds skip --output-file tmp.$@.mbtiles --concurrency 20 --max-zoom 10 --mbtiles-type normalized -s water_lines_labels --on-duplicate override --skip-agg-tiles-hash
+	pmtiles convert tmp.$@.mbtiles tmp.$@
+	rm -f tmp.$@.mbtiles
+	mv tmp.$@ $@
