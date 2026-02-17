@@ -132,7 +132,7 @@ document.addEventListener("alpine:init", async () => {
     let show_frames = (params.get("frames") ?? "no") == "yes";
     map.getLayer('waterway-frames-line').setLayoutProperty('visibility', (show_frames?'visible':'none'));
 
-    let show_names = (params.get("names") ?? "yes") == "yes";
+    let show_names = (params.get("names") ?? "no") == "yes";
     map.getLayer('water_lines_labels').setLayoutProperty('visibility', (show_names?'visible':'none'));
 
   });

@@ -472,12 +472,12 @@
             <div class="shadow p-3 mb-3 bg-body-tertiary rounded"
                 x-data="{show_names: true}"
                 x-init="let hsh = new URLSearchParams((location.hash ?? '#').substr(1));
-                        show_names = (hsh.get('names') ?? 'yes') == 'yes';
+                        show_names = (hsh.get('names') ?? 'no') == 'yes';
                         console.log(show_names);
                         $watch('show_names', show_names => {
                           let params = new URLSearchParams((location.hash ?? '#').substr(1));
-                          if (!show_names) {
-                            params.set('names', 'no');
+                          if (show_names) {
+                            params.set('names', 'yes');
                           } else {
                             params.delete('names');
                           }

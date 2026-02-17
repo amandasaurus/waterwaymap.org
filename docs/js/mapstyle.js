@@ -198,6 +198,7 @@ var mapstyle_layers = [
       "text-halo-blur": 1,
     },
     layout: {
+      "visibility": "none",
       "text-font": ["Noto Sans Regular"],
       "text-field": ["get", "name"],
 
