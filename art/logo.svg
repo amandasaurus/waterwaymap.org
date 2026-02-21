@@ -4,7 +4,7 @@
 <svg
    width="1200"
    height="1200"
-   viewBox="0 0 317.49999 317.5"
+   viewBox="0 0 1200 1200"
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
@@ -22,15 +22,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="px"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="343.6539"
-     inkscape:cy="735.39105"
-     inkscape:window-width="1920"
+     inkscape:zoom="0.3425"
+     inkscape:cx="513.86861"
+     inkscape:cy="493.43066"
+     inkscape:window-width="1290"
      inkscape:window-height="1011"
-     inkscape:window-x="0"
+     inkscape:window-x="315"
      inkscape:window-y="32"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
@@ -39,16 +38,24 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 32.179252,70.345339 83.815723,125.72358 147.42587,68.100275 207.29424,128.717 275.39452,68.100275"
-       id="path1" />
+       style="fill:#73bed3;stroke:none;stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       d="M 100,100 l 250,200 l 250,-200 l 250,200 l 250,-200 V 1100 h -1000 z"
+       id="behind_w" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 37.417734,163.14132 c 3.741772,0.74835 38.914443,50.13976 38.914443,50.13976 l 56.126603,-46.39799 67.35192,46.39799 56.87495,-45.64963"
-       id="path2" />
+       style="fill:none;stroke:#253a5e;stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="M 100,100 l 250,200 l 250,-200 l 250,200 l 250,-200"
+       id="letter1" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 37.391789,289.61326 41.185452,-44.15293 46.397989,40.41116 74.83547,-39.66281 56.95776,40.41116"
-       id="path3" />
+       style="fill:none;stroke:#253a5e;stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 100,460.00035 250,200 250,-200 250,200 250,-200"
+       id="letter2" />
+    <path
+       style="fill:#d7b594;stroke:none;stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       d="M 100,1000 l 250,-200 l 250,200 l 250,-200 l 250,200 v 100 h -1000 z"
+       id="behind_m" />
+    <path
+       style="fill:none;stroke:#602c2c;stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="M 100,1000 l 250,-200 l 250,200 l 250,-200 l 250,200"
+       id="letter3" />
   </g>
 </svg>
