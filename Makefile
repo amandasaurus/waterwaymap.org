@@ -6,6 +6,7 @@ geojson_files: planet-waterway-boatable.geojsons planet-waterway-canoeable.geojs
   planet-waterway-water.geojsons planet-waterway-water-frames.geojsons \
   planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons \
   planet-waterway-rivers-etc.geojsons \
+  planet-waterway-canals.geojsons \
   planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson planet-longest-source-mouth.geojsons \
   planet-waterway-stream-ends.geojson.gz \
   planet-unnamed-big-ends.geojson.gz \
@@ -19,6 +20,7 @@ output_pmtiles_files: planet-waterway-boatable.pmtiles planet-waterway-canoeable
   planet-waterway-water.pmtiles planet-waterway-water-frames.pmtiles \
   planet-waterway-nonartificial.pmtiles planet-waterway-nonartificial-frames.pmtiles \
   planet-waterway-rivers-etc.pmtiles \
+  planet-waterway-canals.pmtiles \
   planet-waterway-water-w_frames.pmtiles planet-waterway-nonartificial-w_frames.pmtiles \
   planet-grouped-ends.pmtiles
 
@@ -209,6 +211,10 @@ planet-waterway-noname.geojsons: planet-waterway.osm.pbf
 
 planet-waterway-river-canal.geojsons: planet-waterway.osm.pbf
 	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∈river,canal
+	mv tmp.$@ $@
+
+planet-waterway-canals.geojsons: planet-waterway.osm.pbf
+	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway=canal
 	mv tmp.$@ $@
 
 planet-waterway-river-stream.geojsons: planet-waterway.osm.pbf
