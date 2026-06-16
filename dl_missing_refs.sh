@@ -40,7 +40,10 @@ for OSM_TYPE in relation way ; do
   osmium check-refs --check-relations --no-progress --show-ids "$FILENAME" |& grep -Po "(?<= in $T)\d+$" | uniq | sort -n | uniq > incomplete_objs.txt
 
   NUM_MISSING=$(wc -l incomplete_objs.txt | cut -f1 -d" ")
-  if [ "$NUM_MISSING" -gt 0 ] ; then
+  if [ "$NUM_MISSING" -gt 5000 ] ; then
+    echo 1>&2 "There are $NUM_MISSING incomplete ${OSM_TYPE}s. This is much too much. Something is wrong"
+    exit 1
+  elif [ "$NUM_MISSING" -gt 0 ] ; then
     rm -rf obj_*.osm.xml
     echo "There are $NUM_MISSING incomplete ${OSM_TYPE}s, which we need to download"
     cat incomplete_objs.txt | while read -r ID ; do
