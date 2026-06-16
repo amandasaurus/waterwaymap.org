@@ -45,7 +45,7 @@ echo "All data files generated"
 for F in \
   water-w_frames water-frames \
   nonartificial-frames nonartificial-w_frames \
-  boatable canoeable \
+  boatable canoeable canals \
   maxwidth \
   name-group-name rivers-etc \
   ; do
@@ -74,6 +74,7 @@ jq <./upload_to_cloudflare/tilesets.json '.tilesets[4].key = "planet-waterway-na
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[5].key = "planet-waterway-rivers-etc"|.tilesets[5].text = "Rivers (etc.)"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[6].key = "planet-grouped-ends"|.tilesets[6].text = "Natural Waterway (downhills)"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[7].key = "planet-waterway-maxwidth"|.tilesets[7].text = "With <code>maxwidth</code> tag"' | sponge ./upload_to_cloudflare/tilesets.json
+jq <./upload_to_cloudflare/tilesets.json '.tilesets[8].key = "planet-waterway-canals"|.tilesets[8].text = "Canals"' | sponge ./upload_to_cloudflare/tilesets.json
 jq <./upload_to_cloudflare/tilesets.json '.selected_tileset = "planet-grouped-ends"' | sponge ./upload_to_cloudflare/tilesets.json
 
 ./rss_update.sh ./upload_to_cloudflare/data_updates.xml "WaterwayMap.org Data update" "WaterwayMap.org has been updated with OSM data up until $LAST_TIMESTAMP"
