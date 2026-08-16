@@ -16,6 +16,10 @@ waterway=seaway→F;
 waterway∈put_in,link,egress→F;
 waterway=put_in\u{3B}egress→F;     # semicolon in tag value messing things up
 
+# Canoeists also use https://wiki.openstreetmap.org/wiki/Tag:waterway=access_point
+# Should be mapped as node, but sometimes isnt. Exclude these loops.
+waterway∈access_point→F;
+
 # Often locks on big rivers are `waterway=canal` with `lock=yes`. Since the
 # rivers flow through them, they should be included.
 waterway=canal∧lock∈yes,disused→T;
