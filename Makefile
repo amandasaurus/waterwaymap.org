@@ -544,21 +544,6 @@ admins.pgimported: admins.geojsonseq
 	ogr2ogr -f PostgreSQL PG: $< -select name,"name:en",admin_level -where "name IS NOT NULL AND admin_level IS NOT NULL AND OGR_GEOMETRY IN ('Polygon','MultiPolygon')" -nlt MULTIPOLYGON -unsetFid -t_srs EPSG:4326 -lco GEOMETRY_NAME=geom
 	touch $@
 
-riversite_input_data.gpkg: planet-grouped-waterways.gpkg admins.geojsonseq
-	rm -f tmp.$@
-	cp planet-grouped-waterways.gpkg tmp.$@
-	ogr2ogr tmp.$@ admins.geojsonseq -select name,"name:en",admin_level -where "name IS NOT NULL AND admin_level IS NOT NULL AND OGR_GEOMETRY IN ('Polygon','MultiPolygon')" -nlt MULTIPOLYGON  -nln admins -update -unsetFid -lco SPATIAL_INDEX=yes
-	sqlite3 tmp.$@ 'create index admins__admin_level on admins (admin_level);'
-	sqlite3 tmp.$@ 'create index admins__name on admins (name);'
-	mv tmp.$@ $@
-
-riversite_input_data.spatialite: planet-grouped-waterways.spatialite admins.geojsonseq
-	rm -f tmp.$@
-	cp planet-grouped-waterways.spatialite tmp.$@
-	ogr2ogr -f SQLite -dsco SPATIALITE=yes tmp.$@ admins.geojsonseq -select name,"name:en",admin_level -where "name IS NOT NULL AND OGR_GEOMETRY IN ('Polygon','MultiPolygon')" -nlt MULTIPOLYGON -unsetFid -lco SRID=4326 -lco GEOMETRY_NAME=geom -update
-	spatialite tmp.$@ '.read riversite_input_data_setup.sql'
-	mv tmp.$@ $@
-
 riversite_input_data.pgimported: ne_10m_admin_0_countries_iso.pgimported ne_10m_admin_1_states_provinces.pgimported planet-grouped-waterways.pgimported
 	psql -X -f riversite_input_data_setup.sql
 	touch $@
