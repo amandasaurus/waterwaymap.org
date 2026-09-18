@@ -179,6 +179,7 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000 \
 		--grouped-waterways tmp.planet-grouped-waterways.geojson \
 		--grouped-waterways-extra-tag-values "*name*,*ref*,*wikipedia*,*wikidata*" \
+		--incl-objids \
 		--relation-tags-overwrite --relation-tags-role main_stream \
 		--longest-source-mouth tmp.planet-longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
 	  
