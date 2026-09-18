@@ -56,14 +56,20 @@ for F in \
   ; do
   mv planet-${F}.pmtiles ./upload_to_cloudflare/ || true
 done
-mv ./planet-loops.geojson.gz ./upload_to_cloudflare/ || true
-mv ./planet-ditch-loops.geojson.gz ./upload_to_cloudflare/ || true
-mv ./planet-loops-firstpoints.geojson.gz ./upload_to_cloudflare/ || true
-mv ./planet-ends.geojson.gz ./upload_to_cloudflare/ || true
-mv ./planet-unnamed-big-ends.geojson.gz ./upload_to_cloudflare || true
-mv ./planet-waterway-stream-ends.geojson.gz ./upload_to_cloudflare/ || true
-mv ./planet-longest-source-mouth.fgb ./upload_to_cloudflare/ || true
-mv ./*zst ./upload_to_cloudflare/ 2>/dev/null || true
+for F in \
+    planet-loops.geojson.gz \
+    planet-ditch-loops.geojson.gz \
+    planet-loops-firstpoints.geojson.gz \
+    planet-ends.geojson.gz \
+    planet-unnamed-big-ends.geojson.gz \
+    planet-waterway-stream-ends.geojson.gz \
+    planet-longest-source-mouth.fgb \
+    planet-grouped-ends-source-mouth.fgb \
+    planet-grouped-waterways.geojson.zst \
+    ; do
+    mv "./$F" ./upload_to_cloudflare/ 2>/dev/null || true
+done
+
 cp ./waterwaymap.org_ends_stats.csv.zst ./upload_to_cloudflare/ 2>/dev/null || true
 
 jq <./upload_to_cloudflare/tilesets.json '.tilesets[0].key = "planet-waterway-water"|.tilesets[0].text = "Waterways (inc. canals etc)"|.tilesets[0].frames = true' | sponge ./upload_to_cloudflare/tilesets.json
