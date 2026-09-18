@@ -189,7 +189,7 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 	mv tmp.planet-grouped-waterways.geojson planet-grouped-waterways.geojson || true
 	mv tmp.planet-longest-source-mouth.geojsons planet-longest-source-mouth.geojsons || true
 
-waterwaymap.org_ends_stats.csv.zstd: waterwaymap.org_ends_stats.csv
+waterwaymap.org_ends_stats.csv.zst: waterwaymap.org_ends_stats.csv
 	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
 	zstd --quiet --force -z -k -e -19 waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
 
