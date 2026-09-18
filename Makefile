@@ -10,7 +10,8 @@ geojson_files: planet-waterway-boatable.geojsons planet-waterway-canoeable.geojs
   planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-grouped-waterways.geojson planet-longest-source-mouth.geojsons \
   planet-waterway-stream-ends.geojson.gz \
   planet-unnamed-big-ends.geojson.gz \
-  planet-ditch-loops.geojson.gz
+  planet-ditch-loops.geojson.gz \
+	planet-grouped-waterways.geojson.zst
 
 output_files: output_pmtiles_files output_loops output_ends output_dl_stats output_riverdb
 
@@ -521,6 +522,11 @@ planet-grouped-waterways.pgimported: planet-grouped-waterways.geojson
 	psql -Xe -c 'create index name on planet_grouped_waterways (tag_group_value);'
 	psql -Xe -c 'create index length on planet_grouped_waterways (length_m);'
 	touch $@
+
+planet-grouped-waterways.geojson.zst: planet-grouped-waterways.geojson
+	rm -f tmp.$@
+	zstd -9 -o tmp.$@ $<
+	mv tmp.$@ $@
 
 admins.osm.pbf: planet-waterway.osm.pbf
 	rm -f tmp.$@
