@@ -112,84 +112,63 @@ planet-waterway.osm.pbf:
 
 # Default view. “Waterways (inc. canals etc)”
 planet-waterway-water.geojsons planet-waterway-water-frames.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.planet-waterway-water.geojsons tmp.planet-waterway-water-frames.geojsons
 	osm-lump-ways \
-		-i $< -o tmp.planet-waterway-water.geojsons \
+		-i $< -o $@ --overwrite \
 		--min-length 100m --save-as-linestrings \
 		-f waterway \
 		-f waterway∉dam,weir,lock_gate,sluice_gate,security_lock,fairway,dock,boatyard,fuel,riverbank,pond,check_dam,turning_point,water_point,safe_water \
 		-f waterway∉seaway \
-		--output-frames tmp.planet-waterway-water-frames.geojsons --frames-group-min-length-m 1e6
-	mv tmp.planet-waterway-water.geojsons planet-waterway-water.geojsons
-	mv tmp.planet-waterway-water-frames.geojsons planet-waterway-water-frames.geojsons
+		--output-frames planet-waterway-water-frames.geojsons --frames-group-min-length-m 1e6
 
 # “Natural Waterways (excl. canals etc)”
 planet-waterway-nonartificial.geojsons planet-waterway-nonartificial-frames.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.planet-waterway-nonartificial.geojsons tmp.planet-waterway-nonartificial-frames.geojsons
 	osm-lump-ways \
-		-i $< -o tmp.planet-waterway-nonartificial.geojsons \
+		-i $< -o $@ --overwrite \
 		--min-length 100m --save-as-linestrings \
 		-F @flowing_water.tagfilterfunc \
-		--output-frames tmp.planet-waterway-nonartificial-frames.geojsons --frames-group-min-length-m 1e6
-	mv tmp.planet-waterway-nonartificial.geojsons planet-waterway-nonartificial.geojsons
-	mv tmp.planet-waterway-nonartificial-frames.geojsons planet-waterway-nonartificial-frames.geojsons
+		--output-frames planet-waterway-nonartificial-frames.geojsons --frames-group-min-length-m 1e6
 
 # The “Navigable by boat” view
 planet-waterway-boatable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f boat∈yes,motor∨waterway=fairway
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --min-length 100m --save-as-linestrings -f waterway -f boat∈yes,motor∨waterway=fairway
 
 # The “Navigable by canoe” view
 planet-waterway-canoeable.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -F "canoe∈yes,portage,permissive,designated,destination,customers,permit→T; portage∈yes,permissive,designated,destination,customers,permit→T; F"
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -F "canoe∈yes,portage,permissive,designated,destination,customers,permit→T; portage∈yes,permissive,designated,destination,customers,permit→T; F"
 
 planet-waterway-maxwidth.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.$@
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f maxwidth
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f maxwidth
 
 # maxwidth:physical
 # Currently not called because there are no geometries that match it, and
 # various tools fail if there's no data.
 planet-waterway-maxwidthphysical.geojsons: planet-waterway.osm.pbf
-	rm -f tmp.$@
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f maxwidth:physical
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f maxwidth:physical
 
 # The “Named Waterways” view
 planet-waterway-name-group-name.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f "∃~name(:.+)?" -g name --split-into-single-paths
 
 # The “Rivers (etc.)” view
 planet-waterway-rivers-etc.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway∈river,stream,rapids,tidal_channel
 
 planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-upstreams.csv planet-grouped-waterways.geojson waterwaymap.org_ends_stats.csv planet-longest-source-mouth.geojsons:  planet-waterway.osm.pbf
-	rm -fv tmp.planet-{loops,upstreams,ends}.geojsons
 	osm-lump-ways-down \
 		-i ./planet-waterway.osm.pbf -F @flowing_water.tagfilterfunc --min-upstream-m 100 \
-		--loops tmp.planet-loops.geojsons  --loops-csv-stats-file ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv \
+		--overwrite \
+		--loops planet-loops.geojsons  --loops-csv-stats-file ./upload_to_cloudflare/waterwaymap.org_loops_stats.csv \
 		--flow-follows-tag name \
-		--ends tmp.planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
-		--grouped-ends tmp.planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
+		--ends planet-ends.geojsons --ends-tag name --ends-tag wikidata --ends-tag wikipedia \
+		--grouped-ends planet-grouped-ends.geojsons --grouped-ends-max-distance-m 10e3 \
 		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
-		--upstreams tmp.planet-upstreams.csv --upstreams-min-upstream-m 1000 \
-		--grouped-waterways tmp.planet-grouped-waterways.geojson \
+		--upstreams planet-upstreams.csv --upstreams-min-upstream-m 1000 \
+		--grouped-waterways planet-grouped-waterways.geojson \
 		--grouped-waterways-extra-tag-values "*name*,*ref*,*wikipedia*,*wikidata*" \
 		--incl-objids \
 		--relation-tags-overwrite --relation-tags-role main_stream \
-		--longest-source-mouth tmp.planet-longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
+		--longest-source-mouth planet-longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
 	  
-	mv tmp.planet-loops.geojsons planet-loops.geojsons || true
-	mv tmp.planet-ends.geojsons planet-ends.geojsons || true
-	mv tmp.planet-grouped-ends.geojsons planet-grouped-ends.geojsons || true
-	mv tmp.planet-upstreams.csv planet-upstreams.csv || true
-	mv tmp.planet-grouped-waterways.geojson planet-grouped-waterways.geojson || true
-	mv tmp.planet-longest-source-mouth.geojsons planet-longest-source-mouth.geojsons || true
-
 waterwaymap.org_ends_stats.csv.zst: waterwaymap.org_ends_stats.csv
 	qsv sort --faster --unique --numeric -s timestamp,upstream_m_rank -o ./waterwaymap.org_ends_stats.csv ./waterwaymap.org_ends_stats.csv
 	zstd --quiet --force -z -k -e -19 waterwaymap.org_ends_stats.csv -o waterwaymap.org_ends_stats.csv.zst
@@ -201,84 +180,65 @@ waterwaymap.org_ends_stats.csv.zst: waterwaymap.org_ends_stats.csv
 
 
 planet-waterway-river.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i planet-waterway.osm.pbf -o tmp.$@ -f waterway=river --min-length 100m  --save-as-linestrings
-	mv tmp.$@ $@
+	osm-lump-ways -i planet-waterway.osm.pbf -o $@ --overwrite -f waterway=river --min-length 100m  --save-as-linestrings
 
 planet-waterway-name-no-group.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f "∃~name(:.+)?"
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f "∃~name(:.+)?"
 
 planet-waterway-noname.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f "∄~name(:.+)?"
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f "∄~name(:.+)?"
 
 planet-waterway-river-canal.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∈river,canal
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway∈river,canal
 
 planet-waterway-canals.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway=canal
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway=canal
 
 planet-waterway-river-stream.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∈river,stream
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway∈river,stream
 
 planet-waterway-river-canal-stream.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∈river,canal,stream
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway∈river,canal,stream
 
 planet-waterway-river-or-named.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f waterway∈river,canal∨∃name
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f waterway∈river,canal∨∃name
 
 planet-waterway-has-cemt.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈0,I,II,III,IV,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈0,I,II,III,IV,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-I.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈I,II,III,IV,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈I,II,III,IV,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-II.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈II,III,IV,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈II,III,IV,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-III.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈III,IV,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈III,IV,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-IV.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈IV,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈IV,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-V.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈V,Va,Vb,VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈V,Va,Vb,VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-VI.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈VIa,VIb,VIc,VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈VIa,VIb,VIc,VII
 
 planet-waterway-cemt-ge-VII.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f CEMT∈VII
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f CEMT∈VII
 
 planet-waterway-cemt-all-geojsons: planet-waterway-has-cemt.geojsons planet-waterway-cemt-ge-I.geojsons planet-waterway-cemt-ge-II.geojsons planet-waterway-cemt-ge-III.geojsons planet-waterway-cemt-ge-IV.geojsons planet-waterway-cemt-ge-V.geojsons planet-waterway-cemt-ge-VI.geojsons planet-waterway-cemt-ge-VII.geojsons
 planet-waterway-cemt-all-pmtiles: planet-waterway-has-cemt.pmtiles planet-waterway-cemt-ge-I.pmtiles planet-waterway-cemt-ge-II.pmtiles planet-waterway-cemt-ge-III.pmtiles planet-waterway-cemt-ge-IV.pmtiles planet-waterway-cemt-ge-V.pmtiles planet-waterway-cemt-ge-VI.pmtiles planet-waterway-cemt-ge-VII.pmtiles
 
 planet-waterway-all.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway
 
 planet-waterway-or-naturalwater.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway∨natural=water
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway∨natural=water
 
 
 planet-waterway-missing-wiki.geojsons: planet-waterway.osm.pbf
-	osm-lump-ways -i $< -o tmp.$@ --min-length 100m --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
-	mv tmp.$@ $@
+	osm-lump-ways -i $< -o $@ --overwrite --min-length 100m --save-as-linestrings -f waterway -f name -f ∄wikipedia -f ∄wikidata -g name
 
 planet-waterway-stream-ends.geojson: planet-waterway.osm.pbf flowing_water_wo_streams.tagfilterfunc
 	rm -f tmp.$@
@@ -359,42 +319,6 @@ planet-loops.pmtiles: planet-loops-firstpoints.pmtiles planet-loops-lines.pmtile
 	rm -fv tmp.$@
 	tile-join --no-tile-size-limit -o tmp.$@ $^
 	mv tmp.$@ $@
-
-#planet-upstreams.pmtiles: planet-upstreams.geojsons
-#	rm -fv tmp.$@
-#	timeout 8h tippecanoe \
-#		-n "WaterwayMap.org Upstream" \
-#		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
-#		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-#		-zg \
-#		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
-#		-r1 \
-#		-y from_upstream_m_100 -y end_nid \
-#		-j '{ "*": [ "any", [ ">=", "$$zoom", 6 ], [ "from_upstream_m_100", "ge", 1000000 ] ] }' \
-#		--reorder --coalesce \
-#		--no-feature-limit \
-#		--drop-smallest-as-needed \
-#		-l upstreams \
-#		-o tmp.$@ $<
-#	mv tmp.$@ $@
-
-#planet-waterway-w-ends.pmtiles: planet-upstreams.geojsons
-#	rm -fv tmp.$@
-#	timeout 8h tippecanoe \
-#		-n "WaterwayMap.org Upstream" \
-#		-N "Generated on $(shell date -I) from OSM data with $(shell osm-lump-ways-down --version)" \
-#		-A "© OpenStreetMap. Open Data under ODbL. https://osm.org/copyright" \
-#		-zg \
-#		--simplification=8 --no-simplification-of-shared-nodes --simplification-at-maximum-zoom=2 \
-#		-r1 \
-#		-y end_nid \
-#		--reorder --coalesce \
-#		--no-feature-limit \
-#		--drop-smallest-as-needed \
-#		-l waterway_ends \
-#		-o tmp.$@ $<
-#	mv tmp.$@ $@
-
 
 planet-ends.pmtiles: planet-ends.geojsons
 	rm -fv tmp.$@
