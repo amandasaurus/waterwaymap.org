@@ -32,9 +32,9 @@ if [ ! -f "$RSS_FILE" ]; then
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
     <author><name>Amanda McCann</name></author>
-    <title type="text">Waterway Map | OSM River Basins Data Updates</title>
+    <title type="text">Waterway Map Data Updates</title>
     <link>https://WaterwayMap.org/</link>
-    <description>Data updates for the OSM River Basins project</description>
+    <description>Data updates for the WaterwayMap.org project</description>
 </channel>
 </rss>' > "$RSS_FILE"
 fi
