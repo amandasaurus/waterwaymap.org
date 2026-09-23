@@ -6,7 +6,7 @@
     "contact_email": "amanda@technomancy.org",
     "contact_name": "Amanda McCann",
     "doc_url": "https://github.com/amandasaurus/waterwaymap.org",
-    "description": "How are waterways connected?"
+    "description": "Explore rivers & water networks in OSM"
   },
   "data_url": "https://waterwaymap.org/taginfo.json",
   "data_format": 1,
@@ -14,39 +14,49 @@
     {
       "key": "name",
       "description": "OSM Ways are grouped together based on name to ",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "waterway",
       "description": "Used to connect ways together to build waterway topology",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "boat",
       "description": "Used to calculate navigable waterways view",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "lock",
       "value": "yes",
       "description": "Used to calculate if water flows through a canal or not",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "usage",
       "value": "yes",
       "description": "Used on waterway=canal to see if it's a spillway or head/tailrace",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "canoe",
       "description": "Used to calculate canoe navigable waterways view",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
     },
     {
       "key": "portage",
       "description": "Used to calculate canoe navigable waterways view",
-      "object_types": ["way"]
+      "object_types": ["way", "relation"]
+    },
+    {
+      "key": "wikipedia",
+      "description": "Provides link to the river's Wikipedia page",
+      "object_types": ["way", "relation"]
+    },
+    {
+      "key": "wikidata",
+      "description": "Provides link to the river's Wikidata page",
+      "object_types": ["way", "relation"]
     }
   ]
 }
