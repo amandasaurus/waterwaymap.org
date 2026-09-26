@@ -90,6 +90,10 @@ If you like WaterwayMap.org, you might like the following other websites:
 * [Global Watersheds](https://mghydro.com/watersheds/) ([mheberger/delineator](https://github.com/mheberger/delineator) on github)
 * [RiverMap.online](https://rivermap.online/)
 
+## Installation
+
+The `wwm-river` command for the river database site is available from [`amandasaurus/waterwaymap.org-river`](https://github.com/amandasaurus/waterwaymap.org-river) project.
+
 ## FAQ
 
 ### What do the colours mean?
