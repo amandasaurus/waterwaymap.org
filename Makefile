@@ -164,7 +164,7 @@ planet-loops.geojsons planet-ends.geojsons planet-grouped-ends.geojsons planet-u
 		--ends-csv-file ./waterwaymap.org_ends_stats.csv --ends-csv-only-largest-n 1000 --ends-csv-min-length-m 50e3 \
 		--upstreams planet-upstreams.csv --upstreams-min-upstream-m 1000 \
 		--grouped-waterways planet-grouped-waterways.geojson \
-		--grouped-waterways-extra-tag-values "*name*,*ref*,*wikipedia*,*wikidata*" \
+		--grouped-waterways-extra-tag-values "*name*,*ref*,*wikipedia*,*wikidata*,boat,intermittent,seasonal,tidal,canoe,motorboat,CEMT,GNS:*,nhd:*,NHD:*,width" \
 		--incl-objids \
 		--relation-tags-overwrite --relation-tags-role main_stream \
 		--longest-source-mouth planet-longest-source-mouth.geojsons --longest-source-mouth-min-length-m 200e3 --longest-source-mouth-longest-n 1M --longest-source-mouth-only-named
